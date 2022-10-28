@@ -1,0 +1,6 @@
+@mixin contentCenter($gap: 0) {
+  display: grid;
+  place-items: center;
+  place-content: center;
+  gap: $gap;
+}

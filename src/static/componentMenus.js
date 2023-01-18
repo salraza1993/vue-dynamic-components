@@ -1,10 +1,10 @@
 const componentMenus = [
-  { name: 'Input', path: '/input' },
-  { name: 'Button', path: '/button' },
-  { name: 'Select', path: '/select' },
-  { name: 'Textarea', path: '/textarea' },
-  { name: 'Switcher', path: '/switcher' },
-  { name: 'Checkbox', path: '/checkbox' },
-  { name: 'Radio', path: '/radio' },
+  { name: 'Input', path: '/elements/input', },
+  // { name: 'Button', path: '/elements/button', },
+  // { name: 'Select', path: '/elements/select', },
+  // { name: 'Textarea', path: '/elements/textarea', },
+  // { name: 'Switcher', path: '/elements/switcher', },
+  // { name: 'Checkbox', path: '/elements/checkbox', },
+  // { name: 'Radio', path: '/elements/radio', },
 ]
 export default componentMenus;

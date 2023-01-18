@@ -1,13 +1,14 @@
 <script setup>
-// import TheWelcome from '../components/TheWelcome.vue'
-import { RouterLink } from 'vue-router'
-import { ref } from 'vue'
-import componentMenus from './../static/componentMenus'
-const items = ref(componentMenus);
+  // import TheWelcome from '../components/TheWelcome.vue'
+  import { RouterLink } from 'vue-router'
+  import { ref } from 'vue'
+  import componentMenus from './../static/componentMenus'
+  const items = ref(componentMenus);
+
 </script>
 
 <template>
-  <sectioin class="home__page__section">
+  <section class="home__page__section">
     <div class="home__page__header mb--4">
       <img alt="Vue logo" class="logo" src="@/assets/images/logo.svg" width="90" height="90" />
       <h1 class="font__weight__bold text--primary">Custom Form Elements</h1>
@@ -15,11 +16,13 @@ const items = ref(componentMenus);
     <div class="home__page__body">
       <ul class="tags">
         <li v-for="(item, i) in items" :key="i">
-          <RouterLink :to="item.path">{{ item.name }}</RouterLink>
-        </li>
+          <RouterLink :to="item.path">
+          {{ item.name }}
+          </RouterLink>
+        </li>  
       </ul>
     </div>
-  </sectioin>
+  </section>
 </template>
 <style lang="scss">
   @import '@/assets/scss/_mixins.scss';

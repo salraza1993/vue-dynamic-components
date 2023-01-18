@@ -1,22 +1,20 @@
+<script>
+  export default { name: "AsideLayout", components: { AsideMenu, RouterView } };    
+</script>
 <script setup>
 import { RouterView } from 'vue-router';
 import AsideMenu from '../components/asideMenu.vue';
-
-// export default {
-//     name: "ElementsLayout",
-//     components: { AsideBar }
-// }
 </script>
+
 <template>
   <section class="d-flex elements__section display--flex">
     <AsideMenu />
     <main class="elements__main">
       <RouterView />
-    </main>
+      <!-- <slot /> -->
+    </main>    
   </section>
 </template>
-
-
 <style lang="scss" scoped>
   .elements {
     &__section {
@@ -26,7 +24,9 @@ import AsideMenu from '../components/asideMenu.vue';
     &__main {
       position: relative;
       width: 100%;
-      height: 5000px;
+      min-height: 100vh;
+      padding-inline: var(--element-container-pading-x);
+      padding-block: var(--element-container-pading-y);
     }
   }
 </style>

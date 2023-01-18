@@ -1,6 +1,12 @@
-@mixin contentCenter($gap: 0) {
-  display: grid;
-  place-items: center;
-  place-content: center;
+@mixin contentCenter($gap: 0, $display: grid, $pi: center, $pc: center) {
+  display: $display;
+  place-items: $pi;
+  place-content: $pc;
   gap: $gap;
+}
+
+@mixin scroller($width: 6px, $track: transparent, $thumb: var(--primary), $pointerEvent: initial) {
+  &::-webkit-scrollbar-track { background: $track; pointer-events: $pointerEvent; overflow: hidden; border-radius: 15px; }
+  &::-webkit-scrollbar { width: $width; height: $width; background: transparent; pointer-events: $pointerEvent; }
+  &::-webkit-scrollbar-thumb { background: $thumb; pointer-events: $pointerEvent; border-radius: 10px; }
 }

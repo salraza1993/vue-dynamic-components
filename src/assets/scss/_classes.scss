@@ -1,6 +1,70 @@
-.font__weight__bold {
-  font-weight: 600;
+// =============================[ Display ]============================= //
+.display, .d {
+  $types: (flex, inline-flex, block, inline-block, grid, inline-grid);
+  @for $i from 1 to length($types) + 1 {
+    &--#{nth($types, $i)}, &-#{nth($types, $i)} {
+      display: nth($types, $i) !important;
+    }
+  }
 }
+.flex {
+  $flexDirection: (column, column-reverse, row, row-reverse, initial, inherit, revert);
+  @for $i from 1 to length($flexDirection) + 1 {
+    &--#{nth($flexDirection, $i)}, &-#{nth($flexDirection, $i)} {
+      flex-direction: nth($flexDirection, $i) !important;
+    }
+  }
+}
+
+// =============================[ Justify Content ]============================= //
+.justify-content, .justify__content, .jc {
+  $types: (center, end, start, inherit, initial, around, between, evenly, revert, stretch, normal);
+  @for $i from 1 to length($types) + 1 {    
+    &--#{nth($types, $i)},
+    &-#{nth($types, $i)} {
+      @if nth($types, $i) == 'end' { 
+        justify-content: flex-#{nth($types, $i)} !important; 
+      } @else if nth($types, $i) == 'start' { 
+        justify-content: flex-#{nth($types, $i)} !important; 
+      } @else if nth($types, $i) == 'around' { 
+        justify-content: space-#{nth($types, $i)} !important; 
+      } @else if nth($types, $i) == 'between' { 
+        justify-content: space-#{nth($types, $i)} !important; 
+      } @else if nth($types, $i) == 'evenly' { 
+        justify-content: space-#{nth($types, $i)} !important; 
+      } @else { 
+        justify-content: nth($types, $i) !important; 
+      }
+    }
+  }
+}
+// =============================[ Align Items ]============================= //
+.align-items, .align__items, .ai {
+  $types: (baseline, center, end, inherit, initial, self-end, stretch, start, normal, revert, self-end, self-start);
+  @for $i from 1 to length($types) + 1 {    
+    &--#{nth($types, $i)}, &-#{nth($types, $i)} {
+      @if nth($types, $i) == 'end' { 
+        align-items: flex-#{nth($types, $i)} !important; 
+      } @else if nth($types, $i) == 'start' { 
+        align-items: flex-#{nth($types, $i)} !important; 
+      } @else { 
+        align-items: nth($types, $i) !important; 
+      }
+    }
+  }
+}
+
+.font__weight, .fw {
+  $types: (100, 200, 300, 400, 500, 600, 700, 800, 900);
+  @for $i from 1 to length($types) + 1 {
+    &--#{nth($types, $i)} {
+      font-weight: nth($types, $i);
+    }
+  }
+  
+}
+
+
 .text {
   $types: (inherit, initial, capitalize, lowercase, uppercase, none, revert);
   &__transform {
@@ -11,9 +75,18 @@
     }
   }
 
-  $names: ('primary', 'secondary', 'white', 'black');
-  $colors: (--vt-c-brand, --vt-c-indigo, --vt-c-white, --vt-c-black);
+  $fwName: ('thin', 'light', 'regular', 'medium', 'semibold', 'bold', 'black', 'extra-blcak');
+  $fwTypes: (100, 300, 400, 500, 600, 700, 800, 900);
+  @for $i from 1 to length($fwName) + 1 {
+    &--#{nth($fwName, $i)} {
+      font-weight: nth($fwTypes, $i) !important;
+    }
+    
+  }
+  
 
+  $names: ('primary', 'secondary', 'white', 'black', 'danger', 'success');
+  $colors: (--vt-c-brand, --vt-c-indigo, --vt-c-white, --vt-c-black, --danger, --success);
   @for $i from 1 to length($names) + 1 {
     &--#{nth($names, $i)} {
       color: var(nth($colors, $i)) !important;
@@ -27,65 +100,84 @@ $marginPaddingSizes: (0, 0.25rem, 0.5rem, 1rem, 1.5rem, 3rem);
 @for $i from 1 to length($marginPaddingSizes) + 1 {
   // ========================= margins ========================= //
   .my {
-    &--#{nth($marginPaddingNames, $i)} { 
+    &--#{nth($marginPaddingNames, $i)}, &-#{nth($marginPaddingNames, $i)} { 
       margin-block: #{nth($marginPaddingSizes, $i)} !important; 
     }
   }
   .mx {
-    &--#{nth($marginPaddingNames, $i)} { 
+    &--#{nth($marginPaddingNames, $i)}, &-#{nth($marginPaddingNames, $i)} { 
       margin-inline: #{nth($marginPaddingSizes, $i)} !important; 
     }
   }
   .mb {
-    &--#{nth($marginPaddingNames, $i)} { 
+    &--#{nth($marginPaddingNames, $i)}, &-#{nth($marginPaddingNames, $i)} {
       margin-bottom: #{nth($marginPaddingSizes, $i)} !important; 
     }
   }
   .mt {
-    &--#{nth($marginPaddingNames, $i)} { 
+    &--#{nth($marginPaddingNames, $i)}, &-#{nth($marginPaddingNames, $i)} {
       margin-top: #{nth($marginPaddingSizes, $i)} !important; 
     }
   }
   .ms {
-    &--#{nth($marginPaddingNames, $i)} { 
+    &--#{nth($marginPaddingNames, $i)}, &-#{nth($marginPaddingNames, $i)} {
       margin-left: #{nth($marginPaddingSizes, $i)} !important; 
     }
   }
   .me {
-    &--#{nth($marginPaddingNames, $i)} { 
+    &--#{nth($marginPaddingNames, $i)}, &-#{nth($marginPaddingNames, $i)} {
       margin-right: #{nth($marginPaddingSizes, $i)} !important; 
     }
   }
 
   // ========================= padding ========================= //
   .py {
-    &--#{nth($marginPaddingNames, $i)} { 
+    &--#{nth($marginPaddingNames, $i)}, &-#{nth($marginPaddingNames, $i)} { 
       margin-block: #{nth($marginPaddingSizes, $i)} !important; 
     }
   }
   .px {
-    &--#{nth($marginPaddingNames, $i)} { 
+    &--#{nth($marginPaddingNames, $i)}, &-#{nth($marginPaddingNames, $i)} { 
       margin-inline: #{nth($marginPaddingSizes, $i)} !important; 
     }
   }
   .pb {
-    &--#{nth($marginPaddingNames, $i)} { 
+    &--#{nth($marginPaddingNames, $i)}, &-#{nth($marginPaddingNames, $i)} { 
       margin-bottom: #{nth($marginPaddingSizes, $i)} !important; 
     }
   }
   .pt {
-    &--#{nth($marginPaddingNames, $i)} { 
+    &--#{nth($marginPaddingNames, $i)}, &-#{nth($marginPaddingNames, $i)} { 
       margin-top: #{nth($marginPaddingSizes, $i)} !important; 
     }
   }
   .ps {
-    &--#{nth($marginPaddingNames, $i)} { 
+    &--#{nth($marginPaddingNames, $i)}, &-#{nth($marginPaddingNames, $i)} { 
       margin-left: #{nth($marginPaddingSizes, $i)} !important; 
     }
   }
   .pe {
-    &--#{nth($marginPaddingNames, $i)} { 
+    &--#{nth($marginPaddingNames, $i)}, &-#{nth($marginPaddingNames, $i)} { 
       margin-right: #{nth($marginPaddingSizes, $i)} !important; 
     }
   }
+
+  // ========================= padding ========================= //
+  .gy {
+    &--#{nth($marginPaddingNames, $i)}, &-#{nth($marginPaddingNames, $i)} { 
+      row-gap: #{nth($marginPaddingSizes, $i)} !important; 
+    }
+  }
+  .gx {
+    &--#{nth($marginPaddingNames, $i)}, &-#{nth($marginPaddingNames, $i)} { 
+      column-gap: #{nth($marginPaddingSizes, $i)} !important; 
+    }
+  }
+  .g {
+    &--#{nth($marginPaddingNames, $i)}, &-#{nth($marginPaddingNames, $i)} { 
+      margin-top: #{nth($marginPaddingSizes, $i)} !important; 
+    }
+  }
+  
 }
+

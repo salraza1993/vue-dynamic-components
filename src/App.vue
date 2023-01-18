@@ -1,27 +1,29 @@
-<script setup>
-// import { RouterLink, RouterView } from 'vue-router'
-// import AsideBar from './components/AsideBar.vue';
-// import HelloWorld from './components/HelloWorld.vue'
+<script>
+import { RouterView } from 'vue-router';
+// const default_layout = "default";
+export default {
+  components: { RouterView },
+  data() {
+    return {
+      default_layout: "default",
+    }
+  },  
+  computed: {
+    layout() {
+      return (this.$route.meta.layout || this.default_layout) + "-layout";
+    }
+  },
+  created() {},
+  updated() {},
+};
 </script>
 
 <template>
-  <!-- <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="yes, You did it!" />
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </header> -->
-  
-  <RouterView />
-  <!-- <section class="main__section">
-    <AsideBar />
-    <main></main>
-  </section> -->
+  <div id="app">
+    <component :is="layout">
+      <RouterView />
+    </component>
+  </div>
 </template>
 
 <style lang="scss" scoped>

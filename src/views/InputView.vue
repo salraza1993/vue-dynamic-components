@@ -3,11 +3,10 @@
   // language
   import Input from "../components/elements/Input.vue";
   import PageAsideLinks from "../components/PageAsideLinks.vue";
-  // import CodeEditor from "../components/CodeEditor.vue";
-  // import { CodeEditor } from 'simple-code-editor';
 
   import { HighCode } from 'vue-highlight-code';
   import 'vue-highlight-code/dist/style.css';
+  
   const value = `
   // script
   import Input from "@/components/Input.vue";
@@ -18,8 +17,31 @@
     <h3>Input Value: {{ inputValue }} </h3>
   </template>`
   
-  const inputValue = ref('Hello');  
+  const inputValue = ref('');
   
+  const asideLinks = [
+    { path: '#example', name: 'example' },
+    { path: '#input-types', name: 'Input types' },
+    { path: '#disabled', name: 'Disabled' },
+    { path: '#readonly-plain-text', name: 'Readonly plain text' },
+    { path: '#file-input', name: 'File input' },
+    { path: '#color', name: 'Color' },
+  ];
+
+  const inputTypes = [
+    { label: 'Text', type: 'text', value: ref('') },
+    { label: 'Number', type: 'number', value: ref('') },
+    { label: 'Email', type: 'email', value: ref('') },
+    { label: 'Password', type: 'password', value: ref('') },
+    { label: 'Search', type: 'search', value: ref('') },
+    { label: 'Url', type: 'url', value: ref('') },
+    { label: 'Tel', type: 'tel', value: ref('') },
+    { label: 'Date', type: 'date', value: ref('') },
+    { label: 'Time', type: 'time', value: ref('') },
+    { label: 'Range', type: 'range', value: ref('') },
+    { label: 'Color', type: 'color', value: ref('') },
+  ]
+
   // https://coreui.io/vue/docs/forms/date-picker.html
 </script>
 <script>
@@ -27,8 +49,8 @@ export default { name: 'InputView' }
 </script>
 
 <template>
-  <div class="inner__page__wrapper">
-    <main class="inner__page__main">
+  <div class="inner-page__wrapper">
+    <main class="inner-page__main">
       <h1>Vue Form Input</h1>
       <h2 class="text--light">
         Create various type inputs such as: text, password, number, url, email, search, range, date and more...
@@ -36,90 +58,83 @@ export default { name: 'InputView' }
         <br />
       </h2>
       <br />
-      <section class="block__section mb--4">
-        <h2>Example</h2>
-        <Input v-model="inputValue" />
-        <h3>Input Value: {{ inputValue }} </h3>
-        <HighCode class="code" :codeValue="value" theme="dark" lang="vue" />
-
-        <!-- <CodeEditor>
-          // script in vuejs@3
-          <br />
-          &lt;script setup&gt;
-          <br />
-          &nbsp;&nbsp; import { ref } from "vue";
-          <br />
-          &nbsp;&nbsp; // Import <code>&lt;Input&gt;</code> component into your html/template.
-          <br />
-          &nbsp;&nbsp; import Input from "../components/Input.vue";
-          <br />
-          &nbsp;&nbsp; const inputValue = ref('Hello');  
-          <br />
-          &lt;/script&gt;
-          <br />
-          <br />
-          &lt;template&gt;
-            <br />
-            &nbsp;&nbsp; &lt;Input v-model="inputValue" /&gt;
-            <br />
-            &nbsp;&nbsp; &lt;h3&gt;Input Value: {{ inputValue }} &lt;/h3&gt;
-          <br />
-          &lt;/template&gt;
-        </CodeEditor> -->
-        
+      <section class="block-sec mb--4" id="example">
+        <div class="block-sec__header">
+          <h2>Example</h2>
+        </div>
+        <div class="block-sec__body">
+          <Input v-model="inputValue" class="salman" label="Hello" validate />
+          <h3>
+            <span class="text-light">Input Value:</span> <span class="text--primary text--bold">{{ inputValue }}</span>
+          </h3>
+        </div>
+        <div class="block-sec__footer">
+          <HighCode class="code" :codeValue="value" theme="dark" lang="Vue" />
+        </div>
       </section>
 
-      <section class="block__section mb--4">
-        <h2>Example</h2>
-        <div class="row">
-          <div class="col--4">
-            <Input v-model="inputValue" />
-          </div>
-          <div class="col--4">
-            <Input v-model="inputValue" />
-          </div>
-          <div class="col--4">
-            <Input v-model="inputValue" />
+      <section class="block-sec mb--4" id="sizing">
+        <div class="block-sec__header">
+          <h2>Input Types</h2>
+          <p>
+            <span class="text--primary fw--bold">&lt;Input /&gt;</span>
+            defaults to a text input, but you can set the type prop to one of the supported native browser HTML5 types: 
+            <span class="text--primary">text, password, email, number, url, tel, search, date, datetime, datetime-local, month, week, time, range,</span> or <span class="text--primary">color</span>.
+          </p>
+        </div>
+        <div class="block-sec__body">
+          <div class="input-types__container">
+            <div class="row" v-for="(item, index) in inputTypes" :key="index">
+              <div class="col--4">
+                <div class="input-types__label">
+                  <span class="flex-shrink--0">
+                    Type-<span class="text--primary">{{ item.type }}</span>:
+                  </span>
+                  <span class="text--white" v-if="item.value.value !== ''">{{ item.value }}</span>
+                </div>
+              </div>
+              <div class="col--8">
+                <div class="input-types__value">
+                  <Input v-model="item.value.value" :type="item.type" />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        <h3>Input Value: {{ inputValue }} </h3>
-        <!-- <CodeEditor>
-          import Input from "../components/elements/Input.vue";
-          <br />
-          import Input from "../components/elements/Input.vue";
-          <br />
-          import { ref } from "vue";
-        </CodeEditor> -->
-        
+        <div class="block-sec__footer">
+          <HighCode class="code" :codeValue="value" theme="dark" lang="Vue" />
+        </div>
       </section>
     </main>
-    <aside class="inner__page__aside">
-      <PageAsideLinks />
+    <aside class="inner-page__aside">
+      <PageAsideLinks :links="asideLinks" />
     </aside>
   </div>
 
 </template>
 <style lang="scss">
-.inner__page {
-  &__wrapper {
-    position: relative;
-    display: flex;
-    gap: calc(1rem + 1vw);
-    height: 100%;
+  .inner-page {
+    &__wrapper {
+      position: relative;
+      display: flex;
+      gap: calc(1rem + 1vw);
+      height: 100%;
+    }
+    &__main {
+      position: relative;
+      width: 100%;
+    }
+    &__aside {
+      width: 100%;
+      max-width: 300px;
+      padding-left: calc(1rem + 1vw);
+      border-left: 1px solid var(--border-color);
+      position: sticky;
+      top: 5vh;
+      max-height: 90vh;
+    }
   }
-  &__main {
-    position: relative;
-    width: 100%;
-  }
-  &__aside {
-    width: 100%;
-    max-width: 300px;
-    padding-left: calc(1rem + 1vw);
-    border-left: 1px solid var(--border-color);
-    position: sticky;
-    top: 5vh;
-    max-height: 90vh;
-  }
-}
+
+  
 
 </style>

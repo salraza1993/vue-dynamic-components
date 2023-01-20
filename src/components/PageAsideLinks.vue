@@ -1,22 +1,39 @@
-<script>
-export default {
-  name: "PageAsideLinks",
-}
-</script>
 <script setup>
-import { RouterLink } from 'vue-router';
+  // import { RouterLink } from 'vue-router';
+  import { ref } from "vue";
+  const props = defineProps({
+    links: {
+      type: [Array, Object], 
+      default: () => [
+        { path: '#example', name: 'example' },
+        { path: '#example', name: 'example' },
+        { path: '#example', name: 'example' },
+      ]
+    },
+  });
+  const toggleState = ref(false);
+  const selectedItem = ref('');
+  const activeToggle = (item) => {
+    item === selectedItem.value ? (toggleState.value = !toggleState.value) : (toggleState.value = true);
+    selectedItem.value = item;
+    console.log(selectedItem.value);
+  }
+</script>
+
+<script>
+  export default { name: "PageAsideLinks" }
 </script>
 <template>
   <h3>One this Page</h3>
   <hr />
   <ul class="aside__links">
-    <li><RouterLink to="#">Example</RouterLink></li>
-    <li><RouterLink to="#">Sizing</RouterLink></li>
-    <li><RouterLink to="#">Disabled</RouterLink></li>
-    <li><RouterLink to="#">Readonly</RouterLink></li>
-    <li><RouterLink to="#">Readonly plain text</RouterLink></li>
-    <li><RouterLink to="#">File input</RouterLink></li>
-    <li><RouterLink to="#">Color</RouterLink></li>
+    <li v-for="(item, index) in props.links" :key="index">
+      <a 
+        :href="item.path"
+        @click="activeToggle(item.name)" 
+        :class="{'active': toggleState && item.name === selectedItem }"
+      > {{item.name}} </a>
+    </li>
   </ul>
 </template>
 <style lang="scss">
@@ -42,8 +59,9 @@ import { RouterLink } from 'vue-router';
         position: relative;
         border-radius: .3rem;
         transition: var(--transition);
-        &:hover {
-          background-color: var(--vt-c-brand);
+        text-transform: capitalize;
+        &:hover, &.active {
+          background-color: var(--primary);
           color: var(--white);
           margin-inline: 0;
         }

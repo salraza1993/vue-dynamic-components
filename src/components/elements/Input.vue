@@ -1,14 +1,27 @@
 <template>
-	<div class="input__block" :class="{ 'error': error, 'success': valid }">
-		<div class="input__block__label" v-if="label">
-			<label for="">
+	<div 
+		class="input-block" 
+		:class="[
+			`input-block__type-${props.type}`,
+			{ 
+				'input-block--error': error, 
+				'input-block--success': valid && validate, 
+			}
+		]">
+		<div class="input-block__label" v-if="label">
+			<label :for="props.id" :class="labelClass">
         {{ labelComputedValue }}
         <span v-if="props.required">*</span>
       </label>
 		</div>
 		<slot v-if="!label" />
-		<div class="input__block__input">
+		<div class="input-block__input" :class="inputContainerClass">
 			<input
+				:class="[
+					`input-block__type-${props.type}`,
+					inputClass, 
+					{ 'input--error': error, 'input--success': valid }
+				]"
 				v-model="inputValue"
 				:id="props.id"
 				:name="props.name"
@@ -30,19 +43,20 @@ import { ref, computed, onBeforeMount } from "vue";
 const props = defineProps({
 	modelValue: String,
 	label: [String, Boolean ],
-	type: String,
+	labelClass: [String],
+	inputClass: [String],
+	inputContainerClass: [String],
+	type: {type: String, default: () => 'text'},
 	id: String,
 	name: String,
-	min: {
-		types: [String, Number],
-		default: () => 0,
-	},
+	min: { types: [String, Number], default: () => 0 },
 	max: [String, Number],
 	placeholder: String,
 	required: Boolean,
 	readonly: Boolean,
 	plainText: Boolean,
 	disabled: Boolean,
+	validate: {type: Boolean, default: false},
 });
 const emit = defineEmits(["update:modelValue"]);
 const error = ref(false);
@@ -112,9 +126,17 @@ const inputValue = computed({
 			} 
 		}
 		emit("update:modelValue", value);
-
 	},
 });
+
+// const checkType = computed({
+// 	get() {
+// 		return String(props.type);
+// 	},
+// 	set(newValue) {
+
+// 	}
+// })
 // https://www.youtube.com/watch?v=BdZFZO_mQXU&list=PLbGui_ZYuhih5ItBhn2cTncaS24_Kgeui&index=22&ab_channel=GeekyShows
 // https://vuejsexamples.com/
 </script>
@@ -125,18 +147,22 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.input__block {
+.input-block {
 	--input-height: 40px;
 	--input-padding-y: 0.5rem;
 	--input-padding-x: 0.85rem;
-	--input-border-color: #656565;
-	--input-bg-color: transparent;
-	--input-color: #cccccc;
-	--input-label: #ffffff;
+	--input-border-color: var(--border-color);
+	--input-bg-color: var(--white);
+	--input-color: var(--dark);
+	--input-label: var(--white);
 	--input-font-size: inherit;
 	--input-font-family: inherit;
-	--input-hover-bg-color: #ffffff;
-	--input-hover-color: #ffffff;
+	
+	--input-border-hover-color: transparent;
+	--input-bg-hover-color: var(--white);
+	--input-hover-color: var(--black);
+	--input-focus-outline-color: rgba(var(--white-rgb), 0.15);
+	--input-focus-outline-width: 3px;
 	
 	width: 100%;
 	margin-bottom: 1rem;
@@ -158,17 +184,40 @@ export default {
 			color: var(--input-color);
 			outline: none;
 			appearance: none;
+			transition: var(--transition);
+			&::placeholder {
+				color: var(--input-color);
+			}
+			&:not(:invalid, .input--error, .input--success):focus, 
+			&:not(:invalid, .input--error, .input--success):hover {
+				border-color: var(--input-border-hover-color);
+				background-color: var(--input-bg-hover-color);
+				color: var(--input-hover-color);
+				box-shadow: 0 0 0 var(--input-focus-outline-width) var(--input-focus-outline-color);
+			}
 		}
 	}
-	&.error {
+	&--error {
 		--input-border-color: var(--danger);
-		--input-bg-color: transparent;
-		--input-color: var(--danger);
+		--input-bg-color: rgba(var(--danger-rgb), .15);
+		--input-color: var(--white);
+		--input-focus-outline-color: rgba(var(--danger-rgb), 0.15);
+		input {
+			&:focus, &:hover {
+				box-shadow: 0 0 0 var(--input-focus-outline-width) var(--input-focus-outline-color);
+			}
+		}
 	}
-	&.success {
+	&--success {
 		--input-border-color: var(--success);
-		--input-bg-color: transparent;
-		--input-color: var(--success);
+		--input-bg-color: rgba(var(--success-rgb), .15);
+		--input-color: var(--white);
+		--input-focus-outline-color: rgba(var(--success-rgb), 0.15);
+		input {
+			&:focus, &:hover {
+				box-shadow: 0 0 0 var(--input-focus-outline-width) var(--input-focus-outline-color);
+			}
+		}
 	}
 }
 </style>

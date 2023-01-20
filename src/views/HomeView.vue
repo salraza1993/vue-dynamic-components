@@ -32,6 +32,35 @@
       width: 100%;
       min-height: 100vh;
       @include contentCenter();
+      background-color: var(--body-bg-color);
+      isolation: isolate;
+      &::before {
+        display: none;
+        content: 'SDFSADF';
+        background-image: url('./../assets/images/logo.svg');
+        position: fixed;
+        inset: 0 0 0 50vw;
+        z-index: -2;
+        background-repeat: no-repeat;
+        background-position: center right -23vw;
+        background-blend-mode: luminosity;
+        opacity: 0.1;
+      }
+      &::after {
+        display: none;
+        z-index: -1;
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-color: var(--black);
+        background-image: url('https://images.unsplash.com/photo-1503435980610-a51f3ddfee50');
+        background-blend-mode: luminosity;
+        background-repeat: repeat-x;
+        background-size: 100%;
+        background-position: bottom 50% center;
+        filter: blur(0.25rem);
+        opacity: 0.25;
+      }
     }
 
     &__header {
@@ -56,7 +85,7 @@
         text-decoration: none;
         padding: .5rem 1.5rem;
         border: 1px solid var(--border-color);
-        color: var(--vt-c-brand);
+        color: var(--primary);
         border-radius: var(--border-radius);
         transition: var(--transition);
         &:hover {
@@ -64,7 +93,6 @@
           border-color: var(--primary);
           color: var(--white);
         }
-
       }
     }
   }

@@ -40,7 +40,8 @@
       --block-padding-x: .755rem;
       --block-padding-y: .355rem;
       flex-shrink: 0;
-      background-color: var(--vt-c-black-mute);
+      background-color: var(--aside-menu-bg-color);
+      // border-right: 1px solid var(--border-color);
       width: var(--aside-width);
       max-height: 100vh;
       padding-inline: var(--block-padding-x);
@@ -59,6 +60,7 @@
       background: var(--vt-c-black-extra);
       margin-inline: calc(0px - var(--block-padding-x));
       margin-top: calc(0px - calc(var(--block-padding-y) * 2));
+      border-bottom: 1px solid var(--border-color);
 
       &__icon {
         flex-shrink: 0;

@@ -14,6 +14,18 @@
       flex-direction: nth($flexDirection, $i) !important;
     }
   }
+  &-shrink {
+    &--0 { flex-shrink: 0; }
+    &--1 { flex-shrink: 1; }
+  }
+  &-grow {
+    &--0 { flex-grow: 0; }
+    &--1 { flex-grow: 1; }
+  }
+  &-basis {
+    &--0 { flex-basis: 0; }
+    &--1 { flex-basis: 1; }
+  }
 }
 
 // =============================[ Justify Content ]============================= //
@@ -55,13 +67,13 @@
 }
 
 .font__weight, .fw {
-  $types: (100, 200, 300, 400, 500, 600, 700, 800, 900);
-  @for $i from 1 to length($types) + 1 {
-    &--#{nth($types, $i)} {
-      font-weight: nth($types, $i);
-    }
-  }
-  
+  $fwName: ('thin', 'light', 'regular', 'medium', 'semibold', 'bold', 'black', 'extra-blcak');
+  $fwTypes: (100, 300, 400, 500, 600, 700, 800, 900);
+  @for $i from 1 to length($fwName) + 1 {
+    &--#{nth($fwName, $i)} {
+      font-weight: nth($fwTypes, $i) !important;
+    }    
+  }  
 }
 
 
@@ -80,13 +92,11 @@
   @for $i from 1 to length($fwName) + 1 {
     &--#{nth($fwName, $i)} {
       font-weight: nth($fwTypes, $i) !important;
-    }
-    
+    }    
   }
   
-
-  $names: ('primary', 'secondary', 'white', 'black', 'danger', 'success');
-  $colors: (--vt-c-brand, --vt-c-indigo, --vt-c-white, --vt-c-black, --danger, --success);
+  $names: ('primary', 'secondary', 'white', 'black', 'dark', 'danger', 'success', 'warning');
+  $colors: (--primary, --secondary, --white, --black, --dark, --danger, --success, --warning);
   @for $i from 1 to length($names) + 1 {
     &--#{nth($names, $i)} {
       color: var(nth($colors, $i)) !important;

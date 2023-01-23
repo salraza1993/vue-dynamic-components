@@ -22,10 +22,8 @@
   const asideLinks = [
     { path: '#example', name: 'example' },
     { path: '#input-types', name: 'Input types' },
-    { path: '#disabled', name: 'Disabled' },
     { path: '#readonly-plain-text', name: 'Readonly plain text' },
-    { path: '#file-input', name: 'File input' },
-    { path: '#color', name: 'Color' },
+    { path: '#disabled', name: 'Disabled' },
   ];
 
   const inputTypes = [
@@ -38,7 +36,7 @@
     { label: 'Tel', type: 'tel', value: ref('') },
     { label: 'Date', type: 'date', value: ref('') },
     { label: 'Time', type: 'time', value: ref('') },
-    { label: 'Range', type: 'range', value: ref('') },
+    { label: 'Range', type: 'range', value: ref(''), min:"10", max:"100" },
     { label: 'Color', type: 'color', value: ref('') },
   ]
 
@@ -73,7 +71,7 @@ export default { name: 'InputView' }
         </div>
       </section>
 
-      <section class="block-sec mb--4" id="sizing">
+      <section class="block-sec mb--4" id="input-types">
         <div class="block-sec__header">
           <h2>Input Types</h2>
           <p>
@@ -95,7 +93,7 @@ export default { name: 'InputView' }
               </div>
               <div class="col--8">
                 <div class="input-types__value">
-                  <Input v-model="item.value.value" :type="item.type" />
+                  <Input v-model="item.value.value" :type="item.type" :min="item.min" :max="item.max" :step="item.step" />
                 </div>
               </div>
             </div>
@@ -134,7 +132,4 @@ export default { name: 'InputView' }
       max-height: 90vh;
     }
   }
-
-  
-
 </style>

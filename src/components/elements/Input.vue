@@ -1,8 +1,9 @@
 <template>
 	<div 
 		class="input-block" 
+		:style="`--input-range-gradient-size: ${inputValue}%`"
 		:class="[
-			`input-block__type-${props.type}`,
+			`input-block__type--${props.type}`,
 			{ 
 				'input-block--error': error, 
 				'input-block--success': valid && validate, 
@@ -18,15 +19,17 @@
 		<div class="input-block__input" :class="inputContainerClass">
 			<input
 				:class="[
-					`input-block__type-${props.type}`,
+					`input-block__type--${props.type}`,
 					inputClass, 
 					{ 'input--error': error, 'input--success': valid }
 				]"
 				v-model="inputValue"
 				:id="props.id"
 				:name="props.name"
-				:minlength="props.min"
-				:maxlength="props.max"
+				:minrange="props.min"
+				:maxrange="props.max"
+				:min="props.min"
+				:max="props.max"
 				:type="props.type || 'text'"
 				:placeholder="props.placeholder || 'Enter something...'"
 				:disabled="props.disabled"
@@ -51,11 +54,14 @@ const props = defineProps({
 	name: String,
 	min: { types: [String, Number], default: () => 0 },
 	max: [String, Number],
+	minRange: { types: [String, Number], default: () => 0 },
+	maxRange: [String, Number],
 	placeholder: String,
 	required: Boolean,
 	readonly: Boolean,
 	plainText: Boolean,
 	disabled: Boolean,
+	step: [Number, String],
 	validate: {type: Boolean, default: false},
 });
 const emit = defineEmits(["update:modelValue"]);
@@ -129,14 +135,6 @@ const inputValue = computed({
 	},
 });
 
-// const checkType = computed({
-// 	get() {
-// 		return String(props.type);
-// 	},
-// 	set(newValue) {
-
-// 	}
-// })
 // https://www.youtube.com/watch?v=BdZFZO_mQXU&list=PLbGui_ZYuhih5ItBhn2cTncaS24_Kgeui&index=22&ab_channel=GeekyShows
 // https://vuejsexamples.com/
 </script>
@@ -151,21 +149,77 @@ export default {
 	--input-height: 40px;
 	--input-padding-y: 0.5rem;
 	--input-padding-x: 0.85rem;
-	--input-border-color: var(--border-color);
-	--input-bg-color: var(--white);
-	--input-color: var(--dark);
-	--input-label: var(--white);
+	--input-border-color: var(--border-color, #a0aba6);
+	--input-bg-color: var(--white, #ffffff);
+	--input-color: var(--dark, #252525);
+	--input-label: var(--white, #ffffff);
 	--input-font-size: inherit;
 	--input-font-family: inherit;
+
+	--input-range-gradient-size: 0;
+	--input-range-bg-color: #1C1C1C;
+	--gradient-active-first-color: var(--primary, #42b883);
+	--gradient-active-second-color: #022b18;
+	--input-range-bg-image: linear-gradient(to right, 
+		var(--gradient-active-first-color) 0%, var(--gradient-active-second-color) var(--input-range-gradient-size), 
+		var(--gradient-none-selected-color, var(--input-range-bg-color)) var(--input-range-gradient-size), 
+		var(--gradient-none-selected-color, var(--input-range-bg-color)) 100%);
+
+	--input-thumb-color: var(--primary, #42b883);
+	--input-thumb-width: 20px;
+	--input-thumb-hover-width: 30px;
 	
 	--input-border-hover-color: transparent;
-	--input-bg-hover-color: var(--white);
-	--input-hover-color: var(--black);
+	--input-bg-hover-color: var(--white, #ffffff);
+	--input-hover-color: var(--black, #1C1C1C);
 	--input-focus-outline-color: rgba(var(--white-rgb), 0.15);
 	--input-focus-outline-width: 3px;
 	
+	&__type {
+		&--color {
+			--input-padding-y: 0.1rem;
+			--input-padding-x: 0.25rem;
+		}
+		
+		&--range {
+			--input-padding-y: 0.1rem;
+			--input-padding-x: 0.25rem;
+			--input-bg-color: var(--black-mute);
+			--input-bg-hover-color: var(--black-mute);
+			display: grid;
+			align-items: center;
+			
+			input {
+				--input-height: 10px;
+				background: var(--input-range-bg-image);
+				border-radius: 8px;
+				height: var(--input-height);
+				outline: none;
+				transition: all 450ms ease-in;
+				border: 1px solid var(--input-bg-color);
+				-webkit-appearance: none;
+				&::-webkit-slider-thumb {
+					width: var(--input-thumb-width);
+					height: var(--input-thumb-width);
+					border-radius: 50%;
+					-webkit-appearance: none;
+					cursor: ew-resize;
+					background: var(--input-thumb-color);
+				}
+				&::-moz-range-thumb {
+					width: var(--input-thumb-width);
+					height: var(--input-thumb-width);
+					border-radius: 50%;
+					-webkit-appearance: none;
+					cursor: ew-resize;
+					background: var(--input-thumb-color);
+				}
+			}
+		}
+	}
 	width: 100%;
 	margin-bottom: 1rem;
+	min-height: var(--input-height);
 
 	&__label, label {
 		color: var(--input-label);

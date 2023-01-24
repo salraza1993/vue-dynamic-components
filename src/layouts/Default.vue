@@ -4,7 +4,7 @@
   export default {
     name: "DefaultLayout",
     components: [Header, Footer]
-}
+  }
 </script>
 <template>
   <Header />

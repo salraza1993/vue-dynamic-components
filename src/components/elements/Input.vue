@@ -1,7 +1,7 @@
 <template>
 	<div 
 		class="input-block" 
-		:style="`--input-range-gradient-size: ${inputValue}%`"
+		:style="`--input-range-gradient-size: ${rangeComputedValue || inputValue }%`"
 		:class="[
 			`input-block__type--${props.type}`,
 			{ 
@@ -9,14 +9,16 @@
 				'input-block--success': valid && validate, 
 			}
 		]">
-		<div class="input-block__label" v-if="label">
-			<label :for="props.id" :class="labelClass">
+		<div class="input-block__label-container" v-if="label">
+			<label :for="props.id" class="input-block__label-container__label" :class="labelClass">
         {{ labelComputedValue }}
         <span v-if="props.required">*</span>
       </label>
 		</div>
 		<slot v-if="!label" />
-		<div class="input-block__input" :class="inputContainerClass">
+		<div 
+			class="input-block__input-container" 
+			:class="[inputContainerClass]">
 			<input
 				:class="[
 					`input-block__type--${props.type}`,
@@ -26,15 +28,16 @@
 				v-model="inputValue"
 				:id="props.id"
 				:name="props.name"
-				:minrange="props.min"
-				:maxrange="props.max"
-				:min="props.min"
-				:max="props.max"
 				:type="props.type || 'text'"
 				:placeholder="props.placeholder || 'Enter something...'"
 				:disabled="props.disabled"
 				:readonly="props.readonly"
 				:required="props.required"
+				:step="props.step"
+				:minlength="props.minlength"
+				:maxlength="props.maxlength"
+				:min="props.min"
+				:max="props.max"
 			/>
 			<small v-if="error" :class="{ 'text--danger': error }">{{ errorMessage }}</small>
 		</div>
@@ -52,16 +55,16 @@ const props = defineProps({
 	type: {type: String, default: () => 'text'},
 	id: String,
 	name: String,
-	min: { types: [String, Number], default: () => 0 },
-	max: [String, Number],
-	minRange: { types: [String, Number], default: () => 0 },
-	maxRange: [String, Number],
+	min: { types: [String, Number] },
+	max: { types: [String, Number] },
+	minlength: { types: [String, Number] },
+	maxlength: { types: [String, Number] },
 	placeholder: String,
 	required: Boolean,
 	readonly: Boolean,
 	plainText: Boolean,
 	disabled: Boolean,
-	step: [Number, String],
+	step: { type: [Number, String] },
 	validate: {type: Boolean, default: false},
 });
 const emit = defineEmits(["update:modelValue"]);
@@ -98,33 +101,28 @@ const inputValue = computed({
 		if(value?.length <= 0 && !props.required) {
 			valid.value = false;
 		} 
-		else if (value.length <= props.min && props.required) {
+		else if (value.length <= props.minlength && props.required) {
 			error.value = true;
 			valid.value = false;
 			errorMessage.value = `This field is required`;
 		}
-		else if (value.length <= props.min) {
+		else if (value.length <= props.minlength) {
 			error.value = true;
 			valid.value = false;
-			errorMessage.value = `The letters cannot be less than ${props.min}`;
+			errorMessage.value = `The letters cannot be less than ${props.minlength}`;
 		} 
-		else if (value.length >= props.max) {
+		else if (value.length >= props.maxlength) {
 			error.value = true;
 			valid.value = false;
-			errorMessage.value = `The letters cannot be more than ${props.max}`;
+			errorMessage.value = `The letters cannot be more than ${props.maxlength}`;
 		} 
-		// else if(value.length > props.min || String(props.modelValue)?.length > props.min) {
-		// 	error.value = false;
-		// 	valid.value = true;
-		// } 
 		else {
 			error.value = false;
 			valid.value = true;
 			if(props.type === 'email') {
 				if(isEmailAddress(value)) {
 					console.log(value)
-				}
-				else {
+				} else {
 					error.value = true;
 					errorMessage.value = 'Please, use valid email ID.';
 					valid.value = false;
@@ -135,6 +133,10 @@ const inputValue = computed({
 	},
 });
 
+const rangeComputedValue = computed(() => {
+	
+	return Math.floor(((inputValue.value - props?.min) / ((props?.max - props?.min) / 100)));
+})
 // https://www.youtube.com/watch?v=BdZFZO_mQXU&list=PLbGui_ZYuhih5ItBhn2cTncaS24_Kgeui&index=22&ab_channel=GeekyShows
 // https://vuejsexamples.com/
 </script>
@@ -155,19 +157,6 @@ export default {
 	--input-label: var(--white, #ffffff);
 	--input-font-size: inherit;
 	--input-font-family: inherit;
-
-	--input-range-gradient-size: 0;
-	--input-range-bg-color: #1C1C1C;
-	--gradient-active-first-color: var(--primary, #42b883);
-	--gradient-active-second-color: #022b18;
-	--input-range-bg-image: linear-gradient(to right, 
-		var(--gradient-active-first-color) 0%, var(--gradient-active-second-color) var(--input-range-gradient-size), 
-		var(--gradient-none-selected-color, var(--input-range-bg-color)) var(--input-range-gradient-size), 
-		var(--gradient-none-selected-color, var(--input-range-bg-color)) 100%);
-
-	--input-thumb-color: var(--primary, #42b883);
-	--input-thumb-width: 20px;
-	--input-thumb-hover-width: 30px;
 	
 	--input-border-hover-color: transparent;
 	--input-bg-hover-color: var(--white, #ffffff);
@@ -184,48 +173,98 @@ export default {
 		&--range {
 			--input-padding-y: 0.1rem;
 			--input-padding-x: 0.25rem;
-			--input-bg-color: var(--black-mute);
-			--input-bg-hover-color: var(--black-mute);
+			--input-bg-color: transparent;
+			--input-bg-hover-color: transparent;
+
+			--input-range-gradient-size: 0;
+			--input-range-bg-color: #1C1C1C;
+			--gradient-active-first-color: var(--primary, #42b883);
+			--gradient-active-second-color: #022b18;
+			
+			--input-range-bg-image: linear-gradient(to right, 
+			var(--gradient-active-first-color) 0%, var(--gradient-active-second-color) var(--input-range-gradient-size), 
+			var(--gradient-none-selected-color, var(--input-range-bg-color)) var(--input-range-gradient-size), 
+			var(--gradient-none-selected-color, var(--input-range-bg-color)) 100%);
+			// var(--gradient-active-first-color) calc(var(--input-range-gradient-size)), var(--input-range-bg-color) 0);
+			
+
+
+			--input-range-bar-height: 10px;
+			--input-thumb-color: var(--primary, #42b883);
+			--input-thumb-width: 20px;
+			--input-thumb-hover-width: 30px;
 			display: grid;
 			align-items: center;
-			
-			input {
-				--input-height: 10px;
-				background: var(--input-range-bg-image);
-				border-radius: 8px;
-				height: var(--input-height);
-				outline: none;
-				transition: all 450ms ease-in;
-				border: 1px solid var(--input-bg-color);
-				-webkit-appearance: none;
-				&::-webkit-slider-thumb {
-					width: var(--input-thumb-width);
-					height: var(--input-thumb-width);
-					border-radius: 50%;
-					-webkit-appearance: none;
-					cursor: ew-resize;
-					background: var(--input-thumb-color);
+			.input-block {
+				&__input-container {
+					--input-height: 10px;
+					isolation: isolate;
+					&::after, &::before {
+						content: '';
+						position: absolute;
+						top: 0;
+						left: 0;
+						height: var(--input-height);
+						border-radius: var(--input-height);
+						width: 100%;
+					}
+					&::before {
+						z-index: -1;
+						background-color: var(--input-range-bg-color);
+					}
+					&::after {
+						background: var(--input-range-bg-image);
+						z-index: -1;
+					}
+					input {
+						position: relative;
+						--input-height: var(--input-range-bar-height);
+						border-radius: var(--input-height);
+						height: var(--input-height);
+						outline: none;
+						transition: all 450ms ease-in;
+						border: 1px solid var(--input-bg-color);
+						-webkit-appearance: none;
+
+						&::-webkit-slider-thumb {
+							width: var(--input-thumb-width);
+							height: var(--input-thumb-width);
+							border-radius: 50%;
+							-webkit-appearance: none;
+							cursor: ew-resize;
+							background: var(--input-thumb-color);
+						}
+						&::-moz-range-thumb {
+							width: var(--input-thumb-width);
+							height: var(--input-thumb-width);
+							border-radius: 50%;
+							cursor: ew-resize;
+							border: 0;
+							background: var(--input-thumb-color);
+						}
+						&::-ms-thumb {
+							width: var(--input-thumb-width);
+							height: var(--input-thumb-width);
+							border-radius: 50%;
+							cursor: ew-resize;
+							border: 0;
+							background: var(--input-thumb-color);
+						}
+					}
 				}
-				&::-moz-range-thumb {
-					width: var(--input-thumb-width);
-					height: var(--input-thumb-width);
-					border-radius: 50%;
-					-webkit-appearance: none;
-					cursor: ew-resize;
-					background: var(--input-thumb-color);
-				}
-			}
+			}			
 		}
 	}
 	width: 100%;
 	margin-bottom: 1rem;
 	min-height: var(--input-height);
 
-	&__label, label {
+	&__label-container, &__label, label {
 		color: var(--input-label);
 		margin-bottom: 0.5rem;
 	}
-	&__input {
+	&__input-container {
+		position: relative;
 		input {
 			width: 100%;
 			height: var(--input-height);

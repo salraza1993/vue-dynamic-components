@@ -35,8 +35,8 @@
     { label: 'Url', type: 'url', value: ref('') },
     { label: 'Tel', type: 'tel', value: ref('') },
     { label: 'Date', type: 'date', value: ref('') },
-    { label: 'Time', type: 'time', value: ref('') },
-    { label: 'Range', type: 'range', value: ref(''), min:"10", max:"100" },
+    { label: 'Time', type: 'time', value: ref(''), blockLabel: true },
+    { label: 'Range', type: 'range', value: ref(''), min:"30", max:"100", steps: 10 },
     { label: 'Color', type: 'color', value: ref('') },
   ]
 
@@ -61,7 +61,7 @@ export default { name: 'InputView' }
           <h2>Example</h2>
         </div>
         <div class="block-sec__body">
-          <Input v-model="inputValue" class="salman" label="Hello" validate />
+          <Input v-model="inputValue" class="salman" validate required />
           <h3>
             <span class="text-light">Input Value:</span> <span class="text--primary text--bold">{{ inputValue }}</span>
           </h3>
@@ -93,7 +93,7 @@ export default { name: 'InputView' }
               </div>
               <div class="col--8">
                 <div class="input-types__value">
-                  <Input v-model="item.value.value" :type="item.type" :min="item.min" :max="item.max" :step="item.step" />
+                  <Input v-model="item.value.value" :type="item.type" />
                 </div>
               </div>
             </div>

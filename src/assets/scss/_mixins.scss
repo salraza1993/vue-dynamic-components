@@ -10,3 +10,12 @@
   &::-webkit-scrollbar { width: $width; height: $width; background: transparent; pointer-events: $pointerEvent; }
   &::-webkit-scrollbar-thumb { background: $thumb; pointer-events: $pointerEvent; border-radius: 10px; }
 }
+
+@mixin fontAwesome($type: 900) {
+  font-family: "Font Awesome 6 Free";
+  @if $type == '400' {
+    font-weight: 400;
+  } @else {
+    font-weight: 900;
+  }
+}

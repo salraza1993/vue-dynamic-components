@@ -6,7 +6,7 @@
 			`input-block__type--${props.type}`,
 			{ 
 				'input-block--error': error, 
-				'input-block--success': valid && validate, 
+				'input-block--success': valid && validate && inputValue?.length > 0,
 			}
 		]">
 		<div class="input-block__label-container" v-if="label">
@@ -18,13 +18,14 @@
 		<slot v-if="!label" />
 		<div 
 			class="input-block__input-container" 
-			:class="[inputContainerClass]">
+			:class="[inputContainerClass, { 'input-block__input-container--error': error }]">
 			<input
 				:class="[
 					`input-block__type--${props.type}`,
 					inputClass, 
 					{ 'input--error': error, 'input--success': valid }
 				]"
+				@blur="inputValidation(inputValue)"
 				v-model="inputValue"
 				:id="props.id"
 				:name="props.name"
@@ -39,7 +40,7 @@
 				:min="props.min"
 				:max="props.max"
 			/>
-			<small v-if="error" :class="{ 'text--danger': error }">{{ errorMessage }}</small>
+			<small v-if="error" class="error-message" :class="{ 'text--danger': error }">{{ errorMessage }}</small>
 		</div>
 	</div>
 </template>
@@ -79,6 +80,7 @@ const checkDefaultValue = () => {
 	}
 }
 
+// Email Verifier
 const isEmailAddress = str => {
 	const pattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/; 
 	return str.match(pattern);
@@ -92,51 +94,68 @@ const labelComputedValue = computed(() => {
 	return props.label === true ? 'Block Label' : props.label
 })
 
+// computed Input Value
 const inputValue = computed({
 	get() {
 		return String(props.modelValue);
 	},
 	set(newValue) {
 		const value = String(newValue);
-		if(value?.length <= 0 && !props.required) {
-			valid.value = false;
-		} 
-		else if (value.length <= props.minlength && props.required) {
-			error.value = true;
-			valid.value = false;
-			errorMessage.value = `This field is required`;
-		}
-		else if (value.length <= props.minlength) {
-			error.value = true;
-			valid.value = false;
-			errorMessage.value = `The letters cannot be less than ${props.minlength}`;
-		} 
-		else if (value.length >= props.maxlength) {
-			error.value = true;
-			valid.value = false;
-			errorMessage.value = `The letters cannot be more than ${props.maxlength}`;
-		} 
-		else {
-			error.value = false;
-			valid.value = true;
-			if(props.type === 'email') {
-				if(isEmailAddress(value)) {
-					console.log(value)
-				} else {
-					error.value = true;
-					errorMessage.value = 'Please, use valid email ID.';
-					valid.value = false;
-				}
-			} 
-		}
+		inputValidation(value);
 		emit("update:modelValue", value);
 	},
 });
 
-const rangeComputedValue = computed(() => {
-	
+// Input range computed value
+const rangeComputedValue = computed(() => {	
 	return Math.floor(((inputValue.value - props?.min) / ((props?.max - props?.min) / 100)));
 })
+
+// input validation function
+const inputValidation = (value) => {
+	if(value?.length <= 0 && !props.required) {
+		valid.value = false;
+	} 
+	else if (value.length <= 0 && props.required || value.length <= 0 && props.required && props.validate) {
+		error.value = true;
+		valid.value = false;
+		errorMessage.value = `This field is required`;
+	}
+	else if (value.length <= props.minlength || value <= props.min && props.validate) {
+		error.value = true;
+		valid.value = false;
+		if(props.type === 'range') {
+			errorMessage.value = `Range value cannot be less than ${props.min}`;
+		} else {
+			errorMessage.value = `The letters cannot be less than ${props.minlength}`;
+		}
+	} 
+	else if (value.length >= props.maxlength || value > props.max && props.validate) {
+		error.value = true;
+		valid.value = false;
+		if(props.type === 'range') {
+			errorMessage.value = `Range value cannot be more than ${props.max}`;
+		} else {
+			errorMessage.value = `The letters cannot be more than ${props.maxlength}`;
+		}
+	} 
+	else {
+		error.value = false;
+		valid.value = true;
+		
+		// email validation
+		if(props.type === 'email' && props.validate) {
+			if(isEmailAddress(value)) console.log(value)
+			else {
+				error.value = true;
+				errorMessage.value = 'Please, use valid email ID.';
+				valid.value = false;
+			}
+		} 
+	}
+}
+
+
 // https://www.youtube.com/watch?v=BdZFZO_mQXU&list=PLbGui_ZYuhih5ItBhn2cTncaS24_Kgeui&index=22&ab_channel=GeekyShows
 // https://vuejsexamples.com/
 </script>
@@ -148,9 +167,12 @@ export default {
 
 <style lang="scss" scoped>
 .input-block {
-	--input-height: 40px;
+	--input-height: 45px;
+	--input-container-height: 45px;
 	--input-padding-y: 0.5rem;
 	--input-padding-x: 0.85rem;
+	--input-margin-bottom: 1rem;
+	--input-border-radius: var(--border-radius, 0.35rem);
 	--input-border-color: var(--border-color, #a0aba6);
 	--input-bg-color: var(--white, #ffffff);
 	--input-color: var(--dark, #252525);
@@ -182,27 +204,35 @@ export default {
 			--gradient-active-second-color: #022b18;
 			
 			--input-range-bg-image: linear-gradient(to right, 
-			var(--gradient-active-first-color) 0%, var(--gradient-active-second-color) var(--input-range-gradient-size), 
-			var(--gradient-none-selected-color, var(--input-range-bg-color)) var(--input-range-gradient-size), 
-			var(--gradient-none-selected-color, var(--input-range-bg-color)) 100%);
-			// var(--gradient-active-first-color) calc(var(--input-range-gradient-size)), var(--input-range-bg-color) 0);
+				var(--gradient-active-first-color) 0%, var(--gradient-active-second-color) var(--input-range-gradient-size), 
+				var(--gradient-none-selected-color, var(--input-range-bg-color)) var(--input-range-gradient-size), 
+				var(--gradient-none-selected-color, var(--input-range-bg-color)) 100%);
 			
-
-
 			--input-range-bar-height: 10px;
 			--input-thumb-color: var(--primary, #42b883);
 			--input-thumb-width: 20px;
 			--input-thumb-hover-width: 30px;
 			display: grid;
+			&.input-block--error {
+				--gradient-active-first-color: var(--danger, #d66666);
+				--gradient-active-second-color: #330101;
+				border: 1px solid var(--input-border-color);
+				padding-block-start: 0.92rem;
+				margin-bottom: calc(var(--input-margin-bottom) + 0.92rem);
+				max-height: var(--input-container-height);
+				.error-message { position: relative; bottom: -1rem; }
+				input { --input-thumb-color: #ffffff; }
+			}
 			align-items: center;
 			.input-block {
 				&__input-container {
 					--input-height: 10px;
 					isolation: isolate;
+					display: flex;
+					flex-direction: column;
 					&::after, &::before {
 						content: '';
 						position: absolute;
-						top: 0;
 						left: 0;
 						height: var(--input-height);
 						border-radius: var(--input-height);
@@ -225,12 +255,14 @@ export default {
 						transition: all 450ms ease-in;
 						border: 1px solid var(--input-bg-color);
 						-webkit-appearance: none;
+						appearance: none;
 
 						&::-webkit-slider-thumb {
 							width: var(--input-thumb-width);
 							height: var(--input-thumb-width);
 							border-radius: 50%;
 							-webkit-appearance: none;
+							appearance: none;
 							cursor: ew-resize;
 							background: var(--input-thumb-color);
 						}
@@ -251,12 +283,14 @@ export default {
 							background: var(--input-thumb-color);
 						}
 					}
+					&--error {}
 				}
 			}			
+			
 		}
 	}
-	width: 100%;
-	margin-bottom: 1rem;
+	width: var(--input-width, 100%);
+	margin-bottom: var(--input-margin-bottom);
 	min-height: var(--input-height);
 
 	&__label-container, &__label, label {
@@ -289,6 +323,9 @@ export default {
 				box-shadow: 0 0 0 var(--input-focus-outline-width) var(--input-focus-outline-color);
 			}
 		}
+		.error-message {
+			display: inline-block;
+		}
 	}
 	&--error {
 		--input-border-color: var(--danger);
@@ -310,6 +347,11 @@ export default {
 			&:focus, &:hover {
 				box-shadow: 0 0 0 var(--input-focus-outline-width) var(--input-focus-outline-color);
 			}
+		}
+	}
+	&:is(&.rounded, &.input-rounded) {
+		input {
+			border-radius: var(--input-border-radius);
 		}
 	}
 }

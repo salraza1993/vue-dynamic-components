@@ -28,6 +28,17 @@
   }
 }
 
+.fs, .font-size {
+  &--h1 {
+    font-size: clamp(1.5rem, 12vw, 2rem);
+    line-height: clamp(1.75rem, 14vw, 2.5rem);
+  }
+  &--h2 {
+    font-size: clamp(1.25rem, 10vw, 1.75rem);
+    line-height: clamp(1.5rem, 12vw, 2.25rem);
+  }
+}
+
 // =============================[ Justify Content ]============================= //
 .justify-content, .justify__content, .jc {
   $types: (center, end, start, inherit, initial, around, between, evenly, revert, stretch, normal);
@@ -79,10 +90,19 @@
 
 .text {
   $types: (inherit, initial, capitalize, lowercase, uppercase, none, revert);
-  &__transform {
+  &__transform, &-transform {
     @for $i from 1 to length($types) + 1 {
       &--#{nth($types, $i)} {
         text-transform: nth($types, $i) !important;
+      }
+    }
+  }
+
+  $decoration: (inherit, initial, underline, line-through,);
+  &-decoration {
+    @for $i from 1 to length($decoration) + 1 {
+      &--#{nth($types, $i)} {
+        text-decoration: nth($decoration, $i) !important;
       }
     }
   }

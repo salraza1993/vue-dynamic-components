@@ -32,17 +32,26 @@
 
   --dark: #252525;
   --dark-rgb: 37, 37, 37;
+  
+  --gray: #e6e6e6;
+  --gray-rgb: 230, 230, 230;
 
   --white-rgb: 255, 255, 255;
   --white: #ffffff;
   --white-soft: #f8f8f8;
   --white-mute: #f2f2f2;
 
-  --danger: #d83939;
-  --danger-rgb: 216, 57, 57;
-  --warning: #e0840a;
-  --success: #05c015;
-  --success-rgb: 61, 168, 6;
+  --danger: #d66666;
+  --danger-rgb: 214, 102, 102;
+
+  --success: #42b883;
+  --success-rgb: 66, 184, 131;
+
+  --warning: #ffc107;
+  --warning-rgb: 255, 193, 7;
+  
+  --info: #17a2b8;
+  --info-rgb: 255, 193, 7;
 
   --border-radius: .35rem;
   --transition: all .3s ease-in;

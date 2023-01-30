@@ -2,7 +2,7 @@
 @import './classes';
 @import './grids';
 @import '@/assets/scss/_mixins.scss';
-@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css');
+// @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css');
 
 html {
   scroll-behavior: smooth;
@@ -15,7 +15,6 @@ html {
   box-sizing: border-box;
   margin: 0;
   position: relative;
-  font-weight: normal;
 }
 
 body {
@@ -35,6 +34,7 @@ body {
     color: var(--selection-color);
   }
 }
+
 
 h1, h2, h3, h4, h5, h6 {
   font-weight: 600;
@@ -94,6 +94,7 @@ hr {
   --code-color: #abb2bf;  
   
   width: 100% !important;
+  display: grid !important;
   border-radius: 0 0 var(--code-border-radius) var(--code-border-radius) !important;
   background-color: var(--code-bg-color, #282c34) !important;
   color: var(--codecolor) !important;

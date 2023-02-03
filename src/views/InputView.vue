@@ -8,6 +8,7 @@
   import 'vue-highlight-code/dist/style.css';
   import Alert from "../components/elements/Alert.vue";
   
+  // Basic Input Value
   const value = `
   // script
   import { ref } from "vue";
@@ -18,6 +19,8 @@
     <Input v-model="inputValue" />
     <h3>Input Value: {{ inputValue }} </h3>
   </template>`
+
+  const inputValue = ref('');
 
   const inputTypesValues = `
   // script
@@ -57,7 +60,17 @@
     </div>
   </template>`
   
-  const inputValue = ref('');
+  const inputRangeValue = `
+  // script
+  import { ref } from "vue";
+  import Input from "@/components/Input.vue";
+  const rangeValue = ref('');
+  
+  <template>
+    <Input v-model="rangeValue" :type="'range'" min="20" max="80" required validate />
+    <h3>Input Value: {{ rangeValue }} </h3>
+  </template>
+  `
   const rangeValue = ref('');
   
   const asideLinks = [
@@ -66,6 +79,7 @@
     { path: '#input-type-range', name: 'Input type Range' },
     { path: '#readonly-plain-text', name: 'Readonly plain text' },
     { path: '#disabled', name: 'Disabled' },
+    { path: '#contextual-states', name: 'Contextual states' },
   ];
 
   const inputTypes = [
@@ -114,6 +128,7 @@ export default { name: "InputView", components: { Alert } }
           <HighCode class="code" :codeValue="value" theme="dark" lang="Vue" />
         </div>
       </section>      
+
       <section class="block-sec mb--4" id="input-types">
         <div class="block-sec__header">
           <h2 class="text--white fs--h1 mb--4">Input Types</h2>
@@ -160,24 +175,49 @@ export default { name: "InputView", components: { Alert } }
       <section class="block-sec mb--4" id="input-type-range">
         <div class="block-sec__header">
           <h2 class="text--white fs--h1 mb--4">Input Type Range</h2>
-          <p>
+          <h3 class="text--regular">
             <span class="text--primary">Range <code>&lt;Input /&gt;</code></span> have implicit values for <span class="text--primary">min</span> and <span class="text--primary">max</span> of <span class="text--primary">0</span> and <span class="text--primary">100</span> respectively. You may specify new values for those using the <span class="text--primary text-decoration--underline">min</span> and <span class="text--primary">max</span> props.
-          </p>
-          <p class="text--danger">
-            
-          </p>
-          <Alert type="warning" icon class="rounded" message="Range inputs (as do all input types) return their value as a string. You may need to convert the value to a native number by using" />
+          </h3>
+          <h3 class="text--regular">
+            By default, range inputs <span class="text--primary">"snap"</span> to <span class="text--primary">integer</span> values. To change this, you can specify a <span class="text--primary">step</span> value. In the example below, we double the number of steps by using <span class="text--primary">step="0.5"</span>.
+          </h3>
+          
+          <hr />
         </div>
         <div class="block-sec__body">
+          <Input v-model="rangeValue" :type="'range'" min="20" max="80" required validate />
           <h3>
-            <Input v-model="rangeValue" :type="'range'" min="20" max="80" required validate />
             <span class="text-light">Input Range Value:</span> <span class="text--primary text--bold">{{ rangeValue }}</span>
           </h3>
         </div>
         <div class="block-sec__footer">
-          <HighCode class="code" :codeValue="value" theme="dark" lang="Vue" required />
+          <HighCode class="code" :codeValue="inputRangeValue" theme="dark" lang="Vue" />
+          <div class="p--4">
+            <Alert type="warning" icon class="rounded mb-0" message="Range inputs (as do all input types) return their value as a string. You may need to convert the value to a native number by using Number(value), parseInt(value, 10), parseFloat(value)." />
+          </div>
         </div>
       </section>
+      <section class="block-sec mb--4" id="contextual-states">
+        <div class="block-sec__header">
+          <h2 class="text--white fs--h1 mb--4">Contextual States</h2>
+          <h3 class="text--regular">
+            <span class="text--primary">Range <code>&lt;Input /&gt;</code></span> have implicit values for <span class="text--primary">min</span> and <span class="text--primary">max</span> of <span class="text--primary">0</span> and <span class="text--primary">100</span> respectively. You may specify new values for those using the <span class="text--primary text-decoration--underline">min</span> and <span class="text--primary">max</span> props.
+          </h3>
+          <h3 class="text--regular">
+            By default, range inputs <span class="text--primary">"snap"</span> to <span class="text--primary">integer</span> values. To change this, you can specify a <span class="text--primary">step</span> value. In the example below, we double the number of steps by using <span class="text--primary">step="0.5"</span>.
+          </h3>
+        </div>
+        <div class="block-sec__body">
+          <Input v-model="rangeValue" :type="'range'" min="20" max="80" required validate />
+          <h3>
+            <span class="text-light">Input Range Value:</span> <span class="text--primary text--bold">{{ rangeValue }}</span>
+          </h3>
+        </div>
+        <div class="block-sec__footer">
+          <HighCode class="code" :codeValue="inputRangeValue" theme="dark" lang="Vue" />
+        </div>
+      </section>
+      
 
     </div>
     <div class="inner-page__aside">

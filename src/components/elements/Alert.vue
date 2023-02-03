@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 
 const props = defineProps({
-  message: { type: String, default: () => "Akert Message!" },
+  message: { type: String},
   type: { type: String, default: () => 'light' },
   icon: { type: Boolean },
   iconSize: { type: String, default: '1.2rem' },
@@ -12,38 +12,23 @@ const props = defineProps({
 
 const alertType = computed(() => {
   switch (props.type) {
-    case 'dark':
-      return 'alert--dark';
-    case 'dark-outline':
-      return 'alert--dark-outline';
-    case 'gray':
-      return 'alert--gray';
-    case 'gray-outline':
-      return 'alert--gray-outline';
-    case 'primary':
-      return 'alert--primary';
-    case 'primary-outline':
-      return 'alert--primary-outline';
-    case 'danger':
-      return 'alert--danger';
-    case 'danger-outline':
-      return 'alert--danger-outline';
-    case 'success':
-      return 'alert--success';
-    case 'success-outline':
-      return 'alert--success-outline';
-    case 'warning':
-      return 'alert--warning';
-    case 'warning-outline':
-      return 'alert--warning-outline';
-    case 'info':
-      return 'alert--info';
-    case 'info-outline':
-      return 'alert--info-outline';
-    case 'line-outline':
-      return 'alert--line-outline';
-    default:
-      return 'alert--light';
+    case 'dark': return 'alert--dark';
+    case 'dark-outline': return 'alert--dark-outline';
+    case 'gray': return 'alert--gray';
+    case 'grey': return 'alert--gray';
+    case 'gray-outline': return 'alert--gray-outline';
+    case 'primary': return 'alert--primary';
+    case 'primary-outline': return 'alert--primary-outline';
+    case 'danger': return 'alert--danger';
+    case 'danger-outline': return 'alert--danger-outline';
+    case 'success': return 'alert--success';
+    case 'success-outline': return 'alert--success-outline';
+    case 'warning': return 'alert--warning';
+    case 'warning-outline': return 'alert--warning-outline';
+    case 'info': return 'alert--info';
+    case 'info-outline': return 'alert--info-outline';
+    case 'light-outline': return 'alert--light-outline';
+    default: return 'alert--light';
   }
 });
 
@@ -62,7 +47,7 @@ export default { name: 'AlertComponent' }
       </div>
       <p>{{ props.message }}</p>
     </div>
-    <div class="alert-container__content" :class="contentClass" v-if="!props.message">
+    <div class="alert-container__content" :class="contentClass" v-else>
       <slot />
     </div>
   </div>
@@ -109,31 +94,86 @@ export default { name: 'AlertComponent' }
       --alert-bg-color: #a3e6c8;
       --alert-border-color: #196d47;
       --alert-color: #196d47;
+      &-outline {
+        --alert-bg-color: transparent;
+        --alert-border-color: #196d47;
+        --alert-color: #196d47;
+        border: 1px solid var(--alert-border-color);
+      }
     }
     &--danger {
       --alert-bg-color: #f8d7da;
       --alert-border-color: #f5c6cb;
       --alert-color: #8b101c;
+      &-outline {
+        --alert-bg-color: transparent;
+        --alert-border-color: #8b101c;
+        --alert-color: #8b101c;
+        border: 1px solid var(--alert-border-color);
+      }
+    }
+    &--success {
+      --alert-bg-color: #d4edda;
+      --alert-border-color: #c3e6cb;
+      --alert-color: #155724;
+      &-outline {
+        --alert-bg-color: transparent;
+        --alert-border-color: #155724;
+        --alert-color: #155724;
+        border: 1px solid var(--alert-border-color);
+      }
     }
     &--warning {
       --alert-bg-color: #fff3cd;
       --alert-border-color: #ffeeba;
       --alert-color: #856404;
+      &-outline {
+        --alert-bg-color: transparent;
+        --alert-border-color: #856404;
+        --alert-color: #856404;
+        border: 1px solid var(--alert-border-color);
+      }
     }
     &--info {
       --alert-bg-color: #d1ecf1;
       --alert-border-color: #bee5eb;
       --alert-color: #0c5460;
+      &-outline {
+        --alert-bg-color: transparent;
+        --alert-border-color: #0c5460;
+        --alert-color: #0c5460;
+        border: 1px solid var(--alert-border-color);
+      }
     }
     &--gray {
       --alert-bg-color: #dadada;
       --alert-border-color: #e0e0e0;
       --alert-color: #353535;
+      &-outline {
+        --alert-bg-color: transparent;
+        --alert-border-color: #353535;
+        --alert-color: #353535;
+        border: 1px solid var(--alert-border-color);
+      }
     }
     &--dark {
       --alert-bg-color: #252525;
       --alert-border-color: #cccccc;
       --alert-color: #d1d1d1;
+      &-outline {
+        --alert-bg-color: transparent;
+        --alert-border-color: #252525;
+        --alert-color: #252525;
+        border: 1px solid var(--alert-border-color);
+      }
+    }
+    &--light {
+      &-outline {
+        --alert-bg-color: transparent;
+        --alert-border-color: #cccccc;
+        --alert-color: #cccccc;
+        border: 1px solid var(--alert-border-color);
+      }
     }
   }
 </style>

@@ -38,7 +38,8 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   font-weight: 600;
-  margin-bottom: .75rem;
+  line-height: 1.4em;
+  margin-bottom: var(--element-margin-bottom);
 }
 h1 {
   font-size: clamp(1.25rem, 10vw, 2.5rem);
@@ -83,7 +84,10 @@ hr {
       }
     }
   }
-  &__footer {}
+  &__footer {
+    border-radius: 0 0 calc(var(--border-radius) * 1.75) calc(var(--border-radius) * 1.75) !important;
+    overflow: hidden;
+  }
 }
 
 .code {
@@ -95,7 +99,7 @@ hr {
   
   width: 100% !important;
   display: grid !important;
-  border-radius: 0 0 var(--code-border-radius) var(--code-border-radius) !important;
+  border-radius: 0 !important;
   background-color: var(--code-bg-color, #282c34) !important;
   color: var(--codecolor) !important;
   &_header {

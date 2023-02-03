@@ -161,34 +161,39 @@ $marginPaddingSizes: (0, 0.25rem, 0.5rem, 1rem, 1.5rem, 3rem);
   }
 
   // ========================= padding ========================= //
+  .p {
+    &--#{nth($marginPaddingNames, $i)}, &-#{nth($marginPaddingNames, $i)} { 
+      padding: #{nth($marginPaddingSizes, $i)} !important; 
+    }
+  }
   .py {
     &--#{nth($marginPaddingNames, $i)}, &-#{nth($marginPaddingNames, $i)} { 
-      margin-block: #{nth($marginPaddingSizes, $i)} !important; 
+      padding-block: #{nth($marginPaddingSizes, $i)} !important; 
     }
   }
   .px {
     &--#{nth($marginPaddingNames, $i)}, &-#{nth($marginPaddingNames, $i)} { 
-      margin-inline: #{nth($marginPaddingSizes, $i)} !important; 
+      padding-inline: #{nth($marginPaddingSizes, $i)} !important; 
     }
   }
   .pb {
     &--#{nth($marginPaddingNames, $i)}, &-#{nth($marginPaddingNames, $i)} { 
-      margin-bottom: #{nth($marginPaddingSizes, $i)} !important; 
+      padding-bottom: #{nth($marginPaddingSizes, $i)} !important; 
     }
   }
   .pt {
     &--#{nth($marginPaddingNames, $i)}, &-#{nth($marginPaddingNames, $i)} { 
-      margin-top: #{nth($marginPaddingSizes, $i)} !important; 
+      padding-top: #{nth($marginPaddingSizes, $i)} !important; 
     }
   }
   .ps {
     &--#{nth($marginPaddingNames, $i)}, &-#{nth($marginPaddingNames, $i)} { 
-      margin-left: #{nth($marginPaddingSizes, $i)} !important; 
+      padding-left: #{nth($marginPaddingSizes, $i)} !important; 
     }
   }
   .pe {
     &--#{nth($marginPaddingNames, $i)}, &-#{nth($marginPaddingNames, $i)} { 
-      margin-right: #{nth($marginPaddingSizes, $i)} !important; 
+      padding-right: #{nth($marginPaddingSizes, $i)} !important; 
     }
   }
 

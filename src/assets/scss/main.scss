@@ -9,6 +9,7 @@ html {
   scroll-padding-top: 2vh;
 }
 
+
 *,
 *::before,
 *::after {
@@ -62,6 +63,47 @@ hr {
   background-color: var(--code-sec-bg-color);
   border-radius: calc(var(--border-radius) * 1.75);
   box-shadow: 0 0 0 1px var(--code-sec-border-color);
+  isolation: isolate;
+
+  &:target {
+    --gradient-shadow: linear-gradient(45deg, var(--primary), var(--secondary));
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background-color: inherit;
+      border-radius: inherit;
+    }
+    &::after {
+      content: '';
+      position: absolute;
+      inset: -0.25rem;
+      border-radius: inherit;
+      background: var(--gradient-shadow);
+      z-index: -2;
+      filter: blur(10px);
+      animation: animate 10s linear infinite;
+    }
+    outline: 1px solid rgba(var(--primary-rgb), 1);
+    
+
+    @keyframes animate {
+      0% {
+       outline: 2px solid rgba(var(--primary-rgb), 0);
+       opacity: 0;
+      }
+      50% {
+        outline: 2px solid rgba(var(--primary-rgb), 1);
+        opacity: 1;
+      }
+      100% {
+       outline: 2px solid rgba(var(--primary-rgb), 0);
+       opacity: 0;
+      }
+    }
+  }
+  
   &__header {
     padding-block: var(--sec-padding-y) 0;
     padding-inline: var(--sec-padding-x);

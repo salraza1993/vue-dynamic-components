@@ -56,17 +56,24 @@ const props = defineProps({
 	type: {type: String, default: () => 'text'},
 	id: String,
 	name: String,
+	placeholder: String,
+	
+	// ======== [ validations ] ======== //
 	min: { types: [String, Number] },
 	max: { types: [String, Number] },
 	minlength: { types: [String, Number] },
 	maxlength: { types: [String, Number] },
-	placeholder: String,
 	required: Boolean,
 	readonly: Boolean,
 	plainText: Boolean,
 	disabled: Boolean,
 	step: { type: [Number, String] },
 	validate: {type: Boolean, default: false},
+	
+	// ======== [ styling ] ======== //
+	capitalize: { type: Boolean, default: false },
+	camelCase: { type: Boolean, default: false },
+	uppercase: { type: Boolean, default: false },
 });
 const emit = defineEmits(["update:modelValue"]);
 const error = ref(false);
@@ -102,9 +109,17 @@ const inputValue = computed({
 	set(newValue) {
 		const value = String(newValue);
 		inputValidation(value);
+
+		if(props.capitalize || props.camelCase) {
+			return emit("update:modelValue", textFormating(value));
+		}
+		if(props.uppercase) {
+			return emit("update:modelValue", textFormating(value, 'uppercase'));
+		}
 		emit("update:modelValue", value);
 	},
 });
+
 
 // Input range computed value
 const rangeComputedValue = computed(() => {	
@@ -155,6 +170,12 @@ const inputValidation = (value) => {
 	}
 }
 
+const textFormating = (values, formate) => {
+	if(formate === 'uppercase') {
+		return values.toUpperCase();
+	}
+	return values.split(' ').map(letter => letter[0].toUpperCase() + letter.substring(1).toLowerCase()).join(' ');
+}
 
 // https://www.youtube.com/watch?v=BdZFZO_mQXU&list=PLbGui_ZYuhih5ItBhn2cTncaS24_Kgeui&index=22&ab_channel=GeekyShows
 // https://vuejsexamples.com/
@@ -285,8 +306,7 @@ export default {
 					}
 					&--error {}
 				}
-			}			
-			
+			}
 		}
 	}
 	width: var(--input-width, 100%);

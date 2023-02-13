@@ -21,6 +21,12 @@
   </template>`
 
   const inputValue = ref('');
+  const inputValueWithLabel = ref('');
+  const rangeValue = ref('');
+  const inputValue_null = ref('');
+  const inputValue_validated = ref('');
+  const inputValue_non_validated = ref('');
+  
 
   const inputTypesValues = `
   // script
@@ -58,7 +64,7 @@
         </div>
       </div>
     </div>
-  </template>`
+  </template>`;
   
   const inputRangeValue = `
   // script
@@ -70,15 +76,29 @@
     <Input v-model="rangeValue" :type="'range'" min="20" max="80" required validate />
     <h3>Input Value: {{ rangeValue }} </h3>
   </template>
-  `
-  const rangeValue = ref('');
+  `;
+
+  const inputValueWithLabelValue = `
+  // script
+  import { ref } from "vue";
+  import Input from "@/components/Input.vue";
+  const inputValueWithLabel = ref('');
+  
+  <template>
+    <Input class="input-rounded" v-model="inputValueWithLabel" label="Input Label" />
+    <h3>Input Value: {{ inputValueWithLabel }} </h3>
+  </template>
+  `;
+  
   
   const asideLinks = [
     { path: '#example', name: 'example' },
     { path: '#input-types', name: 'Input types' },
     { path: '#input-type-range', name: 'Input type Range' },
+    { path: '#input-with-label', name: 'Input with Label' },
+    { path: '#required-disable-readonly', name: 'Required, Disabled, & Readonly' },
     { path: '#readonly-plain-text', name: 'Readonly plain text' },
-    { path: '#disabled', name: 'Disabled' },
+    { path: '#input-style-formate', name: 'Input Style (Formatter)' },
     { path: '#contextual-states', name: 'Contextual states' },
   ];
 
@@ -96,7 +116,6 @@
     { label: 'Color', type: 'color', value: ref('') },
   ];
 
-
   // https://coreui.io/vue/docs/forms/date-picker.html
 </script>
 <script>
@@ -108,18 +127,18 @@ export default { name: "InputView", components: { Alert } }
     <div class="inner-page__main">
       <h1>Vue Form Input</h1>
       <h2 class="text--light">
-        Create various type inputs such as: text, password, number, url, email, search, range, date and more...
-        Vue input components. Give textual form <code>&lt;input&gt;</code>s an upgrade with custom styles, sizing, focus states, validation, and more.
+        Elevate your <code>&lt;input&gt;</code> elements with custom styling, adjustable sizing, enhanced focus states, validation and more using our Vue 3 <code>&lt;input&gt;</code> components. Create a variety of input types, such as text, password, number, URL, email, search, range, date and more, for a dynamic user experience.
         <br />
       </h2>
       <br />
-      
+
+      <!-- Input Examples -->
       <section class="block-sec mb--4" id="example">
         <div class="block-sec__header">
           <h2 class="text--white fs--h1 mb--4">Example</h2>
         </div>
         <div class="block-sec__body">
-          <Input class="input-rounded" v-model="inputValue" minlength="5" maxlength="20" validate required />
+          <Input class="input-rounded" v-model="inputValue" />
           <h3>
             <span class="text-light">Input Value (Two way binding):</span> <span class="text--primary text--bold">{{ inputValue }}</span>
           </h3>
@@ -127,16 +146,15 @@ export default { name: "InputView", components: { Alert } }
         <div class="block-sec__footer">
           <HighCode class="code" :codeValue="value" theme="dark" lang="Vue" />
         </div>
-      </section>      
+      </section>
 
+      <!-- Input Types -->
       <section class="block-sec mb--4" id="input-types">
-        <div class="block-sec__header">
+        <div class="block-sec__header mb-3">
           <h2 class="text--white fs--h1 mb--4">Input Types</h2>
-          <p>
-            <span class="text--primary fw--bold">&lt;Input /&gt;</span>
-            defaults to a text input, but you can set the type prop to one of the supported native browser HTML5 types: 
-            <span class="text--primary">text, password, email, number, url, tel, search, date, datetime, datetime-local, month, week, time, range,</span> or <span class="text--primary">color</span>.
-          </p>
+          <h3 class="fw--regular">
+            The <span class="text--primary fw--bold">&lt;Input /&gt;</span> component defaults to a text input, but you can specify its type using the type prop. This prop supports a range of HTML5 input types including <span class="text--primary"> text, password, email, number, URL, tel, search, date, datetime, datetime-local, month, week, time, range, and color,</span> ensuring compatibility with native browser functionality.
+          </h3>
         </div>
         <div class="block-sec__body">
           <div class="input-types__container">
@@ -152,6 +170,7 @@ export default { name: "InputView", components: { Alert } }
               <div class="col--8">
                 <div class="input-types__value">
                   <Input 
+                    class="input-rounded"
                     v-model="item.value.value" 
                     :type="item.type" 
                     :required="item.required"
@@ -172,14 +191,18 @@ export default { name: "InputView", components: { Alert } }
         </div>
       </section>
 
+      <!-- Input Type Range -->
       <section class="block-sec mb--4" id="input-type-range">
         <div class="block-sec__header">
           <h2 class="text--white fs--h1 mb--4">Input Type Range</h2>
           <h3 class="text--regular">
-            <span class="text--primary">Range <code>&lt;Input /&gt;</code></span> have implicit values for <span class="text--primary">min</span> and <span class="text--primary">max</span> of <span class="text--primary">0</span> and <span class="text--primary">100</span> respectively. You may specify new values for those using the <span class="text--primary text-decoration--underline">min</span> and <span class="text--primary">max</span> props.
+            The <span class="text--primary">Range <code>&lt;Input /&gt;</code></span> component for ranges has a default minimum value of 0 and maximum value of 100. 
           </h3>
           <h3 class="text--regular">
-            By default, range inputs <span class="text--primary">"snap"</span> to <span class="text--primary">integer</span> values. To change this, you can specify a <span class="text--primary">step</span> value. In the example below, we double the number of steps by using <span class="text--primary">step="0.5"</span>.
+            These values can be adjusted using the <span class="text--primary">"min"</span> and <span class="text--primary">"max"</span> properties. 
+          </h3>
+          <h3 class="text--regular">
+            Additionally, range inputs will <span class="text--primary">snap</span> to integer values by default. To increase the level of precision, you can change this behavior by specifying a <span class="text--primary">step</span> value, for example <span class="text--primary">step="0.5"</span>
           </h3>
           
           <hr />
@@ -193,30 +216,79 @@ export default { name: "InputView", components: { Alert } }
         <div class="block-sec__footer">
           <HighCode class="code" :codeValue="inputRangeValue" theme="dark" lang="Vue" />
           <div class="p--4">
-            <Alert type="warning" icon class="rounded mb-0" message="Range inputs (as do all input types) return their value as a string. You may need to convert the value to a native number by using Number(value), parseInt(value, 10), parseFloat(value)." />
+            <Alert type="warning" icon class="rounded mb-0" message="Range inputs, like all input types, return their values as strings. To use the value in mathematical operations or as a number, it may be necessary to convert it to a native number format. This can be done using functions such as <code>Number(value)</code>, <code>parseInt(value, 10)</code>, or <code>parseFloat(value)</code>." />
           </div>
         </div>
       </section>
-      <section class="block-sec mb--4" id="contextual-states">
+
+      <!-- Input with Label -->
+      <section class="block-sec mb--4" id="input-with-label">
         <div class="block-sec__header">
-          <h2 class="text--white fs--h1 mb--4">Contextual States</h2>
-          <h3 class="text--regular">
-            <span class="text--primary">Range <code>&lt;Input /&gt;</code></span> have implicit values for <span class="text--primary">min</span> and <span class="text--primary">max</span> of <span class="text--primary">0</span> and <span class="text--primary">100</span> respectively. You may specify new values for those using the <span class="text--primary text-decoration--underline">min</span> and <span class="text--primary">max</span> props.
-          </h3>
-          <h3 class="text--regular">
-            By default, range inputs <span class="text--primary">"snap"</span> to <span class="text--primary">integer</span> values. To change this, you can specify a <span class="text--primary">step</span> value. In the example below, we double the number of steps by using <span class="text--primary">step="0.5"</span>.
-          </h3>
+          <h2 class="text--white fs--h1 mb--4">Input with Label</h2>
         </div>
         <div class="block-sec__body">
-          <Input v-model="rangeValue" :type="'range'" min="20" max="80" required validate />
+          <Input class="input-rounded" v-model="inputValueWithLabel" label="Input Label" />
           <h3>
-            <span class="text-light">Input Range Value:</span> <span class="text--primary text--bold">{{ rangeValue }}</span>
+            <span class="text-light">Input Value:</span> <span class="text--primary text--bold">{{ inputValueWithLabel }}</span>
           </h3>
         </div>
         <div class="block-sec__footer">
-          <HighCode class="code" :codeValue="inputRangeValue" theme="dark" lang="Vue" />
+          <HighCode class="code" :codeValue="inputValueWithLabelValue" theme="dark" lang="Vue" />
         </div>
       </section>
+
+      <!-- Contextual States -->
+      <section class="block-sec mb--4" id="contextual-states">
+        <div class="block-sec__header">
+          <h2 class="text--white fs--h1 mb--4">Contextual States</h2>
+          <h3>
+            Input includes validation styles for valid and invalid states on most form controls.
+          </h3>
+        </div>
+        <div class="block-sec__body">
+          <div class="input-types__container">
+              <div class="row">
+                <div class="col--4">
+                  <div class="input-types__label">
+                    <span class="flex-shrink--0">No State:</span>
+                    <span class="text--white">{{ inputValue_null }}</span>
+                  </div>
+                </div>
+                <div class="col--8">
+                  <div class="input-types__value">
+                    <Input class="input-rounded" v-model="inputValue_null" />
+                  </div>
+                </div>
+                <div class="col--4">
+                  <div class="input-types__label">
+                    <span class="flex-shrink--0">Validated:</span>
+                    <span class="text--white">{{ inputValue_validated }}</span>
+                  </div>
+                </div>
+                <div class="col--8">
+                  <div class="input-types__value">
+                    <Input class="input-rounded" v-model="inputValue_validated" validate required />
+                  </div>
+                </div>
+                <div class="col--4">
+                  <div class="input-types__label">
+                    <span class="flex-shrink--0">None Validated:</span>
+                    <span class="text--white">{{ inputValue_non_validated }}</span>
+                  </div>
+                </div>
+                <div class="col--8">
+                  <div class="input-types__value">
+                    <Input class="input-rounded" v-model="inputValue" />
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+        <div class="block-sec__footer">
+          <HighCode class="code" :codeValue="value" theme="dark" lang="Vue" />
+        </div>
+      </section>
+
       
 
     </div>

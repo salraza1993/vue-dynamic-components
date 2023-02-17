@@ -5,8 +5,9 @@
 		:class="[
 			`input-block__type--${props.type}`,
 			{ 
-				'input-block--error': error, 
-				'input-block--success': valid && validate && inputValue?.length > 0,
+				'input-block--error': errorClass, 
+				'input-block--success': successClass,
+				'input-block--disabled': props.disabled,
 			}
 		]">
 		<div class="input-block__label-container" v-if="label">
@@ -23,7 +24,11 @@
 				:class="[
 					`input-block__type--${props.type}`,
 					inputClass, 
-					{ 'input--error': error, 'input--success': valid }
+					{ 
+						'input--error': error && !props.disabled, 
+						'input--success': valid && !props.disabled,
+						'input-block--disabled': props.disabled,
+					}
 				]"
 				@blur="inputValidation(inputValue)"
 				v-model="inputValue"
@@ -48,7 +53,7 @@
 <script setup>
 import { ref, computed, onBeforeMount } from "vue";
 const props = defineProps({
-	modelValue: String,
+	modelValue: { type: String },
 	label: [String, Boolean ],
 	labelClass: [String],
 	inputClass: [String],
@@ -101,15 +106,15 @@ const labelComputedValue = computed(() => {
 	return props.label === true ? 'Block Label' : props.label
 })
 
+// ===============[ computed methods, Begin ]=============== //
 // computed Input Value
 const inputValue = computed({
 	get() {
-		return String(props.modelValue);
+		return props.modelValue === undefined ? '' : String(props.modelValue);
 	},
 	set(newValue) {
 		const value = String(newValue);
 		inputValidation(value);
-
 		if(props.capitalize || props.camelCase) {
 			return emit("update:modelValue", textFormating(value));
 		}
@@ -120,11 +125,14 @@ const inputValue = computed({
 	},
 });
 
-
 // Input range computed value
 const rangeComputedValue = computed(() => {	
 	return Math.floor(((inputValue.value - props?.min) / ((props?.max - props?.min) / 100)));
 })
+
+const successClass = computed(() => valid.value && props.validate && inputValue.value?.length > 0);
+const errorClass = computed(() => error.value && !props.disabled && !props.readonly);
+// ===============[ computed methods, End ]=============== //
 
 // input validation function
 const inputValidation = (value) => {
@@ -206,6 +214,8 @@ export default {
 	--input-hover-color: var(--black, #1C1C1C);
 	--input-focus-outline-color: rgba(var(--white-rgb), 0.15);
 	--input-focus-outline-width: 3px;
+
+	
 	
 	&__type {
 		&--color {
@@ -332,11 +342,11 @@ export default {
 			outline: none;
 			appearance: none;
 			transition: var(--transition);
-			&::placeholder {
-				color: var(--input-color);
-			}
-			&:not(:invalid, .input--error, .input--success):focus, 
-			&:not(:invalid, .input--error, .input--success):hover {
+
+			&::placeholder { color: var(--input-color); }
+			
+			&:not(:disabled, :invalid):focus, 
+			&:not(:disabled, :invalid):hover {
 				border-color: var(--input-border-hover-color);
 				background-color: var(--input-bg-hover-color);
 				color: var(--input-hover-color);
@@ -353,9 +363,10 @@ export default {
 		--input-color: var(--white);
 		--input-focus-outline-color: rgba(var(--danger-rgb), 0.15);
 		input {
-			&:focus, &:hover {
+			&:focus, 
+			&:hover {
 				box-shadow: 0 0 0 var(--input-focus-outline-width) var(--input-focus-outline-color);
-			}
+			}			
 		}
 	}
 	&--success {
@@ -364,10 +375,20 @@ export default {
 		--input-color: var(--white);
 		--input-focus-outline-color: rgba(var(--success-rgb), 0.15);
 		input {
-			&:focus, &:hover {
+			&:not(:disabled, :invalid):focus, 
+			&:not(:disabled, :invalid):hover {
+				border-color: var(--input-border-color);
+				background-color: var(--input-bg-color);
+				color: var(--input-color);
 				box-shadow: 0 0 0 var(--input-focus-outline-width) var(--input-focus-outline-color);
 			}
 		}
+	}
+	&--disabled {
+		--input-border-color: #363636;
+		--input-bg-color: #666666;
+		--input-color: #b6b6b6;
+		cursor: not-allowed;
 	}
 	&:is(&.rounded, &.input-rounded) {
 		input {

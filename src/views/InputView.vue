@@ -25,7 +25,9 @@
   const rangeValue = ref('');
   const inputValue_null = ref('');
   const inputValue_validated = ref('');
-  const inputValue_non_validated = ref('');
+  const inputValue_required = ref('');
+  const inputValue_disbaled = ref('This block is disabled');
+  const inputValue_readonly = ref('This block is for read-only');
   
 
   const inputTypesValues = `
@@ -237,6 +239,30 @@ export default { name: "InputView", components: { Alert } }
         </div>
       </section>
 
+      <!-- Input Style/Formate -->
+      <section class="block-sec mb--4" id="required-disable-readonly">
+        <div class="block-sec__header">
+          <h2 class="text--white fs--h1 mb--4">Disabled, Readonly &amp; Required</h2>
+        </div>
+        <div class="block-sec__body">
+          <div class="row">
+            <div class="col--4">
+              <Input class="input-rounded" v-model="inputValue_disbaled" label="Disabled" disabled />
+            </div>
+            <div class="col--4">
+              <Input class="input-rounded" v-model="inputValue_readonly" label="Readonly" readonly />
+            </div>
+            <div class="col--4">
+              <Input class="input-rounded" v-model="inputValue_required" label="Required" validate required />
+              <h3>{{ inputValue_required }}</h3>
+            </div>
+          </div>
+        </div>
+        <div class="block-sec__footer">
+          <HighCode class="code" :codeValue="inputValueWithLabelValue" theme="dark" lang="Vue" />
+        </div>
+      </section>
+
       <!-- Contextual States -->
       <section class="block-sec mb--4" id="contextual-states">
         <div class="block-sec__header">
@@ -261,24 +287,13 @@ export default { name: "InputView", components: { Alert } }
                 </div>
                 <div class="col--4">
                   <div class="input-types__label">
-                    <span class="flex-shrink--0">Validated:</span>
-                    <span class="text--white">{{ inputValue_validated }}</span>
+                    <span class="flex-shrink--0">Validated/Non-Validated:</span>
                   </div>
+                  <span class="text--white">{{ inputValue_validated }}</span>
                 </div>
                 <div class="col--8">
                   <div class="input-types__value">
                     <Input class="input-rounded" v-model="inputValue_validated" validate required />
-                  </div>
-                </div>
-                <div class="col--4">
-                  <div class="input-types__label">
-                    <span class="flex-shrink--0">None Validated:</span>
-                    <span class="text--white">{{ inputValue_non_validated }}</span>
-                  </div>
-                </div>
-                <div class="col--8">
-                  <div class="input-types__value">
-                    <Input class="input-rounded" v-model="inputValue" />
                   </div>
                 </div>
               </div>

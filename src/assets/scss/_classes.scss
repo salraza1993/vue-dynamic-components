@@ -7,6 +7,7 @@
     }
   }
 }
+
 .flex {
   $flexDirection: (column, column-reverse, row, row-reverse, initial, inherit, revert);
   @for $i from 1 to length($flexDirection) + 1 {
@@ -26,6 +27,8 @@
     &--0 { flex-basis: 0; }
     &--1 { flex-basis: 1; }
   }
+  &-wrap, &--wrap { flex-wrap: wrap !important; }
+  &-nowrap, &--nowrap { flex-wrap: nowrap !important; }
 }
 
 .fs, .font-size {
@@ -37,6 +40,16 @@
     font-size: clamp(1.25rem, 10vw, 1.75rem);
     line-height: clamp(1.5rem, 12vw, 2.25rem);
   }
+}
+
+.gap {
+  $gaps: '0', '0.25rem', '0.5rem', '0.75rem', '1rem', '1.5rem', '2rem', '2.5rem', '3rem';
+  $gapSizes: 0, 1, 2, 3, 4, 5, 6, 7, 8;
+  @for $i from 1 to length($gapSizes) + 1 {
+    &--#{nth($gapSizes, $i)} {
+      gap: #{nth($gaps, $i)} !important;
+    }    
+  }  
 }
 
 // =============================[ Justify Content ]============================= //
@@ -91,19 +104,24 @@
 .text {
   $types: (inherit, initial, capitalize, lowercase, uppercase, none, revert);
   &__transform, &-transform {
-    @for $i from 1 to length($types) + 1 {
-      &--#{nth($types, $i)} {
-        text-transform: nth($types, $i) !important;
+    @each $type in $types {
+      &--#{$type} {
+        text-transform: $type !important;
       }
     }
   }
 
-  $decoration: (inherit, initial, underline, line-through,);
+  $decorations: (inherit, initial, underline, line-through, none);
   &-decoration {
-    @for $i from 1 to length($decoration) + 1 {
-      &--#{nth($types, $i)} {
-        text-decoration: nth($decoration, $i) !important;
+    @each $decoration in $decorations {
+      &--#{$decoration} {
+        text-decoration: $decoration !important;
       }
+    }
+  }
+  &-hover {
+    @each $decoration in $decorations {
+      &--#{$decoration}:hover { text-decoration: $decoration !important; }
     }
   }
 
@@ -115,11 +133,16 @@
     }    
   }
   
-  $names: ('primary', 'secondary', 'white', 'black', 'dark', 'danger', 'success', 'warning');
-  $colors: (--primary, --secondary, --white, --black, --dark, --danger, --success, --warning);
+  $names: ('primary', 'secondary', 'white', 'black', 'dark', 'danger', 'success', 'warning', 'info');
+  $colors: (--primary, --secondary, --white, --black, --dark, --danger, --success, --warning, --info);
   @for $i from 1 to length($names) + 1 {
     &--#{nth($names, $i)} {
       color: var(nth($colors, $i)) !important;
+    }
+    &-hover--#{nth($names, $i)} {
+      &:hover {
+        color: var(nth($colors, $i)) !important;
+      }
     }
   }
   

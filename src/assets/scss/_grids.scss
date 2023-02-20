@@ -40,7 +40,33 @@ $colGutter: 2.5rem;
 
   @media (min-width: 1024px) {
     @for $i from 1 through $grid-cols {
-      &__lg--#{$i} {
+      &-md--#{$i} {
+        $colWidth: calc($i / $grid-cols * 100%);
+        width: $colWidth;
+        padding-left: calc(var(--gutter-x) * 0.5);
+        padding-right: calc(var(--gutter-x) * 0.5);
+        flex-shrink: 0;
+        flex-grow: 0;
+        flex-basis: auto;
+      }
+    }
+  }
+  @media (min-width: 1260px) {
+    @for $i from 1 through $grid-cols {
+      &-lg--#{$i} {
+        $colWidth: calc($i / $grid-cols * 100%);
+        width: $colWidth;
+        padding-left: calc(var(--gutter-x) * 0.5);
+        padding-right: calc(var(--gutter-x) * 0.5);
+        flex-shrink: 0;
+        flex-grow: 0;
+        flex-basis: auto;
+      }
+    }
+  }
+  @media (min-width: 1400px) {
+    @for $i from 1 through $grid-cols {
+      &-xl--#{$i} {
         $colWidth: calc($i / $grid-cols * 100%);
         width: $colWidth;
         padding-left: calc(var(--gutter-x) * 0.5);

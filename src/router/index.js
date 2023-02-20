@@ -34,6 +34,12 @@ const router = createRouter({
       meta: { layout: "aside" },
       component: () => import('@/views/InputView.vue')
     },
+    {
+      path: '/elements/button',
+      name: 'button',
+      meta: { layout: "aside" },
+      component: () => import('@/views/ButtonView.vue')
+    },
   ]
 })
 

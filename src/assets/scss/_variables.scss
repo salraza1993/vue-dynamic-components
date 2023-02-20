@@ -38,7 +38,7 @@
 
   --white-rgb: 255, 255, 255;
   --white: #e6e6e6;
-  --white-soft: #b4b4b4;
+  --white-soft: #cfcfcf;
   --white-mute: #f2f2f2;
 
   --danger: #d66666;
@@ -52,9 +52,9 @@
   
   --info: #17a2b8;
   --info-rgb: 255, 193, 7;
+  --transparent: transparent;
 
   --border-radius: .35rem;
-  --transition: all .3s ease-in;
 
   --aside-menu-link-color: #333333;
   --aside-menu-active-link-color: #ffffff;
@@ -85,7 +85,7 @@
   :root {
     --body-bg-color: var(--black);
     --color-heading: var(--white);
-    --color-text: rgba(var(--white-rgb), 0.6);
+    --color-text: rgba(var(--white-rgb), 0.75);
     --border-color: #393939;
     --hr-color: var(--border-color, #dddddd);
 

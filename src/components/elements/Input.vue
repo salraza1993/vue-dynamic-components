@@ -8,6 +8,7 @@
 				'input-block--error': errorClass, 
 				'input-block--success': successClass,
 				'input-block--disabled': props.disabled,
+				'input-block--plain': props.plain,
 			}
 		]">
 		<div class="input-block__label-container" v-if="label">
@@ -27,7 +28,8 @@
 					{ 
 						'input--error': error && !props.disabled, 
 						'input--success': valid && !props.disabled,
-						'input-block--disabled': props.disabled,
+						'input--disabled': props.disabled,
+						'input--plain': props.plain,
 					}
 				]"
 				@blur="inputValidation(inputValue)"
@@ -37,7 +39,7 @@
 				:type="props.type || 'text'"
 				:placeholder="props.placeholder || 'Enter something...'"
 				:disabled="props.disabled"
-				:readonly="props.readonly"
+				:readonly="props.readonly || props.plain"
 				:required="props.required"
 				:step="props.step"
 				:minlength="props.minlength"
@@ -69,6 +71,7 @@ const props = defineProps({
 	minlength: { types: [String, Number] },
 	maxlength: { types: [String, Number] },
 	required: Boolean,
+	plain: Boolean,
 	readonly: Boolean,
 	plainText: Boolean,
 	disabled: Boolean,
@@ -76,6 +79,7 @@ const props = defineProps({
 	validate: {type: Boolean, default: false},
 	
 	// ======== [ styling ] ======== //
+	lowercase: { type: Boolean, default: false },
 	capitalize: { type: Boolean, default: false },
 	camelCase: { type: Boolean, default: false },
 	uppercase: { type: Boolean, default: false },
@@ -116,7 +120,10 @@ const inputValue = computed({
 		const value = String(newValue);
 		inputValidation(value);
 		if(props.capitalize || props.camelCase) {
-			return emit("update:modelValue", textFormating(value));
+			return emit("update:modelValue", textFormating(value, 'capitalize'));
+		}
+		if(props.lowercase) {
+			return emit("update:modelValue", textFormating(value, 'lowercase'));
 		}
 		if(props.uppercase) {
 			return emit("update:modelValue", textFormating(value, 'uppercase'));
@@ -179,10 +186,14 @@ const inputValidation = (value) => {
 }
 
 const textFormating = (values, formate) => {
-	if(formate === 'uppercase') {
-		return values.toUpperCase();
+	if(values.length > 0) {
+		if(formate === 'uppercase') {
+			return values.toUpperCase();
+		} else if(formate === 'capitalize' || formate === 'camelcase') {
+			return values.split(' ').map(letter => letter[0].toUpperCase() + letter.substring(1).toLowerCase()).join(' ');
+		}
+		return values.toLowerCase();			
 	}
-	return values.split(' ').map(letter => letter[0].toUpperCase() + letter.substring(1).toLowerCase()).join(' ');
 }
 
 // https://www.youtube.com/watch?v=BdZFZO_mQXU&list=PLbGui_ZYuhih5ItBhn2cTncaS24_Kgeui&index=22&ab_channel=GeekyShows
@@ -201,8 +212,12 @@ export default {
 	--input-padding-y: 0.5rem;
 	--input-padding-x: 0.85rem;
 	--input-margin-bottom: 1rem;
+
+	--input-border-width: 1px;
+	--input-border-style: solid;
 	--input-border-radius: var(--border-radius, 0.35rem);
 	--input-border-color: var(--border-color, #a0aba6);
+
 	--input-bg-color: var(--white, #ffffff);
 	--input-color: var(--dark, #252525);
 	--input-label: var(--white, #ffffff);
@@ -215,7 +230,13 @@ export default {
 	--input-focus-outline-color: rgba(var(--white-rgb), 0.15);
 	--input-focus-outline-width: 3px;
 
-	
+	&--plain {
+		--input-padding-y: 0;
+		--input-padding-x: 0;
+		--input-border-width: 0;
+		--input-bg-color: transparent;
+		--input-color: var(--white, #ffffff);
+	}
 	
 	&__type {
 		&--color {
@@ -336,7 +357,7 @@ export default {
 			font-family: var(--input-font-family);
 			padding-block: var(--input-padding-y);
 			padding-inline: var(--input-padding-x);
-			border: 1px solid var(--input-border-color);
+			border: var(--input-border-width) var(--input-border-style) var(--input-border-color);
 			background-color: var(--input-bg-color);
 			color: var(--input-color);
 			outline: none;
@@ -345,17 +366,17 @@ export default {
 
 			&::placeholder { color: var(--input-color); }
 			
-			&:not(:disabled, :invalid):focus, 
-			&:not(:disabled, :invalid):hover {
+			&:not(:disabled, :invalid, .input--error, .input--success, .input--plain):focus, 
+			&:not(:disabled, :invalid, .input--error, .input--success, .input--plain):hover,
+			&:is(:required):not(.input--error, .input--success):focus, 
+			&:is(:required):not(.input--error, .input--success):hover {
 				border-color: var(--input-border-hover-color);
 				background-color: var(--input-bg-hover-color);
 				color: var(--input-hover-color);
 				box-shadow: 0 0 0 var(--input-focus-outline-width) var(--input-focus-outline-color);
 			}
 		}
-		.error-message {
-			display: inline-block;
-		}
+		.error-message { display: inline-block; }
 	}
 	&--error {
 		--input-border-color: var(--danger);
@@ -363,8 +384,7 @@ export default {
 		--input-color: var(--white);
 		--input-focus-outline-color: rgba(var(--danger-rgb), 0.15);
 		input {
-			&:focus, 
-			&:hover {
+			&:focus, &:hover {
 				box-shadow: 0 0 0 var(--input-focus-outline-width) var(--input-focus-outline-color);
 			}			
 		}

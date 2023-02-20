@@ -2,6 +2,7 @@
   import { ref } from "vue";
   // language
   import Input from "../components/elements/Input.vue";
+  import Button from "../components/elements/Button.vue";
   import PageAsideLinks from "../components/PageAsideLinks.vue";
 
   import { HighCode } from 'vue-highlight-code';
@@ -26,8 +27,12 @@
   const inputValue_null = ref('');
   const inputValue_validated = ref('');
   const inputValue_required = ref('');
-  const inputValue_disbaled = ref('This block is disabled');
-  const inputValue_readonly = ref('This block is for read-only');
+  const inputValue_disbaled = ref('This field is disabled');
+  const inputValue_readonly = ref('This field is for read-only');
+  const inputValue_readonly_plaintext = ref('This field is for plain text with read-only');
+  const inputValue_capitalize = ref('');
+  const inputValue_uppercase = ref('');
+  const inputValue_lowercase = ref('');
   
 
   const inputTypesValues = `
@@ -102,6 +107,8 @@
     { path: '#readonly-plain-text', name: 'Readonly plain text' },
     { path: '#input-style-formate', name: 'Input Style (Formatter)' },
     { path: '#contextual-states', name: 'Contextual states' },
+    { path: '#component-reference', name: 'Component reference' },
+    { path: '#download', name: 'Download' },
   ];
 
   const inputTypes = [
@@ -119,9 +126,10 @@
   ];
 
   // https://coreui.io/vue/docs/forms/date-picker.html
+  
 </script>
 <script>
-export default { name: "InputView", components: { Alert } }
+export default { name: "InputView" }
 </script>
 
 <template>
@@ -239,22 +247,61 @@ export default { name: "InputView", components: { Alert } }
         </div>
       </section>
 
-      <!-- Input Style/Formate -->
+      <!-- Input Required/Disabled/Readonly -->
       <section class="block-sec mb--4" id="required-disable-readonly">
         <div class="block-sec__header">
           <h2 class="text--white fs--h1 mb--4">Disabled, Readonly &amp; Required</h2>
         </div>
         <div class="block-sec__body">
           <div class="row">
-            <div class="col--4">
+            <div class="col--12 col-lg--6 col-xl--4">
               <Input class="input-rounded" v-model="inputValue_disbaled" label="Disabled" disabled />
             </div>
-            <div class="col--4">
+            <div class="col--12 col-lg--6 col-xl--4">
               <Input class="input-rounded" v-model="inputValue_readonly" label="Readonly" readonly />
             </div>
-            <div class="col--4">
+            <div class="col--12 col-lg--6 col-xl--4">
               <Input class="input-rounded" v-model="inputValue_required" label="Required" validate required />
               <h3>{{ inputValue_required }}</h3>
+            </div>
+          </div>
+        </div>
+        <div class="block-sec__footer">
+          <HighCode class="code" :codeValue="inputValueWithLabelValue" theme="dark" lang="Vue" />
+        </div>
+      </section>
+
+      <!-- Plain text with label  -->
+      <section class="block-sec mb--4" id="readonly-plain-text">
+        <div class="block-sec__header">
+          <h2 class="text--white fs--h1 mb--4">Plain text with label</h2>
+        </div>
+        <div class="block-sec__body">
+          <Input class="input-rounded" v-model="inputValue_readonly_plaintext" label="Plain Text" readonly plain />
+        </div>
+        <div class="block-sec__footer">
+          <HighCode class="code" :codeValue="inputValueWithLabelValue" theme="dark" lang="Vue" />
+        </div>
+      </section>
+
+      <!-- Input Styling (Capitalize/Uppercase/lowercase) -->
+      <section class="block-sec mb--4" id="input-style-formate">
+        <div class="block-sec__header">
+          <h2 class="text--white fs--h1 mb--4">Styling (Formatter)</h2>
+        </div>
+        <div class="block-sec__body">
+          <div class="row">
+            <div class="col--12 col-lg--6 col-xl--4">
+              <Input class="input-rounded" v-model="inputValue_lowercase" label="Lowercase" lowercase />
+              <h3 v-if="inputValue_lowercase" class="text--success">{{ inputValue_lowercase }}</h3>
+            </div>
+            <div class="col--12 col-lg--6 col-xl--4">
+              <Input class="input-rounded" v-model="inputValue_capitalize" label="Capitalize / Camelcase" capitalize />
+              <h3 v-if="inputValue_capitalize" class="text--success">{{ inputValue_capitalize }}</h3>
+            </div>
+            <div class="col--12 col-lg--6 col-xl--4">
+              <Input class="input-rounded" v-model="inputValue_uppercase" label="Uppercase" uppercase />
+              <h3 v-if="inputValue_uppercase" class="text--success">{{ inputValue_uppercase }}</h3>
             </div>
           </div>
         </div>
@@ -274,24 +321,24 @@ export default { name: "InputView", components: { Alert } }
         <div class="block-sec__body">
           <div class="input-types__container">
               <div class="row">
-                <div class="col--4">
+                <div class="col--12 col-lg--5 col-xl--4">
                   <div class="input-types__label">
                     <span class="flex-shrink--0">No State:</span>
-                    <span class="text--white">{{ inputValue_null }}</span>
                   </div>
+                  <span class="text--white">{{ inputValue_null }}</span>
                 </div>
-                <div class="col--8">
+                <div class="col--12 col-lg--7 col-xl--8">
                   <div class="input-types__value">
                     <Input class="input-rounded" v-model="inputValue_null" />
                   </div>
                 </div>
-                <div class="col--4">
+                <div class="col--12 col-lg--5 col-xl--4">
                   <div class="input-types__label">
                     <span class="flex-shrink--0">Validated/Non-Validated:</span>
                   </div>
                   <span class="text--white">{{ inputValue_validated }}</span>
                 </div>
-                <div class="col--8">
+                <div class="col--12 col-lg--7 col-xl--8">
                   <div class="input-types__value">
                     <Input class="input-rounded" v-model="inputValue_validated" validate required />
                   </div>
@@ -302,9 +349,28 @@ export default { name: "InputView", components: { Alert } }
         <div class="block-sec__footer">
           <HighCode class="code" :codeValue="value" theme="dark" lang="Vue" />
         </div>
+      </section>   
+
+      <!-- Component Reference -->
+      <section class="block-sec mb--4" id="component-reference">
+        <div class="block-sec__header">
+          <h2 class="text--white fs--h1 mb--4">Component Reference</h2>
+        </div>
+        <div class="block-sec__body"></div>
       </section>
 
-      
+      <!-- Download Component -->
+      <section class="block-sec mb--4" id="download">
+        <div class="block-sec__header">
+          <h2 class="text--white fs--h1 mb--4">Download Component</h2>
+        </div>
+        <div class="block-sec__body">
+          <div class="input-types__container">
+            <Button variant="primary" rounded size="large" type="button" label="Download Component" iconClass="fa-download" icon iconDirection="end" />
+          </div>
+        </div>
+        <div class="block-sec__footer"></div>
+      </section>   
 
     </div>
     <div class="inner-page__aside">

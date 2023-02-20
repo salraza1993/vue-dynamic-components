@@ -16,7 +16,6 @@
   const activeToggle = (item) => {
     item === selectedItem.value ? (toggleState.value = !toggleState.value) : (toggleState.value = true);
     selectedItem.value = item;
-    console.log(selectedItem.value);
   }
 </script>
 
@@ -24,7 +23,7 @@
   export default { name: "PageAsideLinks" }
 </script>
 <template>
-  <h3>One this Page</h3>
+  <a href="#" class="text--white text-decoration--none text-hover--primary text-hover--underline"><strong>One this Page</strong></a>
   <hr />
   <ul class="aside__links">
     <li v-for="(item, index) in props.links" :key="index">

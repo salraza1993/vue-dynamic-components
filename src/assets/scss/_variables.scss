@@ -53,6 +53,7 @@
   --info: #17a2b8;
   --info-rgb: 255, 193, 7;
   --transparent: transparent;
+  --link-color: #42b883;
 
   --border-radius: .35rem;
 
@@ -79,6 +80,7 @@
   --code-header-color: var(--border-color);
 
   --element-margin-bottom: 1rem;
+  --font-code: 'Courier Prime', monospace;
 }
 
 @media (prefers-color-scheme: dark) {

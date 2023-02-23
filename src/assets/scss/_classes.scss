@@ -100,6 +100,10 @@
   }  
 }
 
+.ff {
+  &--code { font-family: var(--font-code) !important;}
+}
+
 
 .text {
   $types: (inherit, initial, capitalize, lowercase, uppercase, none, revert);

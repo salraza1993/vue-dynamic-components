@@ -335,7 +335,7 @@ export default {
 							background: var(--input-thumb-color);
 						}
 					}
-					&--error {}
+					// &--error {}
 				}
 			}
 		}

@@ -171,15 +171,15 @@
   
 </script>
 <script>
-export default { name: "ButtonView", components: { ElementInCodeFormate } }
+export default { name: "TableView", components: { ElementInCodeFormate } }
 </script>
 
 <template>
   <div class="inner-page__wrapper">
     <div class="inner-page__main">
-      <h1>Vue Button</h1>
+      <h1>Vue Table</h1>
       <h2 class="text--light">
-        Use custom <ElementInCodeFormate label="Button /" class="text--primary fw--bold" /> 
+        Use custom <ElementInCodeFormate label="Table /" class="text--primary fw--bold" /> 
         component for <span class="text--primary">actions in forms, dialogs, and more</span>. 
         <br />
         Includes support for a handful of <span class="text--warning">contextual variations, sizes, states, and more.</span>
@@ -238,15 +238,6 @@ export default { name: "ButtonView", components: { ElementInCodeFormate } }
         <div class="block-sec__header ">
           <h2 class="text--white fs--h1 mb--4">Button With Icon</h2>
           <h3 class="fw--regular">You may have <ElementInCodeFormate label="Button /" class="text--primary fw--bold" /> with an icon.</h3>
-          <Alert class="rounded" varient="danger" icon>
-            <i class="fa-solid fa-info-circle"></i>
-            <span>
-              Note: For adding your custom icon, you need pass font-awesome class through <strong>iconClass</strong> as a prop. 
-              <br />
-              E.g.: <span class="fw--bold">iconClass="fa-home"</span>
-            </span>
-            
-          </Alert>
         </div>
         <hr class="my--4" />
         <div class="block-sec__body pb--4">
@@ -299,7 +290,7 @@ export default { name: "ButtonView", components: { ElementInCodeFormate } }
           <h3 class="mb--2 fw--regular">Use the variant prop to generate the various contextual button variants.</h3>
           <h3 class="mb--2 fw--regular">By default <span class="text--primary"><code>&lt;Button&gt;</code></span> will render with the white variant.</h3>
           <h2 class="text--warning mb--1 flex-shrink--0 mb--2 mt--4">Solid color variants</h2>
-          <Alert class="rounded" varient="warning" icon message="primary, secondary, success, danger, warning, info, white, light, black, and dark." />
+          <Alert class="rounded" type="warning" icon message="primary, secondary, success, danger, warning, info, white, light, black, and dark." />
         </div>
         <hr class="my--4" />
         <div class="block-sec__body pb--4" id="variant-solid-color">
@@ -320,7 +311,7 @@ export default { name: "ButtonView", components: { ElementInCodeFormate } }
           <HighCode class="code" :codeValue="buttonVarientSolid" theme="dark" lang="Vue" />
           <div class="px--4 py--2" id="variants-outline-color">
             <h2 class="text--warning mb--1 flex-shrink--0 mb--2 mt--4">Outline color variants</h2>
-            <Alert class="rounded" varient="warning" icon message="primary-outline, secondary-outline, success-outline, danger-outline, warning-outline, info-outline, white-outline, light-outline, black-outline, and dark.." />
+            <Alert class="rounded" type="warning" icon message="primary-outline, secondary-outline, success-outline, danger-outline, warning-outline, info-outline, white-outline, light-outline, black-outline, and dark.." />
             <hr />
             <div class="d--flex align-items-center flex--wrap gap--2 pb--3">
               <Button label="Primary" variant="primary-outline" />
@@ -346,7 +337,7 @@ export default { name: "ButtonView", components: { ElementInCodeFormate } }
           <h3 class="fw--regular">
             <span class="text--primary">Variant link</span> will render a button with the appearance of a link while maintaining the default padding and size of a button.
           </h3>
-          <Alert class="rounded" varient="success" icon message="link-primary, link-secondary, link-success, link-danger, link-warning, link-info, link-white, link-light, link-black, and link-dark..." />
+          <Alert class="rounded" type="success" icon message="link-primary, link-secondary, link-success, link-danger, link-warning, link-info, link-white, link-light, link-black, and link-dark..." />
         </div>
         <hr class="my--4" />
         <div class="block-sec__body pb--4">

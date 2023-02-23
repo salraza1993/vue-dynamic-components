@@ -8,32 +8,34 @@
   import { HighCode } from 'vue-highlight-code';
   import 'vue-highlight-code/dist/style.css';
   import Alert from "../components/elements/Alert.vue";
+import ElementInCodeFormate from "../components/ElementInCodeFormate.vue";
+
+  // References
+  const inputValue = ref('');
+  const inputValueWithLabel = ref('');
+  const rangeValue = ref('');
+  const input_null = ref('');
+  const input_validated = ref('');
+  const inputValue_required = ref('');
+  const inputValue_disbaled = ref('This field is disabled');
+  const inputValue_readonly = ref('This field is for read-only');
+  const input_plain = ref('This field is for plain text with read-only');
+  const input_capitalize = ref('');
+  const input_uppercase = ref('');
+  const input_lowercase = ref('');
   
+
   // Basic Input Value
   const value = `
   // script
   import { ref } from "vue";
   import Input from "@/components/Input.vue";
-  const inputValue = ref('Hello'); 
+  const inputValue = ref(''); 
   
   <template>
     <Input v-model="inputValue" />
-    <h3>Input Value: {{ inputValue }} </h3>
+    <h3>Input Value (Two way binding): {{ inputValue }} </h3>
   </template>`
-
-  const inputValue = ref('');
-  const inputValueWithLabel = ref('');
-  const rangeValue = ref('');
-  const inputValue_null = ref('');
-  const inputValue_validated = ref('');
-  const inputValue_required = ref('');
-  const inputValue_disbaled = ref('This field is disabled');
-  const inputValue_readonly = ref('This field is for read-only');
-  const inputValue_readonly_plaintext = ref('This field is for plain text with read-only');
-  const inputValue_capitalize = ref('');
-  const inputValue_uppercase = ref('');
-  const inputValue_lowercase = ref('');
-  
 
   const inputTypesValues = `
   // script
@@ -66,7 +68,18 @@
         </div>
         <div class="col--8">
           <div class="input-types__value">
-            <Input v-model="item.value.value" :type="item.type" />
+            <Input 
+              class="input-rounded"
+              v-model="item.value.value" 
+              :type="item.type" 
+              :required="item.required"
+              :validate="item.validate"
+              :step="item.step" 
+              :min="item.min" 
+              :max="item.max" 
+              :minlength="item.minlength" 
+              :maxlength="item.maxlength"
+            />
           </div>
         </div>
       </div>
@@ -93,7 +106,105 @@
   
   <template>
     <Input class="input-rounded" v-model="inputValueWithLabel" label="Input Label" />
-    <h3>Input Value: {{ inputValueWithLabel }} </h3>
+    <h3>
+      <span class="text-light">Input Value:</span> 
+      <span class="text--primary text--bold">{{ inputValueWithLabel }}</span>
+    </h3>
+  </template>
+  `;
+  const requiredDisabledValues = `
+  // script
+  import { ref } from "vue";
+  import Input from "@/components/Input.vue";
+  const inputValueWithLabel = ref('');
+  
+  <template>
+    <div class="row">
+      <div class="col--12 col-lg--6 col-xl--4">
+        <Input class="input-rounded" v-model="inputValue_disbaled" label="Disabled" disabled />
+      </div>
+      <div class="col--12 col-lg--6 col-xl--4">
+        <Input class="input-rounded" v-model="inputValue_readonly" label="Readonly" readonly />
+      </div>
+      <div class="col--12 col-lg--6 col-xl--4">
+        <Input class="input-rounded" v-model="inputValue_required" label="Required" validate required />
+        <h3>{{ inputValue_required }}</h3>
+      </div>
+    </div>
+  </template>
+  `;
+  
+  const inputPlainValues = `
+  // script
+  import { ref } from "vue";
+  import Input from "@/components/Input.vue";
+  const inputValueWithLabel = ref('');
+  
+  <template>
+    <div class="row">
+      <Input class="input-rounded" v-model="input_plain" label="Plain Text" plain />
+    </div>
+  </template>
+  `;
+
+  const inputStylesValues = `
+  // script
+  import { ref } from "vue";
+  import Input from "@/components/Input.vue";
+  const input_capitalize = ref('');
+  const input_uppercase = ref('');
+  const input_lowercase = ref('');
+  
+  <template>
+    <div class="row">
+      <div class="col--12 col-lg--6 col-xl--4">
+        <Input class="input-rounded" v-model="input_lowercase" label="Lowercase" lowercase />
+        <h3 v-if="input_lowercase" class="text--success">{{ input_lowercase }}</h3>
+      </div>
+      <div class="col--12 col-lg--6 col-xl--4">
+        <Input class="input-rounded" v-model="input_capitalize" label="Capitalize / Camelcase" capitalize />
+        <h3 v-if="input_capitalize" class="text--success">{{ input_capitalize }}</h3>
+      </div>
+      <div class="col--12 col-lg--6 col-xl--4">
+        <Input class="input-rounded" v-model="input_uppercase" label="Uppercase" uppercase />
+        <h3 v-if="input_uppercase" class="text--success">{{ input_uppercase }}</h3>
+      </div>
+    </div>
+  </template>
+  `;
+  
+  const contaxtualStateValues = `
+  // script
+  import { ref } from "vue";
+  import Input from "@/components/Input.vue";
+  const input_null = ref('');
+  const input_validated = ref('');
+  
+  <template>
+    <div class="row">
+      <div class="col--12 col-lg--5 col-xl--4">
+        <div class="input-types__label">
+          <span class="flex-shrink--0">No State:</span>
+        </div>
+        <span class="text--white">{{ input_null }}</span>
+      </div>
+      <div class="col--12 col-lg--7 col-xl--8">
+        <div class="input-types__value">
+          <Input class="input-rounded" v-model="input_null" />
+        </div>
+      </div>
+      <div class="col--12 col-lg--5 col-xl--4">
+        <div class="input-types__label">
+          <span class="flex-shrink--0">Validated/Non-Validated:</span>
+        </div>
+        <span class="text--white">{{ input_validated }}</span>
+      </div>
+      <div class="col--12 col-lg--7 col-xl--8">
+        <div class="input-types__value">
+          <Input class="input-rounded" v-model="input_validated" validate required />
+        </div>
+      </div>
+    </div>
   </template>
   `;
   
@@ -129,7 +240,7 @@
   
 </script>
 <script>
-export default { name: "InputView" }
+export default { name: "InputView", components: { ElementInCodeFormate } }
 </script>
 
 <template>
@@ -137,7 +248,7 @@ export default { name: "InputView" }
     <div class="inner-page__main">
       <h1>Vue Form Input</h1>
       <h2 class="text--light">
-        Elevate your <code>&lt;input&gt;</code> elements with custom styling, adjustable sizing, enhanced focus states, validation and more using our Vue 3 <code>&lt;input&gt;</code> components. Create a variety of input types, such as text, password, number, URL, email, search, range, date and more, for a dynamic user experience.
+        Elevate your <ElementInCodeFormate label="Input /" class="text--primary fw--bold" /> elements with custom styling, adjustable sizing, enhanced focus states, validation and more using our Vue 3 <ElementInCodeFormate label="Input /" class="text--primary fw--bold" /> components. Create a variety of input types, such as text, password, number, URL, email, search, range, date and more, for a dynamic user experience.
         <br />
       </h2>
       <br />
@@ -213,8 +324,7 @@ export default { name: "InputView" }
           </h3>
           <h3 class="text--regular">
             Additionally, range inputs will <span class="text--primary">snap</span> to integer values by default. To increase the level of precision, you can change this behavior by specifying a <span class="text--primary">step</span> value, for example <span class="text--primary">step="0.5"</span>
-          </h3>
-          
+          </h3>          
           <hr />
         </div>
         <div class="block-sec__body">
@@ -226,7 +336,9 @@ export default { name: "InputView" }
         <div class="block-sec__footer">
           <HighCode class="code" :codeValue="inputRangeValue" theme="dark" lang="Vue" />
           <div class="p--4">
-            <Alert type="warning" icon class="rounded mb-0" message="Range inputs, like all input types, return their values as strings. To use the value in mathematical operations or as a number, it may be necessary to convert it to a native number format. This can be done using functions such as <code>Number(value)</code>, <code>parseInt(value, 10)</code>, or <code>parseFloat(value)</code>." />
+            <Alert varient="warning" icon class="rounded mb-0">
+              <strong>Note:</strong> Range inputs, like all input types, return their values as strings. To use the value in mathematical operations or as a number, it may be necessary to convert it to a native number format. This can be done using functions such as <code>Number(value)</code>, <code>parseInt(value, 10)</code>, or <code>parseFloat(value)</code>.
+            </Alert>
           </div>
         </div>
       </section>
@@ -267,7 +379,7 @@ export default { name: "InputView" }
           </div>
         </div>
         <div class="block-sec__footer">
-          <HighCode class="code" :codeValue="inputValueWithLabelValue" theme="dark" lang="Vue" />
+          <HighCode class="code" :codeValue="requiredDisabledValues" theme="dark" lang="Vue" />
         </div>
       </section>
 
@@ -277,10 +389,10 @@ export default { name: "InputView" }
           <h2 class="text--white fs--h1 mb--4">Plain text with label</h2>
         </div>
         <div class="block-sec__body">
-          <Input class="input-rounded" v-model="inputValue_readonly_plaintext" label="Plain Text" readonly plain />
+          <Input class="input-rounded" v-model="input_plain" label="Plain Text" plain />
         </div>
         <div class="block-sec__footer">
-          <HighCode class="code" :codeValue="inputValueWithLabelValue" theme="dark" lang="Vue" />
+          <HighCode class="code" :codeValue="inputPlainValues" theme="dark" lang="Vue" />
         </div>
       </section>
 
@@ -292,21 +404,21 @@ export default { name: "InputView" }
         <div class="block-sec__body">
           <div class="row">
             <div class="col--12 col-lg--6 col-xl--4">
-              <Input class="input-rounded" v-model="inputValue_lowercase" label="Lowercase" lowercase />
-              <h3 v-if="inputValue_lowercase" class="text--success">{{ inputValue_lowercase }}</h3>
+              <Input class="input-rounded" v-model="input_lowercase" label="Lowercase" lowercase />
+              <h3 v-if="input_lowercase" class="text--success">{{ input_lowercase }}</h3>
             </div>
             <div class="col--12 col-lg--6 col-xl--4">
-              <Input class="input-rounded" v-model="inputValue_capitalize" label="Capitalize / Camelcase" capitalize />
-              <h3 v-if="inputValue_capitalize" class="text--success">{{ inputValue_capitalize }}</h3>
+              <Input class="input-rounded" v-model="input_capitalize" label="Capitalize / Camelcase" capitalize />
+              <h3 v-if="input_capitalize" class="text--success">{{ input_capitalize }}</h3>
             </div>
             <div class="col--12 col-lg--6 col-xl--4">
-              <Input class="input-rounded" v-model="inputValue_uppercase" label="Uppercase" uppercase />
-              <h3 v-if="inputValue_uppercase" class="text--success">{{ inputValue_uppercase }}</h3>
+              <Input class="input-rounded" v-model="input_uppercase" label="Uppercase" uppercase />
+              <h3 v-if="input_uppercase" class="text--success">{{ input_uppercase }}</h3>
             </div>
           </div>
         </div>
         <div class="block-sec__footer">
-          <HighCode class="code" :codeValue="inputValueWithLabelValue" theme="dark" lang="Vue" />
+          <HighCode class="code" :codeValue="inputStylesValues" theme="dark" lang="Vue" />
         </div>
       </section>
 
@@ -325,29 +437,29 @@ export default { name: "InputView" }
                   <div class="input-types__label">
                     <span class="flex-shrink--0">No State:</span>
                   </div>
-                  <span class="text--white">{{ inputValue_null }}</span>
+                  <span class="text--white">{{ input_null }}</span>
                 </div>
                 <div class="col--12 col-lg--7 col-xl--8">
                   <div class="input-types__value">
-                    <Input class="input-rounded" v-model="inputValue_null" />
+                    <Input class="input-rounded" v-model="input_null" />
                   </div>
                 </div>
                 <div class="col--12 col-lg--5 col-xl--4">
                   <div class="input-types__label">
                     <span class="flex-shrink--0">Validated/Non-Validated:</span>
                   </div>
-                  <span class="text--white">{{ inputValue_validated }}</span>
+                  <span class="text--white">{{ input_validated }}</span>
                 </div>
                 <div class="col--12 col-lg--7 col-xl--8">
                   <div class="input-types__value">
-                    <Input class="input-rounded" v-model="inputValue_validated" validate required />
+                    <Input class="input-rounded" v-model="input_validated" validate required />
                   </div>
                 </div>
               </div>
           </div>
         </div>
         <div class="block-sec__footer">
-          <HighCode class="code" :codeValue="value" theme="dark" lang="Vue" />
+          <HighCode class="code" :codeValue="contaxtualStateValues" theme="dark" lang="Vue" />
         </div>
       </section>   
 
@@ -360,17 +472,12 @@ export default { name: "InputView" }
       </section>
 
       <!-- Download Component -->
-      <section class="block-sec mb--4" id="download">
-        <div class="block-sec__header">
-          <h2 class="text--white fs--h1 mb--4">Download Component</h2>
+      <!-- Download Component -->
+      <section class="block-sec mb--4 py--4" id="download">
+        <div class="block-sec__body pb--0 d--flex justify-content--center">
+          <Button variant="primary" rounded size="large" type="button" label="Download Component" iconClass="fa-download" icon iconDirection="end" />
         </div>
-        <div class="block-sec__body">
-          <div class="input-types__container">
-            <Button variant="primary" rounded size="large" type="button" label="Download Component" iconClass="fa-download" icon iconDirection="end" />
-          </div>
-        </div>
-        <div class="block-sec__footer"></div>
-      </section>   
+      </section>  
 
     </div>
     <div class="inner-page__aside">
@@ -379,27 +486,4 @@ export default { name: "InputView" }
   </div>
 
 </template>
-<style lang="scss">
-  .inner-page {
-    &__wrapper {
-      position: relative;
-      display: flex;
-      gap: calc(1rem + 1vw);
-      height: 100%;
-    }
-    &__main {
-      position: relative;
-      width: 100%;
-    }
-    &__aside {
-      flex-shrink: 0;
-      width: 100%;
-      max-width: 300px;
-      padding-left: calc(1rem + 1vw);
-      border-left: 1px solid var(--border-color);
-      position: sticky;
-      top: 5vh;
-      max-height: 90vh;
-    }
-  }
-</style>
+<style lang="scss"></style>

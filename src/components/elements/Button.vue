@@ -7,12 +7,15 @@
       :class="[
         {
           'flex--row-reverse': (iconDirection === 'end'),
-          'rounded': rounded,
+          'squired': squired,
           'shadow': shadow,
           'bordered': bordered,
+          'disabled': disabled,
+          'full-width': block,
         }, 
         buttonSizes, buttonVariants
       ]"
+      :disabled="disabled"
       class="button">
       <i v-if="label && icon" class="fa-solid" :class="[iconClass]"></i>
       <span v-if="label">{{ label }}</span>
@@ -27,13 +30,16 @@
       :class="[
         {
           'flex--row-reverse': (iconDirection === 'end'),
-          'rounded': rounded,
+          'squired': squired,
           'shadow': shadow,
           'bordered': bordered,
+          'disabled': disabled,
+          'full-width': block,
         }, 
         buttonSizes, buttonVariants
       ]"
       class="button" 
+      :disabled="disabled"
       target="_blank">
       <i v-if="label && icon" class="fa-solid" :class="[iconClass]"></i>
       <span v-if="label">{{ label }}</span>
@@ -48,12 +54,15 @@
       :class="[
         {
           'flex--row-reverse': (iconDirection === 'end'),
-          'rounded': rounded,
+          'squired': squired,
           'shadow': shadow,
           'bordered': bordered,
+          'disabled': disabled,
+          'full-width': block,
         }, 
         buttonSizes, buttonVariants
       ]"
+      :disabled="disabled"
       class="button">
       <i v-if="label && icon" class="fa-solid" :class="[iconClass]"></i>
       <span v-if="label">{{ label }}</span>
@@ -72,12 +81,14 @@
     label: { type: String },
     path: { type: String, default: () => '#' },
     icon: { type: Boolean, default: () => false },
-    iconClass: { type: String, default: () => 'fa-angle-left'},
+    iconClass: { type: String, default: () => 'fa-info-circle' },
     iconDirection: { type: String, default: () => 'start'},
     size: { type: String },
-    rounded: Boolean,
+    squired: Boolean,
     shadow: Boolean,
     bordered: Boolean,
+    disabled: Boolean,
+    block: Boolean,
     variant: { type: String, default: () => 'button--white' },
   });
   
@@ -101,7 +112,7 @@
       case 'white': return 'button--white';
       case 'dark': return 'button--dark';
       case 'black': return 'button--black';
-
+      
       case 'primary--outline': return 'button--primary-outline';
       case 'primary-outline': return 'button--primary-outline';
       case 'secondary--outline': return 'button--secondary-outline';
@@ -122,6 +133,19 @@
       case 'dark-outline': return 'button--dark-outline';
       case 'black--outline': return 'button--black-outline';
       case 'black-outline': return 'button--black-outline';
+
+      case 'link': return 'button--link';
+      case 'link-primary': return 'button--link-primary';
+      case 'link-secondary': return 'button--link-secondary';
+      case 'link-danger': return 'button--link-danger';
+      case 'link-warning': return 'button--link-warning';
+      case 'link-success': return 'button--link-success';
+      case 'link-info': return 'button--link-info';
+      case 'link-dark': return 'button--link-dark';
+      case 'link-black': return 'button--link-black';
+      case 'link-light': return 'button--link-light';
+      case 'link-white': return 'button--link-white';
+
       default: return '';
     }
   });
@@ -142,7 +166,7 @@
     --button-border-width: 0;
     --button-border-style: solid;
     --button-border-color: var(--black-soft, #4a4a4a);
-    --button-border-radius: 0;
+    --button-border-radius: 0.35rem;
 
     --button-box-shadow-color: none;
 
@@ -174,12 +198,16 @@
     border: var(--button-border-width) var(--button-border-style) var(--button-border-color);
     box-shadow: 0 5px 10px var(--button-box-shadow-color);
     outline: 0;
+    transition: var(--transition, all .3s ease-in);
 
     &:focus { outline: none; outline-color: transparent; }
-    transition: var(--transition, all .3s ease-in);
-    
+    &:is(.full-width) { 
+      display: flex;
+      width: 100%; 
+      justify-content: center !important;
+    };
     &:is(.bordered) { --button-border-width: 1px; }
-    &:is(.rounded) { --button-border-radius: 0.35rem; }
+    &:is(.squired) { --button-border-radius: 0; }
     &:is(.shadow) { --button-box-shadow-color: rgba(var(--dark-rgb, #252525), .15); }
 
     &--small {
@@ -412,8 +440,89 @@
         )
       }
     }
-
-    &:hover {
+    &--link {
+      @include buttonVariants(
+        var(--link-color, #42b883),
+        var(--transparent, transparent),
+        var(--transparent, transparent),
+        var(--white, #ffffff),
+        var(--primary, #42b883),
+        var(--primary, #42b883),
+      );
+      &-primary, 
+      &-secondary, 
+      &-info, 
+      &-warning, 
+      &-danger, 
+      &-success, 
+      &-dark, 
+      &-black, 
+      &-white, 
+      &-light {
+        --link-color: #42b883;
+        --link-hover-color: #ffffff;
+        --link-hover-bg-color: #42b883;        
+        &:hover { text-decoration: underline; }
+        @include buttonVariants(
+          var(--link-color),
+          var(--transparent, transparent),
+          var(--transparent, transparent),
+          var(--link-hover-color),
+          var(--link-hover-bg-color),
+          var(--transparent, transparent),
+        );
+      };
+      &-primary { 
+        --link-color: var(--primary);
+        --link-hover-bg-color: var(--primary);
+      } 
+      &-secondary { 
+        --link-color: var(--secondary);
+        --link-hover-bg-color: var(--secondary);
+      } 
+      &-info { 
+        --link-color: var(--info);
+        --link-hover-bg-color: var(--info);
+      } 
+      &-warning { 
+        --link-color: var(--warning);
+        --link-hover-bg-color: var(--warning);
+      }
+      &-danger { 
+        --link-color: var(--danger);
+        --link-hover-bg-color: var(--danger);
+      } 
+      &-success { 
+        --link-color: var(--success);
+        --link-hover-bg-color: var(--success);
+      } 
+      &-dark { 
+        --link-color: var(--dark);
+        --link-hover-bg-color: var(--dark);
+      } 
+      &-black { 
+        --link-color: var(--black);
+        --link-hover-bg-color: var(--black);
+      } 
+      &-white { 
+        --link-color: var(--white);
+        --link-hover-color: var(--black);
+        --link-hover-bg-color: var(--white);
+      } 
+      &-light { 
+        --link-color: var(--light);
+        --link-hover-color: var(--dark);
+        --link-hover-bg-color: var(--white-soft);
+      }
+      
+    }
+    &:is(:disabled, &.disabled) {
+      opacity: 0.55;
+      // pointer-events: none;
+      user-select: none;
+      cursor: not-allowed;
+    }
+    &:not(:disabled, &.disabled):hover {
       background-color: var(--button-hover-bg-color);
       color: var(--button-hover-color);
       border-color: var(--button-hover-border-color);

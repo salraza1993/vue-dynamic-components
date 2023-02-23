@@ -6,6 +6,9 @@
   const items = ref(componentMenus);
 
 </script>
+<script>
+export default { name: "HomeView"}
+</script>
 
 <template>
   <section class="home__page__section">

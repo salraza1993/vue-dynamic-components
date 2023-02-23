@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap');
 @import './variables';
 @import './classes';
 @import './grids';
@@ -36,11 +37,13 @@ body {
   }
 }
 
+code { font-family: var(--font-code) !important; }
 
 h1, h2, h3, h4, h5, h6 {
   font-weight: 600;
   line-height: 1.4em;
   margin-bottom: var(--element-margin-bottom);
+  code { font-family: var(--font-code) !important; }
 }
 h1 {
   font-size: clamp(1.25rem, 10vw, 2.5rem);
@@ -49,11 +52,36 @@ h1 {
 p {
   line-height: normal;
   margin-bottom: var(--element-margin-bottom);
+  code { font-family: var(--font-code) !important; }
 }
 hr {
   border: 0;
   border-bottom: 1px solid var(--hr-color);
   margin-block: 1rem;
+}
+
+// ============ [ Inner Common Pages ] ============ //
+.inner-page {
+  &__wrapper {
+    position: relative;
+    display: flex;
+    gap: calc(1rem + 1vw);
+    height: 100%;
+  }
+  &__main {
+    position: relative;
+    width: 100%;
+  }
+  &__aside {
+    flex-shrink: 0;
+    width: 100%;
+    max-width: 300px;
+    padding-left: calc(1rem + 1vw);
+    border-left: 1px solid var(--border-color);
+    position: sticky;
+    top: 5vh;
+    max-height: 90vh;
+  }
 }
 
 .block-sec {

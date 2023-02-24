@@ -104,6 +104,10 @@
   &--code { font-family: var(--font-code) !important;}
 }
 
+.rounded {
+  border-radius: var(--border-radius) !important;
+}
+
 
 .text {
   $types: (inherit, initial, capitalize, lowercase, uppercase, none, revert);

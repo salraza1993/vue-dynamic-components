@@ -68,38 +68,54 @@
   const buttonVarientSolid = `
   // script
   import Input from "@/components/Button.vue";
+  const solidButtonVariants = [
+    { label:"Primary", variant: "primary" },
+    { label:"Secondary", variant: "secondary" },
+    { label:"Warning", variant: "warning" },
+    { label:"Danger", variant: "danger" },
+    { label:"Success", variant: "success" },
+    { label:"Info", variant: "info" },
+    { label:"White", variant: "white" },
+    { label:"Light", variant: "light" },
+    { label:"Black", variant: "black" },
+    { label:"Dark", variant: "dark" },
+  ];
   
   <template>
-    <div class="d--flex gap--2">
-      <Button label="Primary" variant="primary" />
-      <Button label="Secondary" variant="secondary" />
-      <Button label="Warning" variant="warning" />
-      <Button label="Danger" variant="danger" />
-      <Button label="Success" variant="success" />
-      <Button label="Info" variant="info" />
-      <Button label="White" variant="white" />
-      <Button label="Light" variant="light" />
-      <Button label="Black" variant="black" />
-      <Button label="Dark" variant="dark" />
-    </div>    
+    <div class="d--flex align-items-center flex--wrap gap--2">
+      <Button 
+        v-for="button in solidButtonVariants"
+        :key="button"
+        :label="button.label" 
+        :variant="button.variant" 
+      />
+    </div>  
   </template>`;
 
   const buttonVarientSolidOutline = `
   // script
   import Input from "@/components/Button.vue";
-  
+  const outlineButtonVariants = [
+    { label:"Primary", variant: "primary-outline" },
+    { label:"Secondary", variant: "secondary-outline" },
+    { label:"Warning", variant: "warning-outline" },
+    { label:"Danger", variant: "danger-outline" },
+    { label:"Success", variant: "success-outline" },
+    { label:"Info", variant: "info-outline" },
+    { label:"White", variant: "white-outline" },
+    { label:"Light", variant: "light-outline" },
+    { label:"Black", variant: "black-outline" },
+    { label:"Dark", variant: "dark-outline" },
+  ];
+
   <template>
-    <div class="d--flex gap--2">
-      <Button label="Primary" variant="primary-outline" />
-      <Button label="Secondary" variant="secondary-outline" />
-      <Button label="Warning" variant="warning-outline" />
-      <Button label="Danger" variant="danger-outline" />
-      <Button label="Success" variant="success-outline" />
-      <Button label="Info" variant="info-outline" />
-      <Button label="White" variant="white-outline" />
-      <Button label="Light" variant="light-outline" />
-      <Button label="Black" variant="black-outline" />
-      <Button label="Dark" variant="dark-outline" />
+    <div class="d--flex align-items-center flex--wrap gap--2">
+      <Button 
+        v-for="button in outlineButtonVariants"
+        :key="button"
+        :label="button.label" 
+        :variant="button.variant" 
+      />
     </div>    
   </template>`;
  
@@ -165,6 +181,31 @@
     { path: '#disabled', name: 'Disabled' },
     { path: '#accessibility', name: 'Accessibility' },
     { path: '#download', name: 'Download' },
+  ];
+
+  const solidButtonVariants = [
+    { label:"Primary", variant: "primary" },
+    { label:"Secondary", variant: "secondary" },
+    { label:"Warning", variant: "warning" },
+    { label:"Danger", variant: "danger" },
+    { label:"Success", variant: "success" },
+    { label:"Info", variant: "info" },
+    { label:"White", variant: "white" },
+    { label:"Light", variant: "light" },
+    { label:"Black", variant: "black" },
+    { label:"Dark", variant: "dark" },
+  ];
+  const outlineButtonVariants = [
+    { label:"Primary", variant: "primary-outline" },
+    { label:"Secondary", variant: "secondary-outline" },
+    { label:"Warning", variant: "warning-outline" },
+    { label:"Danger", variant: "danger-outline" },
+    { label:"Success", variant: "success-outline" },
+    { label:"Info", variant: "info-outline" },
+    { label:"White", variant: "white-outline" },
+    { label:"Light", variant: "light-outline" },
+    { label:"Black", variant: "black-outline" },
+    { label:"Dark", variant: "dark-outline" },
   ];
 
   // https://coreui.io/vue/docs/forms/date-picker.html
@@ -299,40 +340,36 @@ export default { name: "ButtonView", components: { ElementInCodeFormate } }
           <h3 class="mb--2 fw--regular">Use the variant prop to generate the various contextual button variants.</h3>
           <h3 class="mb--2 fw--regular">By default <span class="text--primary"><code>&lt;Button&gt;</code></span> will render with the white variant.</h3>
           <h2 class="text--warning mb--1 flex-shrink--0 mb--2 mt--4">Solid color variants</h2>
-          <Alert class="rounded" varient="warning" icon message="primary, secondary, success, danger, warning, info, white, light, black, and dark." />
+          <Alert varient="dark">
+            <code class="fw--bold text--success">
+              primary, secondary, success, danger, warning, info, white, light, black, and dark.
+            </code>
+          </Alert>
         </div>
         <hr class="my--4" />
         <div class="block-sec__body pb--4" id="variant-solid-color">
           <div class="d--flex align-items-center flex--wrap gap--2">
-            <Button label="Primary" variant="primary" />
-            <Button label="Secondary" variant="secondary" />
-            <Button label="Warning" variant="warning" />
-            <Button label="Danger" variant="danger" />
-            <Button label="Success" variant="success" />
-            <Button label="Info" variant="info" />
-            <Button label="White" variant="white" />
-            <Button label="Light" variant="light" />
-            <Button label="Black" variant="black" />
-            <Button label="Dark" variant="dark" />
+            <Button 
+              v-for="button in solidButtonVariants"
+              :key="button"
+              :label="button.label" :variant="button.variant" 
+            />
           </div>
         </div>
         <div class="block-sec__footer">
           <HighCode class="code" :codeValue="buttonVarientSolid" theme="dark" lang="Vue" />
           <div class="px--4 py--2" id="variants-outline-color">
             <h2 class="text--warning mb--1 flex-shrink--0 mb--2 mt--4">Outline color variants</h2>
-            <Alert class="rounded" varient="warning" icon message="primary-outline, secondary-outline, success-outline, danger-outline, warning-outline, info-outline, white-outline, light-outline, black-outline, and dark.." />
+            <Alert varient="dark">
+              <code class="fw--bold text--success">primary-outline, secondary-outline, success-outline, danger-outline, warning-outline, info-outline, white-outline, light-outline, black-outline, and dark.</code>
+            </Alert>
             <hr />
             <div class="d--flex align-items-center flex--wrap gap--2 pb--3">
-              <Button label="Primary" variant="primary-outline" />
-              <Button label="Secondary" variant="secondary-outline" />
-              <Button label="Warning" variant="warning-outline" />
-              <Button label="Danger" variant="danger-outline"  />
-              <Button label="Success" variant="success-outline"  />
-              <Button label="Info" variant="info-outline"  />
-              <Button label="White" variant="white-outline"  />
-              <Button label="Light" variant="light-outline"  />
-              <Button label="Black" variant="black-outline" />
-              <Button label="Dark" variant="dark-outline" />
+              <Button 
+                v-for="button in outlineButtonVariants"
+                :key="button"
+                :label="button.label" :variant="button.variant" 
+              />
             </div>
           </div>
           <HighCode class="code" :codeValue="buttonVarientSolidOutline" theme="dark" lang="Vue" />
@@ -344,9 +381,11 @@ export default { name: "ButtonView", components: { ElementInCodeFormate } }
         <div class="block-sec__header ">
           <h2 class="text--white fs--h1 mb--4">Link Variant</h2>
           <h3 class="fw--regular">
-            <span class="text--primary">Variant link</span> will render a button with the appearance of a link while maintaining the default padding and size of a button.
+            <span class="text--primary fw--bold">Variant link</span> will render a button with the appearance of a link while maintaining the default padding and size of a button.
           </h3>
-          <Alert class="rounded" varient="success" icon message="link-primary, link-secondary, link-success, link-danger, link-warning, link-info, link-white, link-light, link-black, and link-dark..." />
+          <Alert class="rounded" varient="dark">
+            <code class="fw--bold text--primary">link-primary, link-secondary, link-success, link-danger, link-warning, link-info, link-white, link-light, link-black, and link-dark...</code>
+          </Alert>
         </div>
         <hr class="my--4" />
         <div class="block-sec__body pb--4">

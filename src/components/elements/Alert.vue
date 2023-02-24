@@ -22,6 +22,7 @@ const props = defineProps({
 const alertVarient = computed(() => {
   switch (props.varient) {
     case 'black': return 'alert--black';
+    case 'black-outline': return 'alert--black-outline';
     case 'dark': return 'alert--dark';
     case 'dark-outline': return 'alert--dark-outline';
     case 'primary': return 'alert--primary';
@@ -122,6 +123,14 @@ export default { name: 'AlertComponent' }
       --alert-close-color: var(--alert-color);
       --alert-close-bg-hover-color: var(--danger, #d66666);
       --alert-close-hover-color: var(--white, #ffffff);
+      --alert-selection-bg-color: var(--alert-color);
+      --alert-selection-color: var(--white, #ffffff);
+      
+      
+      *::selection {
+        background: var(--alert-selection-bg-color);
+        color: var(--alert-selection-color);
+      }
 
       font-family: var(--alert-font-family);
       font-size: var(--alert-font-size);
@@ -135,10 +144,10 @@ export default { name: 'AlertComponent' }
       display: flex;       
       width: 100%; 
       min-height: var(--alert-min-height);
-      &:is(.inline) { display: inline-flex; width: auto;}
-      
       border: var(--alert-border-width) var(--alert-border-style) var(--alert-border-color);
       border-radius: var(--alert-corner-border-radius);
+      
+      &:is(.inline) { display: inline-flex; width: auto;}
 
       &:is(.alert-bordered, .bordered) { --alert-border-width: 1px; }
       &:is(.alert-squired, .squired) { --alert-corner-border-radius: 0; }
@@ -189,6 +198,7 @@ export default { name: 'AlertComponent' }
       --alert-border-color: #196d47;
       --alert-color: #196d47;
       &-outline {
+        --alert-border-width: 1px;
         --alert-bg-color: transparent;
         --alert-border-color: #196d47;
         --alert-color: #196d47;
@@ -199,6 +209,7 @@ export default { name: 'AlertComponent' }
       --alert-border-color: #1a2a3a;
       --alert-color: #1a2a3a;
       &-outline {
+        --alert-border-width: 1px;
         --alert-bg-color: transparent;
         --alert-border-color: #1a2a3a;
         --alert-color: #1a2a3a;
@@ -209,6 +220,7 @@ export default { name: 'AlertComponent' }
       --alert-border-color: #f5c6cb;
       --alert-color: #8b101c;
       &-outline {
+        --alert-border-width: 1px;
         --alert-bg-color: transparent;
         --alert-border-color: #8b101c;
         --alert-color: #8b101c;
@@ -219,6 +231,7 @@ export default { name: 'AlertComponent' }
       --alert-border-color: #c3e6cb;
       --alert-color: #155724;
       &-outline {
+        --alert-border-width: 1px;
         --alert-bg-color: transparent;
         --alert-border-color: #155724;
         --alert-color: #155724;
@@ -229,6 +242,7 @@ export default { name: 'AlertComponent' }
       --alert-border-color: #ffeeba;
       --alert-color: #856404;
       &-outline {
+        --alert-border-width: 1px;
         --alert-bg-color: transparent;
         --alert-border-color: #856404;
         --alert-color: #856404;
@@ -239,6 +253,7 @@ export default { name: 'AlertComponent' }
       --alert-border-color: #bee5eb;
       --alert-color: #0c5460;
       &-outline {
+        --alert-border-width: 1px;
         --alert-bg-color: transparent;
         --alert-border-color: #0c5460;
         --alert-color: #0c5460;
@@ -249,6 +264,7 @@ export default { name: 'AlertComponent' }
       --alert-border-color: #e0e0e0;
       --alert-color: #353535;
       &-outline {
+        --alert-border-width: 1px;
         --alert-bg-color: transparent;
         --alert-border-color: #353535;
         --alert-color: #353535;
@@ -258,7 +274,9 @@ export default { name: 'AlertComponent' }
       --alert-bg-color: #151515;
       --alert-border-color: #000000;
       --alert-color: #DDDDDD;
+      --alert-selection-color: var(--dark, #151515);
       &-outline {
+        --alert-border-width: 1px;
         --alert-bg-color: transparent;
         --alert-border-color: #151515;
         --alert-color: #151515;
@@ -268,7 +286,9 @@ export default { name: 'AlertComponent' }
       --alert-bg-color: #252525;
       --alert-border-color: #cccccc;
       --alert-color: #d1d1d1;
+      --alert-selection-color: var(--dark, #151515);
       &-outline {
+        --alert-border-width: 1px;
         --alert-bg-color: transparent;
         --alert-border-color: #252525;
         --alert-color: #252525;
@@ -279,9 +299,11 @@ export default { name: 'AlertComponent' }
       --alert-border-color: #cccccc;
       --alert-color: #252525;
       &-outline {
+        --alert-border-width: 1px;
         --alert-bg-color: transparent;
         --alert-border-color: #dbdada;
         --alert-color: #dbdada;
+        --alert-selection-color: var(--dark, #151515);
       }
     }
     &--white {
@@ -289,9 +311,11 @@ export default { name: 'AlertComponent' }
       --alert-border-color: #cccccc;
       --alert-color: #252525;
       &-outline {
+        --alert-border-width: 1px;
         --alert-bg-color: transparent;
         --alert-border-color: #ffffff;
         --alert-color: #ffffff;
+        --alert-selection-color: var(--dark, #151515);
       }
     }
   }

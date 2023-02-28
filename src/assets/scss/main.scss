@@ -38,6 +38,7 @@ body {
 }
 
 code { font-family: var(--font-code) !important; }
+hr { width: 100%; }
 
 h1, h2, h3, h4, h5, h6 {
   font-weight: 600;
@@ -244,4 +245,15 @@ hr {
     --code-color: #383a42;
 
   }
+}
+
+// ========= [ transitions ] ========= //
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }

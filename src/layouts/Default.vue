@@ -1,15 +1,16 @@
 <script>
-  import Footer from '../components/Footer.vue';
-  import Header from '../components/Header.vue';
   export default {
     name: "DefaultLayout",
-    components: [Header, Footer]
   }
 </script>
+<script setup>
+// import Footer from '../components/Footer.vue';
+// import Header from '../components/Header.vue';
+</script>
 <template>
-  <Header />
+  <!-- <Header /> -->
   <slot />
-  <Footer />
+  <!-- <Footer /> -->
 </template>
 
 <style>

@@ -1,13 +1,14 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, ref, onMounted } from 'vue';
 
 const props = defineProps({
   modelValue: {type: Boolean, default: true },
   error: {type: Boolean, default: false },
   errorMessage: {type: String, default: "Error Message" },
+  dismissCountDown: { type: [Number, String] },
   dismissible: Boolean,
   message: { type: String},
-  varient: { type: String, default: () => 'light' },
+  variant: { type: String, default: () => 'light' },
   icon: { type: Boolean },
   show: { type: Boolean },
   hide: { type: Boolean },
@@ -19,8 +20,8 @@ const props = defineProps({
   contentClass: { type: String },
 });
 
-const alertVarient = computed(() => {
-  switch (props.varient) {
+const alertVariant = computed(() => {
+  switch (props.variant) {
     case 'black': return 'alert--black';
     case 'black-outline': return 'alert--black-outline';
     case 'dark': return 'alert--dark';
@@ -59,16 +60,42 @@ const dismissAlertHandler = () => {
   emit("update:modelValue", false)
 }
 
+const counter = ref(Number(props.dismissCountDown));
+const timer = ref(0);
+
+function increement() {
+ if(counter.value > 0) counter.value--;
+ else clearInterval(timer)
+
+ if(counter.value === 0) {
+  setTimeout(() => {
+    dismissAlertHandler();
+  }, 1000)
+ }
+}
+
+const counterHandler = () => {
+  if(props.dismissible && props.dismissCountDown) {
+    setInterval(() => { increement() }, 1000);
+  }
+}
+
+onMounted(() => {
+  counterHandler()
+})
+
 </script>
 <script>
 export default { name: 'AlertComponent' }
 </script>
 
 <template>
+  {{ dismissCountDown }}
   <div 
     v-if="visibilityState"
+    v-bind="$attrs"
     :class="[
-      alertVarient, 
+      alertVariant, 
       { 
         'dismissible': dismissible,
         'squired': squired,
@@ -78,12 +105,13 @@ export default { name: 'AlertComponent' }
     ]"
     class="alert-container">
     <template v-if="message">
+      <div class="alert-container__icon" v-if="icon && message" :style="`--alert-icon-font-size: ${iconSize}`">
+        <i class="fa-solid" :class="iconClass"></i>
+      </div>
       <div class="alert-container__content">
-        <div class="alert-container__content__icon" v-if="icon && message" :style="`--alert-icon-font-size: ${iconSize}`">
-          <i class="fa-solid" :class="iconClass"></i>
-        </div>
         <p>{{ message }}</p>
       </div>
+      <span v-if="dismissible && dismissCountDown">{{ counter }}</span>
       <span class="alert-container__close" @click="dismissAlertHandler" v-if="dismissible">&times;</span>
     </template>
 
@@ -94,6 +122,7 @@ export default { name: 'AlertComponent' }
       <span class="alert-container__close" @click="dismissAlertHandler" v-if="dismissible">&times;</span>
     </template>
   </div>
+  <!-- <Transition name="fade"></Transition> -->
 </template>
 
 <style lang="scss">
@@ -104,19 +133,19 @@ export default { name: 'AlertComponent' }
       --alert-font-weight: 400;
       --alert-line-height: 1.5;
 
-      --alert-padding-y: 0.65rem;
-      --alert-padding-x: 0.9rem;
+      --alert-padding-y: 0.85rem;
+      --alert-padding-x: 1.15rem;
       --alert-bg-color: var(--white, #e6e6e6);
       --alert-color: var(--dark, #353535);
       --alert-margin-bottom: 0.5rem;
       --alert-icon-font-size: '';
       --alert-content-gap: 1rem;      
-
+      --hr-color: var(--alert-color);
       --alert-border-width: 0;
       --alert-border-style: solid;
       --alert-border-color: #cccccc;
       --alert-corner-border-radius: 0.35rem;
-      --alert-min-height: 45px;
+      --alert-min-height: 51px;
 
       --alert-close-button-width: calc(var(--alert-min-height) - calc(var(--alert-padding-y) / 1.3));
       --alert-close-bg-color: var(--transparent, transparent);
@@ -141,7 +170,8 @@ export default { name: 'AlertComponent' }
       padding-block: var(--alert-padding-y);
       padding-inline: var(--alert-padding-x);
       margin-bottom: var(--alert-margin-bottom);
-      display: flex;       
+      display: flex;
+      gap: var(--alert-content-gap);
       width: 100%; 
       min-height: var(--alert-min-height);
       border: var(--alert-border-width) var(--alert-border-style) var(--alert-border-color);
@@ -151,9 +181,8 @@ export default { name: 'AlertComponent' }
 
       &:is(.alert-bordered, .bordered) { --alert-border-width: 1px; }
       &:is(.alert-squired, .squired) { --alert-corner-border-radius: 0; }
-
+      hr { opacity: 0.3; }
       p:last-child { margin-bottom: 0; }
-
       &:is(.dismissible) {
         padding-inline-end: calc(var(--alert-close-button-width) + var(--alert-padding-x));
       }
@@ -180,17 +209,15 @@ export default { name: 'AlertComponent' }
 
       &__content {
         position: relative;
-        display: flex;
         width: 100%;
-        align-items: center;
-        gap: var(--alert-content-gap);
-        &__icon {
-          font-size: var(--alert-icon-font-size);
-          aspect-ratio: 1 / 1;
-          flex-shrink: 0;
-          display: grid;
-          place-items: center;
-        }
+      }
+      &__icon {
+        font-size: var(--alert-icon-font-size);
+        i { font-size: calc(var(--alert-icon-font-size) * 1.1); }
+        aspect-ratio: 1 / 1;
+        flex-shrink: 0;
+        display: inline-grid;
+        place-items: center;
       }
     }
     &--primary {

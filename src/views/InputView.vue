@@ -336,7 +336,7 @@ export default { name: "InputView", components: { ElementInCodeFormate } }
         <div class="block-sec__footer">
           <HighCode class="code" :codeValue="inputRangeValue" theme="dark" lang="Vue" />
           <div class="p--4">
-            <Alert varient="warning" icon class="rounded mb-0">
+            <Alert variant="warning" icon class="rounded mb-0">
               <strong>Note:</strong> Range inputs, like all input types, return their values as strings. To use the value in mathematical operations or as a number, it may be necessary to convert it to a native number format. This can be done using functions such as <code>Number(value)</code>, <code>parseInt(value, 10)</code>, or <code>parseFloat(value)</code>.
             </Alert>
           </div>

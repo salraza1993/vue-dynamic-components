@@ -11,7 +11,7 @@
   // Button Overview
   const overviewValue = `
   // script
-  import Input from "@/components/Button.vue";
+  import Button from "@/components/Button.vue";
   
   <template>
     <div class="d--flex gap--2">
@@ -25,7 +25,7 @@
   // Button Types
   const elementTypes = `
   // script
-  import Input from "@/components/Button.vue";
+  import Button from "@/components/Button.vue";
   
   <template>
     <div class="d--flex gap--2">
@@ -47,7 +47,7 @@
   // Button With Icons
   const buttonWithIconValues = `
   // script
-  import Input from "@/components/Button.vue";
+  import Button from "@/components/Button.vue";
   
   <template>
     <div class="d--flex gap--3">
@@ -65,9 +65,9 @@
   </template>`
 
   // Button Types
-  const buttonVarientSolid = `
+  const buttonVariantSolid = `
   // script
-  import Input from "@/components/Button.vue";
+  import Button from "@/components/Button.vue";
   const solidButtonVariants = [
     { label:"Primary", variant: "primary" },
     { label:"Secondary", variant: "secondary" },
@@ -92,9 +92,9 @@
     </div>  
   </template>`;
 
-  const buttonVarientSolidOutline = `
+  const buttonVariantSolidOutline = `
   // script
-  import Input from "@/components/Button.vue";
+  import Button from "@/components/Button.vue";
   const outlineButtonVariants = [
     { label:"Primary", variant: "primary-outline" },
     { label:"Secondary", variant: "secondary-outline" },
@@ -121,7 +121,7 @@
  
   const linkVariantValues = `
   // script
-  import Input from "@/components/Button.vue";
+  import Button from "@/components/Button.vue";
   
   <template>
     <div class="d--flex align-items-center flex--wrap gap--2">
@@ -134,7 +134,7 @@
 
   const blockLevelButtonValues = `
   // script
-  import Input from "@/components/Button.vue";
+  import Button from "@/components/Button.vue";
   
   <template>
     <div class="d--flex gap--3">
@@ -145,7 +145,7 @@
 
   const squiredButtonValues = `
   // script
-  import Input from "@/components/Button.vue";
+  import Button from "@/components/Button.vue";
   
   <template>
     <div class="d--flex gap--3">
@@ -156,7 +156,7 @@
 
   const disabledValues = `
   // script
-  import Input from "@/components/Button.vue";
+  import Button from "@/components/Button.vue";
   
   <template>
     <div class="d--flex gap--3">
@@ -279,7 +279,7 @@ export default { name: "ButtonView", components: { ElementInCodeFormate } }
         <div class="block-sec__header ">
           <h2 class="text--white fs--h1 mb--4">Button With Icon</h2>
           <h3 class="fw--regular">You may have <ElementInCodeFormate label="Button /" class="text--primary fw--bold" /> with an icon.</h3>
-          <Alert class="rounded" varient="danger" icon>
+          <Alert class="rounded" variant="danger" icon>
             <i class="fa-solid fa-info-circle"></i>
             <span>
               Note: For adding your custom icon, you need pass font-awesome class through <strong>iconClass</strong> as a prop. 
@@ -340,7 +340,7 @@ export default { name: "ButtonView", components: { ElementInCodeFormate } }
           <h3 class="mb--2 fw--regular">Use the variant prop to generate the various contextual button variants.</h3>
           <h3 class="mb--2 fw--regular">By default <span class="text--primary"><code>&lt;Button&gt;</code></span> will render with the white variant.</h3>
           <h2 class="text--warning mb--1 flex-shrink--0 mb--2 mt--4">Solid color variants</h2>
-          <Alert varient="dark">
+          <Alert variant="dark">
             <code class="fw--bold text--success">
               primary, secondary, success, danger, warning, info, white, light, black, and dark.
             </code>
@@ -357,10 +357,10 @@ export default { name: "ButtonView", components: { ElementInCodeFormate } }
           </div>
         </div>
         <div class="block-sec__footer">
-          <HighCode class="code" :codeValue="buttonVarientSolid" theme="dark" lang="Vue" />
+          <HighCode class="code" :codeValue="buttonVariantSolid" theme="dark" lang="Vue" />
           <div class="px--4 py--2" id="variants-outline-color">
             <h2 class="text--warning mb--1 flex-shrink--0 mb--2 mt--4">Outline color variants</h2>
-            <Alert varient="dark">
+            <Alert variant="dark">
               <code class="fw--bold text--success">primary-outline, secondary-outline, success-outline, danger-outline, warning-outline, info-outline, white-outline, light-outline, black-outline, and dark.</code>
             </Alert>
             <hr />
@@ -372,7 +372,7 @@ export default { name: "ButtonView", components: { ElementInCodeFormate } }
               />
             </div>
           </div>
-          <HighCode class="code" :codeValue="buttonVarientSolidOutline" theme="dark" lang="Vue" />
+          <HighCode class="code" :codeValue="buttonVariantSolidOutline" theme="dark" lang="Vue" />
         </div>
       </section>
 
@@ -383,7 +383,7 @@ export default { name: "ButtonView", components: { ElementInCodeFormate } }
           <h3 class="fw--regular">
             <span class="text--primary fw--bold">Variant link</span> will render a button with the appearance of a link while maintaining the default padding and size of a button.
           </h3>
-          <Alert class="rounded" varient="dark">
+          <Alert class="rounded" variant="dark">
             <code class="fw--bold text--primary">link-primary, link-secondary, link-success, link-danger, link-warning, link-info, link-white, link-light, link-black, and link-dark...</code>
           </Alert>
         </div>

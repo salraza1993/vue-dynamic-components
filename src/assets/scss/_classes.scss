@@ -1,6 +1,6 @@
 // =============================[ Display ]============================= //
 .display, .d {
-  $types: (flex, inline-flex, block, inline-block, grid, inline-grid);
+  $types: (flex, inline-flex, block, inline-block, grid, inline-grid, none);
   @for $i from 1 to length($types) + 1 {
     &--#{nth($types, $i)}, &-#{nth($types, $i)} {
       display: nth($types, $i) !important;

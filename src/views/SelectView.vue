@@ -1,4 +1,5 @@
 <script setup>
+  import { ref, reactive } from "vue";
   // language
   import Button from "../components/elements/Button.vue";
   import PageAsideLinks from "../components/PageAsideLinks.vue";
@@ -7,19 +8,28 @@
   import 'vue-highlight-code/dist/style.css';
   import Alert from "../components/elements/Alert.vue";
   import ElementInCodeFormate from "../components/ElementInCodeFormate.vue";
+  import Select from "../components/elements/Select.vue";
   
   // Button Overview
   const overviewValue = `
   // script
-  import Input from "@/components/Button.vue";
+  import { ref, reactive } from "vue";
+  import Select from "@/components/Select.vue";
+
+  const selectValue = ref('');
+  const options = reactive([ 
+    { value: 'Option 1', text:'Option 1', },
+    { value: 'Option 2', text:'Option 2', }, 
+    { value: 'Option 3', text:'Option 3' }, 
+    { value: 'Option 4', text:'Option 4', disabled: true }, 
+    { value: 'Option 5', text:'Option 5', },
+  ]);
   
   <template>
     <div class="d--flex gap--2">
-      <Button label="Button Primary" variant="primary" />
-      <Button label="Button Secondary" variant="secondary" />
-      <Button label="Button Warning" variant="warning" />
-      <Button label="Button Danger" variant="danger" />
-    </div>    
+      <Select v-model="selectValue" :options="options" required validate placeholder="-- Select Items --" />
+    </div>
+    Selected Value: <strong class="text--primary">{{ selectValue }}</strong>
   </template>`
 
   // Button Types
@@ -169,9 +179,18 @@
 
   // https://coreui.io/vue/docs/forms/date-picker.html
   
+  const selectValue = ref('');
+  const options = reactive([ 
+    { value: 'Option 1', text:'Option 1', },
+    { value: 'Option 2', text:'Option 2', }, 
+    { value: 'Option 3', text:'Option 3' }, 
+    { value: 'Option 4', text:'Option 4', disabled: true }, 
+    { value: 'Option 5', text:'Option 5', },
+  ]);
+
 </script>
 <script>
-export default { name: "SelectView", components: { ElementInCodeFormate } }
+export default { name: "SelectView" }
 </script>
 
 <template>
@@ -179,10 +198,9 @@ export default { name: "SelectView", components: { ElementInCodeFormate } }
     <div class="inner-page__main">
       <h1>Vue Select</h1>
       <h2 class="text--light">
-        Use custom <ElementInCodeFormate label="Select /" class="text--primary fw--bold" /> 
-        component for <span class="text--primary">actions in forms, dialogs, and more</span>. 
+        The custom <ElementInCodeFormate label="Select /" class="text--primary fw--bold" /> using custom styles. 
         <br />
-        Includes support for a handful of <span class="text--warning">contextual variations, sizes, states, and more.</span>
+        Optionally specify options based on an <code class="text--warning">array, array of objects</code> or an <code class="text--warning">object</code>.
       </h2>
       <br />
 
@@ -190,15 +208,20 @@ export default { name: "SelectView", components: { ElementInCodeFormate } }
       <section class="block-sec mb--4" id="overview">
         <div class="block-sec__header">
           <h2 class="text--white fs--h1 mb--4">Overview</h2>
+          <h3 class="text--regular">
+            Generate your select options by passing an array or object to the <code class="text--primary">options</code> props:
+          </h3>
         </div>
         <hr class="my--4" />
         <div class="block-sec__body pb--4">
           <div class="d--flex gap--2">
-            <Button label="Button Primary" variant="primary" />
-            <Button label="Button Secondary" variant="secondary" />
-            <Button label="Button Warning" variant="warning" />
-            <Button label="Button Danger" variant="danger-outline" />
+           <Select 
+            label="Select Label" 
+            v-model="selectValue" 
+            :options="options" required validate 
+            placeholder="-- Select Items --" />
           </div>
+          Selected Value: <strong class="text--primary">{{ selectValue }}</strong>
         </div>
         <div class="block-sec__footer">
           <HighCode class="code" :codeValue="overviewValue" theme="dark" lang="Vue" />

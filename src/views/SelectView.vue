@@ -109,6 +109,33 @@ import Alert from "../components/elements/Alert.vue";
     }
   ];`
 
+  // Grouped Options
+  const customFieldsOptionsValue = `
+  // script
+  import { ref } from "vue";
+  import Select from "@/components/Select.vue";
+
+  const selectedCustomFields = ref('');
+  const customFieldsOptions = [
+    { item: 'A', name: 'Option A' },
+    { item: 'B', name: 'Option B' },
+    { item: 'C', name: 'Option C', notEnabled: true },
+    { item: 'D', name: 'Option D' }
+  ];
+  
+  <template>
+    <div>
+      <Select 
+        v-model="selectedCustomFields" 
+        :options="customFieldsOptions" 
+        value-field="item"
+        text-field="name"
+        disabled-field="notEnabled"
+        placeholder="-- Select Items --" />
+    </div>
+    Selected String Value: <strong class="text--primary">{{ selectedCustomFields }}</strong>
+  </template>`
+
  
   // ========= [ Aside links ] ========= //
   const asideLinks = [
@@ -152,10 +179,10 @@ import Alert from "../components/elements/Alert.vue";
   
   const selectedCustomFields = ref('');
   const customFieldsOptions = [
-    { item: 'A', name: 'Option A' },
-    { item: 'B', name: 'Option B' },
-    { item: 'D', name: 'Option C', notEnabled: true },
-    { item: { d: 1 }, name: 'Option D' }
+    { id: 'A', name: 'Option A' },
+    { id: 'B', name: 'Option B' },
+    { id: 'C', name: 'Option C', notEnabled: true },
+    { id: 'D', name: 'Option D' }
   ];
   
 
@@ -293,7 +320,7 @@ export default { name: "SelectView", components: { Alert } }
             <Select 
               v-model="selectedCustomFields" 
               :options="customFieldsOptions" 
-              value-field="item"
+              value-field="id"
               text-field="name"
               disabled-field="notEnabled"
               placeholder="-- Select Items --" />
@@ -301,7 +328,7 @@ export default { name: "SelectView", components: { Alert } }
           Selected String Value: <strong class="text--primary">{{ selectedCustomFields }}</strong>
         </div>
         <div class="block-sec__footer">
-          <HighCode class="code" :codeValue="optionWithObjectValue" theme="dark" lang="Javascript" />
+          <HighCode class="code" :codeValue="customFieldsOptionsValue" theme="dark" lang="Javascript" />
         </div>
       </section>
 

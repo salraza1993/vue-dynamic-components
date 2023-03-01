@@ -69,7 +69,7 @@
 						v-for="option in nonGroupedOptions" 
 						:key="option.value"
 						:selected="option.value === modelValue"
-						:disabled="option[notEnabled]"
+						:disabled="option[disabledField]"
 						>
 						{{ option[textField] }}
 					</option>
@@ -111,7 +111,7 @@ const props = defineProps({
 	validate: {type: Boolean, default: false},
 	textField: {type: String, default: () => 'text'},
 	valueField: {type: String, default: () => 'value'},
-	notEnabled: {type: String, default: () => 'disabled'},
+	disabledField: {type: String, default: () => 'disabled'},
   options: {
     type: [Object, Array],
     default: () => [

@@ -14,7 +14,7 @@
 		<div class="input-block__label-container" v-if="label">
 			<label :for="props.id" class="input-block__label-container__label" :class="labelClass">
         {{ labelComputedValue }}
-        <span v-if="props.required">*</span>
+        <span v-if="props.required" class="text--danger">*</span>
       </label>
 		</div>
 		<slot v-if="!label" />

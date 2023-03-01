@@ -6,171 +6,116 @@
 
   import { HighCode } from 'vue-highlight-code';
   import 'vue-highlight-code/dist/style.css';
-  import Alert from "../components/elements/Alert.vue";
   import ElementInCodeFormate from "../components/ElementInCodeFormate.vue";
   import Select from "../components/elements/Select.vue";
+import Alert from "../components/elements/Alert.vue";
   
-  // Button Overview
+  // Select Overview
   const overviewValue = `
   // script
-  import { ref, reactive } from "vue";
+  import { ref } from "vue";
   import Select from "@/components/Select.vue";
 
-  const selectValue = ref('');
-  const options = reactive([ 
+  const selectedStringValue = ref('');
+  const optionWithArray = [ 'Option 1', 'Option 2', 'Option 3', 'Option 4' ];
+  
+  const selectedObjectValue = ref('');
+  const options = [ 
     { value: 'Option 1', text:'Option 1', },
     { value: 'Option 2', text:'Option 2', }, 
     { value: 'Option 3', text:'Option 3' }, 
     { value: 'Option 4', text:'Option 4', disabled: true }, 
     { value: 'Option 5', text:'Option 5', },
-  ]);
+  ];
   
   <template>
-    <div class="d--flex gap--2">
-      <Select v-model="selectValue" :options="options" required validate placeholder="-- Select Items --" />
+    <div class="row">
+      <div class="col--12 col-xl--6">
+        <Select 
+          label="Select with Array of strings" 
+          v-model="selectedStringValue" 
+          :options="optionWithArray" 
+          required 
+          validate 
+          placeholder="-- Select String Items --" />
+
+        Selected String Value: <strong class="text--primary">{{ selectedStringValue }}</strong>
+      </div>
+      <div class="col--12 col-xl--6">
+        <Select 
+          label="Select Label" 
+          v-model="selectedObjectValue" 
+          :options="options" 
+          required 
+          validate 
+          placeholder="-- Select Object Items --" />
+
+        Selected Object Value: <strong class="text--primary">{{ selectedObjectValue }}</strong>
+      </div>
     </div>
     Selected Value: <strong class="text--primary">{{ selectValue }}</strong>
   </template>`
 
-  // Button Types
-  const elementTypes = `
+  // Grouped Options
+  const groupedOptionsValue = `
   // script
-  import Input from "@/components/Button.vue";
+  import { ref, reactive } from "vue";
+  import Select from "@/components/Select.vue";
+
+  const selectedValue = ref('');
+  const groupedOptions = reactive([
+    { value: null, text: 'Please select an option' },
+    { value: 'a', text: 'This is First option' },
+    { value: 'b', text: 'Selected Option', disabled: true },
+    {
+      label: 'Grouped options',
+      options: [
+        { value: 'option value', text: 'Option Name' },
+        { value: 'option value', text: 'Option Name' }
+      ]
+    }
+  ]);
   
   <template>
-    <div class="d--flex gap--2">
-      <Button label="I am a Button" variant="dark" />
-      <Button 
-        path="/elements/input" 
-        type="internal" 
-        label="I am a link (RouterLink)" 
-        variant="dark" />
-
-      <Button 
-        path="http://www.google.com" 
-        type="external" 
-        label="I am a link (Anchor Link)" 
-        variant="dark" />
-    </div>    
+    <div>
+      <Select 
+        v-model="selectedValue" 
+        :options="groupedOptions" 
+        required 
+        validate 
+        placeholder="-- Select Items --" />
+    </div>
+    Selected Value: <strong class="text--primary">{{ selectedValue }}</strong>
   </template>`
 
-  // Button With Icons
-  const buttonWithIconValues = `
+  // Option With Array of Strings
+  const optionWithArrayValue = `
   // script
-  import Input from "@/components/Button.vue";
-  
-  <template>
-    <div class="d--flex gap--3">
-      <Button 
-        variant="primary"
-        label="I am a Button with an icon (Start)" 
-        icon />
-      <Button 
-        variant="primary-outline" 
-        label="I am a Button with an icon in (End)" 
-        icon 
-        iconDirection="end" 
-        iconClass="fa-arrow-right" />
-    </div> 
-  </template>`
+  const optionWithArray = [ 'Option 1', 'Option 2', 'Option 3', 'Option 4' ];`
 
-  // Button Types
-  const buttonVarientSolid = `
+  // Option With Array of Objects
+  const optionWithObjectValue = `
   // script
-  import Input from "@/components/Button.vue";
-  
-  <template>
-    <div class="d--flex gap--2">
-      <Button label="Primary" variant="primary" />
-      <Button label="Secondary" variant="secondary" />
-      <Button label="Warning" variant="warning" />
-      <Button label="Danger" variant="danger" />
-      <Button label="Success" variant="success" />
-      <Button label="Info" variant="info" />
-      <Button label="White" variant="white" />
-      <Button label="Light" variant="light" />
-      <Button label="Black" variant="black" />
-      <Button label="Dark" variant="dark" />
-    </div>    
-  </template>`;
+  const optionWithObject = [
+    { value: null, text: 'Please select an option' },
+    { value: 'a', text: 'This is First option' },
+    { value: 'b', text: 'Selected Option', disabled: true },
+    {
+      label: 'Grouped options',
+      options: [
+        { value: 'option value', text: 'Option Name' },
+        { value: 'option value', text: 'Option Name' }
+      ]
+    }
+  ];`
 
-  const buttonVarientSolidOutline = `
-  // script
-  import Input from "@/components/Button.vue";
-  
-  <template>
-    <div class="d--flex gap--2">
-      <Button label="Primary" variant="primary-outline" />
-      <Button label="Secondary" variant="secondary-outline" />
-      <Button label="Warning" variant="warning-outline" />
-      <Button label="Danger" variant="danger-outline" />
-      <Button label="Success" variant="success-outline" />
-      <Button label="Info" variant="info-outline" />
-      <Button label="White" variant="white-outline" />
-      <Button label="Light" variant="light-outline" />
-      <Button label="Black" variant="black-outline" />
-      <Button label="Dark" variant="dark-outline" />
-    </div>    
-  </template>`;
- 
-  const linkVariantValues = `
-  // script
-  import Input from "@/components/Button.vue";
-  
-  <template>
-    <div class="d--flex align-items-center flex--wrap gap--2">
-      <Button label="I am a Link" variant="link" />
-      <Button label="I am a Link - Danger" variant="link-danger" />
-      <Button label="I am a Link - info" variant="link-info" />
-      <Button label="I am a Link - Light" variant="link-light" />
-    </div>
-  </template>`;
-
-  const blockLevelButtonValues = `
-  // script
-  import Input from "@/components/Button.vue";
-  
-  <template>
-    <div class="d--flex gap--3">
-      <Button block label="I am a Block level Button" variant="primary" />
-      <Button block label="I am a Block level Button" variant="primary-outline" />
-    </div>
-  </template>`;
-
-  const squiredButtonValues = `
-  // script
-  import Input from "@/components/Button.vue";
-  
-  <template>
-    <div class="d--flex gap--3">
-      <Button label="I am a squired Button" size="medium" variant="primary" squired />
-      <Button label="I am a squired Button" size="medium" variant="primary-outline" squired />
-    </div>
-  </template>`;
-
-  const disabledValues = `
-  // script
-  import Input from "@/components/Button.vue";
-  
-  <template>
-    <div class="d--flex gap--3">
-      <Button label="I am a disabled Button" size="medium" variant="primary" disabled />
-      <Button label="I am a disabled Button" size="medium" variant="primary-outline" disabled />
-    </div>
-  </template>`;
  
   // ========= [ Aside links ] ========= //
   const asideLinks = [
     { path: '#overview', name: 'overview' },
-    { path: '#types', name: 'Element Types' },
-    { path: '#with-icon', name: 'Button With Icon' },
-    { path: '#sizing', name: 'Sizing' },
-    { path: '#variants', name: 'Variants' },
-    { path: '#variant-solid-color', name: 'Solid Color Variants' },
-    { path: '#variants-outline-color', name: 'Outline Color Variants' },
-    { path: '#link-variant', name: 'Link variant' },
-    { path: '#block-lovel', name: 'Block Level Buttons' },
-    { path: '#pill-style', name: 'Pill Style' },
+    { path: '#grouped-options', name: 'Grouped Options' },
+    { path: '#options-property', name: 'Options Property' },
+    { path: '#option-fields', name: 'Changing the Option Fields' },
     { path: '#squired', name: 'Squared Style' },
     { path: '#disabled', name: 'Disabled' },
     { path: '#accessibility', name: 'Accessibility' },
@@ -179,18 +124,44 @@
 
   // https://coreui.io/vue/docs/forms/date-picker.html
   
-  const selectValue = ref('');
-  const options = reactive([ 
+  const selectedStringValue = ref('');
+  const optionWithArray = [ 'Option 1', 'Option 2', 'Option 3', 'Option 4' ];
+  
+  const selectedObjectValue = ref('');
+  const options = [ 
     { value: 'Option 1', text:'Option 1', },
     { value: 'Option 2', text:'Option 2', }, 
     { value: 'Option 3', text:'Option 3' }, 
     { value: 'Option 4', text:'Option 4', disabled: true }, 
     { value: 'Option 5', text:'Option 5', },
+  ];
+
+  const selectedValue = ref('');
+  const groupedOptions = reactive([
+    { value: null, text: 'Please select an option' },
+    { value: 'a', text: 'This is First option' },
+    { value: 'b', text: 'Selected Option', disabled: true },
+    {
+      label: 'Grouped options',
+      options: [
+        { value: 'option value', text: 'Option Name' },
+        { value: 'option value', text: 'Option Name' }
+      ]
+    }
   ]);
+  
+  const selectedCustomFields = ref('');
+  const customFieldsOptions = [
+    { item: 'A', name: 'Option A' },
+    { item: 'B', name: 'Option B' },
+    { item: 'D', name: 'Option C', notEnabled: true },
+    { item: { d: 1 }, name: 'Option D' }
+  ];
+  
 
 </script>
 <script>
-export default { name: "SelectView" }
+export default { name: "SelectView", components: { Alert } }
 </script>
 
 <template>
@@ -200,7 +171,10 @@ export default { name: "SelectView" }
       <h2 class="text--light">
         The custom <ElementInCodeFormate label="Select /" class="text--primary fw--bold" /> using custom styles. 
         <br />
-        Optionally specify options based on an <code class="text--warning">array, array of objects</code> or an <code class="text--warning">object</code>.
+        Optionally specify options based on an 
+        <code class="text--warning">array of strings, array of objects</code> 
+        <code> or an </code>
+        <code class="text--warning">object</code>.
       </h2>
       <br />
 
@@ -209,7 +183,49 @@ export default { name: "SelectView" }
         <div class="block-sec__header">
           <h2 class="text--white fs--h1 mb--4">Overview</h2>
           <h3 class="text--regular">
-            Generate your select options by passing an array or object to the <code class="text--primary">options</code> props:
+            Generate your select options by passing an array or object to the <code class="text--primary">options</code> props.
+          </h3>
+        </div>
+        <hr class="my--4" />
+        <div class="block-sec__body pb--4">
+          <div class="row">
+            <div class="col--12 col-xl--6">
+              <Select 
+                label="Select with Array of strings" 
+                v-model="selectedStringValue" 
+                :options="optionWithArray" 
+                required 
+                validate 
+                placeholder="-- Select String Items --" />
+
+              Selected String Value: <strong class="text--primary">{{ selectedStringValue }}</strong>
+            </div>
+            <div class="col--12 col-xl--6">
+              <Select 
+                label="Select Label" 
+                v-model="selectedObjectValue" 
+                :options="options" 
+                required 
+                validate 
+                placeholder="-- Select Object Items --" />
+
+              Selected Object Value: <strong class="text--primary">{{ selectedObjectValue }}</strong>
+            </div>
+          </div>
+        </div>
+        <div class="block-sec__footer">
+          <HighCode class="code" :codeValue="overviewValue" theme="dark" lang="Vue" />
+        </div>
+      </section>      
+
+      <!-- Grouped Options -->
+      <section class="block-sec mb--4" id="grouped-options">
+        <div class="block-sec__header">
+          <h2 class="text--white fs--h1 mb--4">Grouped Option</h2>
+          <h3 class="text--regular">
+            You can even define 
+            <code class="text--primary">option groups</code> with the 
+            <code class="text--primary">options</code> props.
           </h3>
         </div>
         <hr class="my--4" />
@@ -217,225 +233,75 @@ export default { name: "SelectView" }
           <div class="d--flex gap--2">
            <Select 
             label="Select Label" 
-            v-model="selectValue" 
-            :options="options" required validate 
+            v-model="selectedValue" 
+            :options="groupedOptions" 
+            required 
+            validate 
             placeholder="-- Select Items --" />
           </div>
-          Selected Value: <strong class="text--primary">{{ selectValue }}</strong>
+          Selected Value: <strong class="text--primary">{{ selectedValue }}</strong>
         </div>
         <div class="block-sec__footer">
-          <HighCode class="code" :codeValue="overviewValue" theme="dark" lang="Vue" />
+          <HighCode class="code" :codeValue="groupedOptionsValue" theme="dark" lang="Vue" />
         </div>
       </section>
 
-      <!-- Elemment Type -->
-      <section class="block-sec mb--4" id="types">
-        <div class="block-sec__header ">
-          <h2 class="text--white fs--h1 mb--4">Element Types</h2>
-          <h3 class="fw--regular">            
-            The <ElementInCodeFormate label="Button /" class="text--primary fw--bold" /> component generally renders a 
-            <ElementInCodeFormate label="Button /" class="text--primary fw--bold" /> element. However, you can also render an 
-            <ElementInCodeFormate label="a /" class="text--primary fw--bold" /> element by providing an 
-            <span class="text--primary">path prop value</span>. 
-            <br />
-            You may also generate vue-router 
-            <ElementInCodeFormate label="router-link /" class="text--primary fw--bold" /> 
-            when providing a value for the to prop <span class="text--warning">(vue-router is required)</span>.
+      <!-- Options Property -->
+      <section class="block-sec mb--4" id="options-property">
+        <div class="block-sec__header">
+          <h2 class="text--white fs--h1 mb--4">Options Property</h2>
+          <h3 class="text--regular">
+            You can even define 
+            <code class="fw--bold text--primary">options</code> can be an 
+            <code class="fw--bold text--warning">array of strings or objects</code> , or a 
+            <code class="fw--bold text--warning">key-value object</code>. Available fields:
+          </h3>
+          <ul class="fs--regular points mb--3">
+            <li><code class="fw--bold text--primary">value</code> : The selected value which will be set on v-model</li>
+            <li><code class="fw--bold text--primary">disabled</code> : Disables item for selection</li>
+            <li><code class="fw--bold text--primary">text</code> : Display text</li>
+          </ul>
+          <Alert variant="dark">
+            Note: <code class="fw--bold text--primary">value</code> can be a <code class="fw--bold text--primary">String, Number</code>. Avoid using complex types in values.
+          </Alert>
+        </div>
+        <hr class="my--4" id="options-as-array" />
+        <div class="block-sec__body pb--4">
+          <h2 class="text--white">Options as an <code class="text--primary">Array</code> (array of string)</h2>
+          <HighCode class="code" :codeValue="optionWithArrayValue" theme="dark" lang="Javascript" />
+          <br />
+          <h2 class="text--white">Options as an <code class="text--primary">Array</code> of <code class="text--primary">Objects</code></h2>
+          <HighCode class="code" :codeValue="optionWithObjectValue" theme="dark" lang="Javascript" />
+        </div>
+        <div class="block-sec__footer">
+        </div>
+      </section>
+
+      <!-- Changing the option field names -->
+      <section class="block-sec mb--4" id="option-fields">
+        <div class="block-sec__header">
+          <h2 class="text--white fs--h1 mb--4">Changing the Option Field Names</h2>
+          <h3 class="text--regular">
+            If you want to customize the <code class="fw--bold text--primary">field</code> property names (for example using name field for display <code class="fw--bold text--primary">text</code>) you can easily change them by setting the 
+            <code class="fw--bold text--primary">text-field</code>, <code class="fw--bold text--primary">value-field</code>, and 
+            <code class="fw--bold text--primary">disabled-field</code> props to a string that contains the property name you would like to use:
           </h3>
         </div>
-        <hr class="my--4" />
+        <hr class="my--4" id="options-as-array" />
         <div class="block-sec__body pb--4">
           <div class="d--flex gap--2">
-            <Button type="button" label="I am a Button" />
-            <Button path="/elements/input" type="internal" label="I am a link (RouterLink)" />
-            <Button path="http://www.google.com" type="external" label="I am a link (Anchor Link)" />
+            <Select 
+              v-model="selectedCustomFields" 
+              :options="customFieldsOptions" 
+              value-field="item"
+              text-field="name"
+              disabled-field="notEnabled"
+              placeholder="-- Select Items --" />
           </div>
+          Selected String Value: <strong class="text--primary">{{ selectedCustomFields }}</strong>
         </div>
         <div class="block-sec__footer">
-          <HighCode class="code" :codeValue="elementTypes" theme="dark" lang="Vue" />
-        </div>
-      </section>
-
-      <!-- Button with Icon -->
-      <section class="block-sec mb--4" id="with-icon">
-        <div class="block-sec__header ">
-          <h2 class="text--white fs--h1 mb--4">Button With Icon</h2>
-          <h3 class="fw--regular">You may have <ElementInCodeFormate label="Button /" class="text--primary fw--bold" /> with an icon.</h3>
-        </div>
-        <hr class="my--4" />
-        <div class="block-sec__body pb--4">
-          <div class="d--flex gap--3">
-            <Button 
-              variant="primary"
-              label="I am a Button with an icon (Start)" 
-              icon />
-            <Button 
-              variant="primary-outline" 
-              label="I am a Button with an icon in (End)" 
-              icon 
-              iconDirection="end" 
-              iconClass="fa-arrow-right" />
-          </div>
-        </div>
-        <div class="block-sec__footer">
-          <HighCode class="code" :codeValue="buttonWithIconValues" theme="dark" lang="Vue" />
-        </div>
-      </section>
-
-      <!-- Button Sizing -->
-      <section class="block-sec mb--4" id="sizing">
-        <div class="block-sec__header ">
-          <h2 class="text--white fs--h1 mb--4">Button Sizing</h2>
-          <h3 class="fw--regular">
-            You may able to have a <span class="text--primary">various type of buttons</span>. E.g: larger or smaller buttons? 
-            <br />
-            <span class="text--warning">Specify 'small', 'medium' or 'large' via the size prop.</span>
-          </h3>
-        </div>
-        <hr class="my--4" />
-        <div class="block-sec__body pb--4">
-          <div class="d--flex align-items-center flex--wrap gap--2">
-            <Button label="I am a Small Size Button" size="small" />
-            <Button label="I am a Normal Size Button" />
-            <Button label="I am a Medium Size Button" size="medium" />
-            <Button label="I am a Large Size Button" size="large" />
-          </div>
-        </div>
-        <div class="block-sec__footer">
-          <HighCode class="code" :codeValue="elementTypes" theme="dark" lang="Vue" />
-        </div>
-      </section>
-
-      <!-- Button Variants -->
-      <section class="block-sec mb--4" id="variants">
-        <div class="block-sec__header ">
-          <h2 class="text--white fs--h1 mb--4">Button Variants</h2>
-          <h3 class="mb--2 fw--regular">Use the variant prop to generate the various contextual button variants.</h3>
-          <h3 class="mb--2 fw--regular">By default <span class="text--primary"><code>&lt;Button&gt;</code></span> will render with the white variant.</h3>
-          <h2 class="text--warning mb--1 flex-shrink--0 mb--2 mt--4">Solid color variants</h2>
-          <Alert class="rounded" type="warning" icon message="primary, secondary, success, danger, warning, info, white, light, black, and dark." />
-        </div>
-        <hr class="my--4" />
-        <div class="block-sec__body pb--4" id="variant-solid-color">
-          <div class="d--flex align-items-center flex--wrap gap--2">
-            <Button label="Primary" variant="primary" />
-            <Button label="Secondary" variant="secondary" />
-            <Button label="Warning" variant="warning" />
-            <Button label="Danger" variant="danger" />
-            <Button label="Success" variant="success" />
-            <Button label="Info" variant="info" />
-            <Button label="White" variant="white" />
-            <Button label="Light" variant="light" />
-            <Button label="Black" variant="black" />
-            <Button label="Dark" variant="dark" />
-          </div>
-        </div>
-        <div class="block-sec__footer">
-          <HighCode class="code" :codeValue="buttonVarientSolid" theme="dark" lang="Vue" />
-          <div class="px--4 py--2" id="variants-outline-color">
-            <h2 class="text--warning mb--1 flex-shrink--0 mb--2 mt--4">Outline color variants</h2>
-            <Alert class="rounded" type="warning" icon message="primary-outline, secondary-outline, success-outline, danger-outline, warning-outline, info-outline, white-outline, light-outline, black-outline, and dark.." />
-            <hr />
-            <div class="d--flex align-items-center flex--wrap gap--2 pb--3">
-              <Button label="Primary" variant="primary-outline" />
-              <Button label="Secondary" variant="secondary-outline" />
-              <Button label="Warning" variant="warning-outline" />
-              <Button label="Danger" variant="danger-outline"  />
-              <Button label="Success" variant="success-outline"  />
-              <Button label="Info" variant="info-outline"  />
-              <Button label="White" variant="white-outline"  />
-              <Button label="Light" variant="light-outline"  />
-              <Button label="Black" variant="black-outline" />
-              <Button label="Dark" variant="dark-outline" />
-            </div>
-          </div>
-          <HighCode class="code" :codeValue="buttonVarientSolidOutline" theme="dark" lang="Vue" />
-        </div>
-      </section>
-
-      <!-- Link -->
-      <section class="block-sec mb--4" id="link-variant">
-        <div class="block-sec__header ">
-          <h2 class="text--white fs--h1 mb--4">Link Variant</h2>
-          <h3 class="fw--regular">
-            <span class="text--primary">Variant link</span> will render a button with the appearance of a link while maintaining the default padding and size of a button.
-          </h3>
-          <Alert class="rounded" type="success" icon message="link-primary, link-secondary, link-success, link-danger, link-warning, link-info, link-white, link-light, link-black, and link-dark..." />
-        </div>
-        <hr class="my--4" />
-        <div class="block-sec__body pb--4">
-          <div class="d--flex align-items-center flex--wrap gap--2">
-            <Button label="I am a Link" variant="link" />
-            <Button label="I am a Link - Danger" variant="link-danger" />
-            <Button label="I am a Link - info" variant="link-info" />
-            <Button label="I am a Link - Light" variant="link-light" />
-          </div>
-        </div>
-        <div class="block-sec__footer">
-          <HighCode class="code" :codeValue="linkVariantValues" theme="dark" lang="Vue" />
-        </div>
-      </section>
-
-      <!-- Block Level -->
-      <section class="block-sec mb--4" id="block-lovel">
-        <div class="block-sec__header ">
-          <h2 class="text--white fs--h1 mb--4">Block Level Button</h2>
-          <h3 class="fw--regular">
-            Create block level <ElementInCodeFormate label="Button /" class="text--primary fw--bold" />s — those that span the full width of a parent — by setting the 
-            <span class="text--primary">block</span> prop.
-          </h3>
-        </div>
-        <hr class="my--4" />
-        <div class="block-sec__body pb--4">
-          <div class="d--flex gap--3">
-            <Button block label="I am a Block level Button" variant="primary" />
-            <Button block label="I am a Block level Button" variant="primary-outline" />
-          </div>
-        </div>
-        <div class="block-sec__footer">
-          <HighCode class="code" :codeValue="blockLevelButtonValues" theme="dark" lang="Vue" />
-        </div>
-      </section>
-
-      <!-- Squired Buttons -->
-      <section class="block-sec mb--4" id="squired">
-        <div class="block-sec__header ">
-          <h2 class="text--white fs--h1 mb--4">Squired Button</h2>
-          <h3 class="fw--regular">
-            Prefer <ElementInCodeFormate label="Button /" class="text--primary fw--bold" />s with a more square corner style? 
-            Just set the prop <span class="text--primary">squared</span> to true.
-          </h3>
-        </div>
-        <hr class="my--4" />
-        <div class="block-sec__body pb--4">
-          <div class="d--flex gap--3">
-            <Button label="I am a squired Button" size="medium" variant="primary" squired />
-            <Button label="I am a squired Button" size="medium" variant="primary-outline" squired />
-          </div>
-        </div>
-        <div class="block-sec__footer">
-          <HighCode class="code" :codeValue="squiredButtonValues" theme="dark" lang="Vue" />
-        </div>
-      </section>
-
-      <!-- Disabled Buttons -->
-      <section class="block-sec mb--4" id="disabled">
-        <div class="block-sec__header ">
-          <h2 class="text--white fs--h1 mb--4">Disabled Button</h2>
-          <h3 class="fw--regular">
-            Prefer <ElementInCodeFormate label="Button /" class="text--primary fw--bold" />s with a more square corner style? 
-            Just set the prop <span class="text--primary">squared</span> to true.
-          </h3>
-        </div>
-        <hr class="my--4" />
-        <div class="block-sec__body pb--4">
-          <div class="d--flex gap--3">
-            <Button label="I am a disbaled Button" size="medium" variant="primary" disbaled />
-            <Button label="I am a disbaled Button" size="medium" variant="primary-outline" disbaled />
-          </div>
-        </div>
-        <div class="block-sec__footer">
-          <HighCode class="code" :codeValue="disabledValues" theme="dark" lang="Vue" />
+          <HighCode class="code" :codeValue="optionWithObjectValue" theme="dark" lang="Javascript" />
         </div>
       </section>
 

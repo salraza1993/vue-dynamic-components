@@ -40,6 +40,10 @@
     font-size: clamp(1.25rem, 10vw, 1.75rem);
     line-height: clamp(1.5rem, 12vw, 2.25rem);
   }
+  &--regular {
+    font-size: clamp(1rem, 5vw, 1.15rem);
+    line-height: clamp(1.5rem, 6vw, 1.75rem);
+  }
 }
 
 .gap {
@@ -154,6 +158,21 @@
     }
   }
   
+}
+
+.bg {
+  $names: ('primary', 'secondary', 'white', 'black', 'dark', 'danger', 'success', 'warning', 'info');
+  $colors: (--primary, --secondary, --white, --black, --dark, --danger, --success, --warning, --info);
+  @for $i from 1 to length($names) + 1 {
+    &--#{nth($names, $i)} {
+      background-color: var(nth($colors, $i)) !important;
+    }
+    &-hover--#{nth($names, $i)} {
+      &:hover {
+        background-color: var(nth($colors, $i)) !important;
+      }
+    }
+  }
 }
 
 $marginPaddingNames: (0, 1, 2, 3, 4, 5);

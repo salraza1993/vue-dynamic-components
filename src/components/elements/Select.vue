@@ -12,46 +12,75 @@
     <div class="select-block__label-container" v-if="label">
       <label :for="props.id" class="select-block__label-container__label" :class="labelClass">
         {{ labelComputedValue }}
-        <span v-if="props.required">*</span>
+        <span v-if="props.required" class="text--danger">*</span>
       </label>
     </div>
     <slot v-if="!label" />
     <div 
       class="select-block__select-container"
       :class="[selectContainerClass, { 'select-block__select-container--error': error }]">
-      <select 
-        class="select-block__select"
-        :class="[ selectClass, { 
+
+			<template v-if="checkOptionsType === 'string'">
+				<select 
+					class="select-block__select"
+					:class="[ selectClass, { 
 						'select--error': error && !props.disabled, 
 						'select--success': valid && !props.disabled,
 						'select--disabled': props.disabled,
 						'select--plain': props.plain,
 						'select--squired': props.squired,
-					}
-				]"
-        :name="props.name" 
-        :id="props.id"
-        @blur="selectValidation(selectedValue)"
-        @change="inputHandler($event)">
+						}
+					]"
+					:name="props.name" 
+					:id="props.id"
+					@blur="selectValidation(selectedValue)"
+					@change="inputHandler($event)">
 
-				<option v-if="placeholder" value="">{{ placeholder }}</option>
-				
-				<option 
-					:value="option.value" 
-					v-for="option in nonGroupedOptions" 
-					:key="option.value"
-					:selected="option.value === modelValue"
-					:disabled="option.disabled"
-					>
-					{{ option.text }}
-				</option>
-				
-				<optgroup :label="group.label" v-for="group in groupedOptions" :key="group.label">
-					<option :value="option.value" v-for="option in group.options" :key="option.text">
-						{{ option.text }}
+					<option v-if="placeholder" value="">{{ placeholder }}</option>					
+					<option 
+						:value="option" 
+						v-for="option in options" 
+						:key="option"
+						:selected="option === modelValue"
+					>{{ option }}</option>
+				</select>
+			</template>
+
+			<template v-else>
+				<select 
+					class="select-block__select"
+					:class="[ selectClass, { 
+						'select--error': error && !props.disabled, 
+						'select--success': valid && !props.disabled,
+						'select--disabled': props.disabled,
+						'select--plain': props.plain,
+						'select--squired': props.squired,
+						}
+					]"
+					:name="props.name" 
+					:id="props.id"
+					@blur="selectValidation(selectedValue)"
+					@change="inputHandler($event)">
+
+					<option v-if="placeholder" value="">{{ placeholder }}</option>
+					
+					<option 
+						:value="option[valueField]" 
+						v-for="option in nonGroupedOptions" 
+						:key="option.value"
+						:selected="option.value === modelValue"
+						:disabled="option[notEnabled]"
+						>
+						{{ option[textField] }}
 					</option>
-				</optgroup>
-      </select>
+					
+					<optgroup :label="group.label" v-for="group in groupedOptions" :key="group.label">
+						<option :value="option[valueField]" v-for="option in group.options" :key="option.text">
+							{{ option[textField] }}
+						</option>
+					</optgroup>
+				</select>
+			</template>
       <small v-if="error" class="error-message" :class="{ 'text--danger': error }">{{ errorMessage }}</small>
     </div>
   </div>
@@ -80,6 +109,9 @@ const props = defineProps({
 	squired: Boolean,
 	placeholder: {type: String, default: () => '-- Select --'},
 	validate: {type: Boolean, default: false},
+	textField: {type: String, default: () => 'text'},
+	valueField: {type: String, default: () => 'value'},
+	notEnabled: {type: String, default: () => 'disabled'},
   options: {
     type: [Object, Array],
     default: () => [
@@ -107,6 +139,18 @@ const nonGroupedOptions = computed(() => {
 		if(!item.label) return item
 	})	
 });
+
+const labelComputedValue = computed(() => {
+	return props.label === true ? 'Block Label' : props.label
+})
+const checkOptionsType = computed(() => {
+	let option_type = 'string';
+	if(props.options.length > 0 && typeof props.options[0] !== 'string') {
+		option_type = 'object';
+	}
+	return option_type;
+})
+
 
 
 const inputHandler = (event) => {

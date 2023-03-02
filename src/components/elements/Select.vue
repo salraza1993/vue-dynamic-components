@@ -211,16 +211,6 @@ const selectValidation = (event) => {
 	--select-focus-outline-color: rgba(var(--white-rgb), 0.15);
 	--select-focus-outline-width: 3px;
 	--select-border-radius: var(--border-radius, 0.35rem);
-
-
-	&--plain {
-		--select-padding-y: 0;
-		--select-padding-x: 0;
-		--select-border-width: 0;
-		--select-bg-color: transparent;
-		--select-color: var(--white, #ffffff);
-	}
-	
   
 
 	width: var(--select-width, 100%);
@@ -258,9 +248,7 @@ const selectValidation = (event) => {
       background-size: 9.5px;
       background-position: center right 0.75rem;
 
-			&:is(.squired, .select--squired) {
-				--select-border-radius: 0;
-			}
+			&:is(.squired, .select--squired) { --select-border-radius: 0; }
 
 			&::placeholder { color: var(--select-color); }
 			

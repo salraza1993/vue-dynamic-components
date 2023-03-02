@@ -144,7 +144,8 @@ import Alert from "../components/elements/Alert.vue";
     { path: '#options-property', name: 'Options Property' },
     { path: '#option-fields', name: 'Changing the Option Fields' },
     { path: '#squired', name: 'Squared Style' },
-    { path: '#disabled', name: 'Disabled' },
+    { path: '#disabled-readonly', name: 'Disabled and Readonly' },
+    { path: '#required', name: 'Required' },
     { path: '#accessibility', name: 'Accessibility' },
     { path: '#download', name: 'Download' },
   ];
@@ -243,7 +244,7 @@ export default { name: "SelectView", components: { Alert } }
         <div class="block-sec__footer">
           <HighCode class="code" :codeValue="overviewValue" theme="dark" lang="Vue" />
         </div>
-      </section>      
+      </section>
 
       <!-- Grouped Options -->
       <section class="block-sec mb--4" id="grouped-options">
@@ -329,6 +330,35 @@ export default { name: "SelectView", components: { Alert } }
         </div>
         <div class="block-sec__footer">
           <HighCode class="code" :codeValue="customFieldsOptionsValue" theme="dark" lang="Javascript" />
+        </div>
+      </section>
+
+      <!-- Squired -->
+      <section class="block-sec mb--4" id="squired">
+        <div class="block-sec__header">
+          <h2 class="text--white fs--h1 mb--4">Select Squired Style</h2>
+          <h3 class="text--regular">
+            Generate your select options by passing an array or object to the <code class="text--primary">options</code> props.
+          </h3>
+        </div>
+        <hr class="my--4" />
+        <div class="block-sec__body pb--4">
+          <div class="row">
+            <div class="col--12 col-xl--6">
+              <Select 
+                label="Select with Array of strings" 
+                v-model="selectedStringValue" 
+                :options="optionWithArray" 
+                required 
+                squired
+                placeholder="-- Select String Items --" />
+
+              Selected String Value: <strong class="text--primary">{{ selectedStringValue }}</strong>
+            </div>
+          </div>
+        </div>
+        <div class="block-sec__footer">
+          <HighCode class="code" :codeValue="overviewValue" theme="dark" lang="Vue" />
         </div>
       </section>
 

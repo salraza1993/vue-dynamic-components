@@ -8,6 +8,7 @@
 				'input-block--error': errorClass, 
 				'input-block--success': successClass,
 				'input-block--disabled': props.disabled,
+				'input-block--squared': props.squared,
 				'input-block--plain': props.plain,
 			}
 		]">
@@ -30,6 +31,7 @@
 						'input--success': valid && !props.disabled,
 						'input--disabled': props.disabled,
 						'input--plain': props.plain,
+						'input--squared': props.squared,
 					}
 				]"
 				@blur="inputValidation(inputValue)"
@@ -75,6 +77,7 @@ const props = defineProps({
 	readonly: Boolean,
 	plainText: Boolean,
 	disabled: Boolean,
+	squared: Boolean,
 	step: { type: [Number, String] },
 	validate: {type: Boolean, default: false},
 	
@@ -215,28 +218,20 @@ export default {
 
 	--input-border-width: 1px;
 	--input-border-style: solid;
-	--input-border-radius: var(--border-radius, 0.35rem);
-	--input-border-color: var(--border-color, #a0aba6);
+	--input-border-radius: 0.35rem;
+	--input-border-color:#a0aba6;
 
-	--input-bg-color: var(--white, #ffffff);
-	--input-color: var(--dark, #252525);
-	--input-label: var(--white, #ffffff);
+	--input-bg-color: #ffffff;
+	--input-color: #252525;
+	--input-label: #ffffff;
 	--input-font-size: inherit;
 	--input-font-family: inherit;
 	
 	--input-border-hover-color: transparent;
-	--input-bg-hover-color: var(--white, #ffffff);
-	--input-hover-color: var(--black, #1C1C1C);
+	--input-bg-hover-color: #ffffff;
+	--input-hover-color: #1C1C1C;
 	--input-focus-outline-color: rgba(var(--white-rgb), 0.15);
-	--input-focus-outline-width: 3px;
-
-	&--plain {
-		--input-padding-y: 0;
-		--input-padding-x: 0;
-		--input-border-width: 0;
-		--input-bg-color: transparent;
-		--input-color: var(--white, #ffffff);
-	}
+	--input-focus-outline-width: 3px;	
 	
 	&__type {
 		&--color {
@@ -363,6 +358,7 @@ export default {
 			outline: none;
 			appearance: none;
 			transition: var(--transition);
+			border-radius: var(--input-border-radius);
 
 			&::placeholder { color: var(--input-color); }
 			
@@ -404,16 +400,19 @@ export default {
 			}
 		}
 	}
+	&--plain {
+		--input-padding-y: 0;
+		--input-padding-x: 0;
+		--input-border-width: 0;
+		--input-bg-color: transparent;
+		--input-color: var(--white, #ffffff);
+	}
 	&--disabled {
 		--input-border-color: #363636;
 		--input-bg-color: #666666;
 		--input-color: #b6b6b6;
 		cursor: not-allowed;
 	}
-	&:is(&.rounded, &.input-rounded) {
-		input {
-			border-radius: var(--input-border-radius);
-		}
-	}
+	&--squared { --input-border-radius: 0; }
 }
 </style>

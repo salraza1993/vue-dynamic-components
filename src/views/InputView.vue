@@ -19,6 +19,7 @@ import ElementInCodeFormate from "../components/ElementInCodeFormate.vue";
   const inputValue_required = ref('');
   const inputValue_disbaled = ref('This field is disabled');
   const inputValue_readonly = ref('This field is for read-only');
+  const inputValue_square = ref('This input shape is in square');
   const input_plain = ref('This field is for plain text with read-only');
   const input_capitalize = ref('');
   const input_uppercase = ref('');
@@ -105,7 +106,7 @@ import ElementInCodeFormate from "../components/ElementInCodeFormate.vue";
   const inputValueWithLabel = ref('');
   
   <template>
-    <Input class="input-rounded" v-model="inputValueWithLabel" label="Input Label" />
+    <Input v-model="inputValueWithLabel" label="Input Label" />
     <h3>
       <span class="text-light">Input Value:</span> 
       <span class="text--primary text--bold">{{ inputValueWithLabel }}</span>
@@ -121,13 +122,13 @@ import ElementInCodeFormate from "../components/ElementInCodeFormate.vue";
   <template>
     <div class="row">
       <div class="col--12 col-lg--6 col-xl--4">
-        <Input class="input-rounded" v-model="inputValue_disbaled" label="Disabled" disabled />
+        <Input v-model="inputValue_disbaled" label="Disabled" disabled />
       </div>
       <div class="col--12 col-lg--6 col-xl--4">
-        <Input class="input-rounded" v-model="inputValue_readonly" label="Readonly" readonly />
+        <Input v-model="inputValue_readonly" label="Readonly" readonly />
       </div>
       <div class="col--12 col-lg--6 col-xl--4">
-        <Input class="input-rounded" v-model="inputValue_required" label="Required" validate required />
+        <Input v-model="inputValue_required" label="Required" validate required />
         <h3>{{ inputValue_required }}</h3>
       </div>
     </div>
@@ -142,7 +143,7 @@ import ElementInCodeFormate from "../components/ElementInCodeFormate.vue";
   
   <template>
     <div class="row">
-      <Input class="input-rounded" v-model="input_plain" label="Plain Text" plain />
+      <Input v-model="input_plain" label="Plain Text" plain />
     </div>
   </template>
   `;
@@ -158,15 +159,15 @@ import ElementInCodeFormate from "../components/ElementInCodeFormate.vue";
   <template>
     <div class="row">
       <div class="col--12 col-lg--6 col-xl--4">
-        <Input class="input-rounded" v-model="input_lowercase" label="Lowercase" lowercase />
+        <Input v-model="input_lowercase" label="Lowercase" lowercase />
         <h3 v-if="input_lowercase" class="text--success">{{ input_lowercase }}</h3>
       </div>
       <div class="col--12 col-lg--6 col-xl--4">
-        <Input class="input-rounded" v-model="input_capitalize" label="Capitalize / Camelcase" capitalize />
+        <Input v-model="input_capitalize" label="Capitalize / Camelcase" capitalize />
         <h3 v-if="input_capitalize" class="text--success">{{ input_capitalize }}</h3>
       </div>
       <div class="col--12 col-lg--6 col-xl--4">
-        <Input class="input-rounded" v-model="input_uppercase" label="Uppercase" uppercase />
+        <Input v-model="input_uppercase" label="Uppercase" uppercase />
         <h3 v-if="input_uppercase" class="text--success">{{ input_uppercase }}</h3>
       </div>
     </div>
@@ -190,7 +191,7 @@ import ElementInCodeFormate from "../components/ElementInCodeFormate.vue";
       </div>
       <div class="col--12 col-lg--7 col-xl--8">
         <div class="input-types__value">
-          <Input class="input-rounded" v-model="input_null" />
+          <Input v-model="input_null" />
         </div>
       </div>
       <div class="col--12 col-lg--5 col-xl--4">
@@ -201,7 +202,7 @@ import ElementInCodeFormate from "../components/ElementInCodeFormate.vue";
       </div>
       <div class="col--12 col-lg--7 col-xl--8">
         <div class="input-types__value">
-          <Input class="input-rounded" v-model="input_validated" validate required />
+          <Input v-model="input_validated" validate required />
         </div>
       </div>
     </div>
@@ -215,6 +216,7 @@ import ElementInCodeFormate from "../components/ElementInCodeFormate.vue";
     { path: '#input-type-range', name: 'Input type Range' },
     { path: '#input-with-label', name: 'Input with Label' },
     { path: '#required-disable-readonly', name: 'Required, Disabled, & Readonly' },
+    { path: '#square', name: 'square Shape' },
     { path: '#readonly-plain-text', name: 'Readonly plain text' },
     { path: '#input-style-formate', name: 'Input Style (Formatter)' },
     { path: '#contextual-states', name: 'Contextual states' },
@@ -259,7 +261,7 @@ export default { name: "InputView", components: { ElementInCodeFormate } }
           <h2 class="text--white fs--h1 mb--4">Example</h2>
         </div>
         <div class="block-sec__body">
-          <Input class="input-rounded" v-model="inputValue" />
+          <Input v-model="inputValue" />
           <h3>
             <span class="text-light">Input Value (Two way binding):</span> <span class="text--primary text--bold">{{ inputValue }}</span>
           </h3>
@@ -349,7 +351,7 @@ export default { name: "InputView", components: { ElementInCodeFormate } }
           <h2 class="text--white fs--h1 mb--4">Input with Label</h2>
         </div>
         <div class="block-sec__body">
-          <Input class="input-rounded" v-model="inputValueWithLabel" label="Input Label" />
+          <Input v-model="inputValueWithLabel" label="Input Label" />
           <h3>
             <span class="text-light">Input Value:</span> <span class="text--primary text--bold">{{ inputValueWithLabel }}</span>
           </h3>
@@ -367,16 +369,31 @@ export default { name: "InputView", components: { ElementInCodeFormate } }
         <div class="block-sec__body">
           <div class="row">
             <div class="col--12 col-lg--6 col-xl--4">
-              <Input class="input-rounded" v-model="inputValue_disbaled" label="Disabled" disabled />
+              <Input v-model="inputValue_disbaled" label="Disabled" disabled />
             </div>
             <div class="col--12 col-lg--6 col-xl--4">
-              <Input class="input-rounded" v-model="inputValue_readonly" label="Readonly" readonly />
+              <Input v-model="inputValue_readonly" label="Readonly" readonly />
             </div>
             <div class="col--12 col-lg--6 col-xl--4">
-              <Input class="input-rounded" v-model="inputValue_required" label="Required" validate required />
+              <Input v-model="inputValue_required" label="Required" validate required />
               <h3>{{ inputValue_required }}</h3>
             </div>
           </div>
+        </div>
+        <div class="block-sec__footer">
+          <HighCode class="code" :codeValue="requiredDisabledValues" theme="dark" lang="Vue" />
+        </div>
+      </section>
+
+      <!-- Input Square -->
+      <section class="block-sec mb--4" id="square">
+        <div class="block-sec__header">
+          <h2 class="text--white fs--h1 mb--4">Input in Square Shape</h2>
+          <h3 class="fw--regular">Prefer <ElementInCodeFormate label="Input /" class="fw--bold text--primary" /> with a more square corner style? 
+          Just set the prop <code class="text--warning">squared</code> to true.</h3>
+        </div>
+        <div class="block-sec__body">
+          <Input v-model="inputValue_square" squared />
         </div>
         <div class="block-sec__footer">
           <HighCode class="code" :codeValue="requiredDisabledValues" theme="dark" lang="Vue" />
@@ -389,7 +406,7 @@ export default { name: "InputView", components: { ElementInCodeFormate } }
           <h2 class="text--white fs--h1 mb--4">Plain text with label</h2>
         </div>
         <div class="block-sec__body">
-          <Input class="input-rounded" v-model="input_plain" label="Plain Text" plain />
+          <Input v-model="input_plain" label="Plain Text" plain />
         </div>
         <div class="block-sec__footer">
           <HighCode class="code" :codeValue="inputPlainValues" theme="dark" lang="Vue" />
@@ -404,15 +421,15 @@ export default { name: "InputView", components: { ElementInCodeFormate } }
         <div class="block-sec__body">
           <div class="row">
             <div class="col--12 col-lg--6 col-xl--4">
-              <Input class="input-rounded" v-model="input_lowercase" label="Lowercase" lowercase />
+              <Input v-model="input_lowercase" label="Lowercase" lowercase />
               <h3 v-if="input_lowercase" class="text--success">{{ input_lowercase }}</h3>
             </div>
             <div class="col--12 col-lg--6 col-xl--4">
-              <Input class="input-rounded" v-model="input_capitalize" label="Capitalize / Camelcase" capitalize />
+              <Input v-model="input_capitalize" label="Capitalize / Camelcase" capitalize />
               <h3 v-if="input_capitalize" class="text--success">{{ input_capitalize }}</h3>
             </div>
             <div class="col--12 col-lg--6 col-xl--4">
-              <Input class="input-rounded" v-model="input_uppercase" label="Uppercase" uppercase />
+              <Input v-model="input_uppercase" label="Uppercase" uppercase />
               <h3 v-if="input_uppercase" class="text--success">{{ input_uppercase }}</h3>
             </div>
           </div>
@@ -441,7 +458,7 @@ export default { name: "InputView", components: { ElementInCodeFormate } }
                 </div>
                 <div class="col--12 col-lg--7 col-xl--8">
                   <div class="input-types__value">
-                    <Input class="input-rounded" v-model="input_null" />
+                    <Input v-model="input_null" />
                   </div>
                 </div>
                 <div class="col--12 col-lg--5 col-xl--4">
@@ -452,7 +469,7 @@ export default { name: "InputView", components: { ElementInCodeFormate } }
                 </div>
                 <div class="col--12 col-lg--7 col-xl--8">
                   <div class="input-types__value">
-                    <Input class="input-rounded" v-model="input_validated" validate required />
+                    <Input v-model="input_validated" validate required />
                   </div>
                 </div>
               </div>

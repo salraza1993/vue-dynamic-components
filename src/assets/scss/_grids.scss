@@ -8,9 +8,9 @@ $colGutter: 2.5rem;
   width: 100%;
   padding-left: calc(var(--gutter-x) * 0.5);
   padding-right: calc(var(--gutter-x) * 0.5);
-
+  
   max-width: 1200px;
-
+  
   @media (max-width: 991px) {
     .container {
       max-width: 750px;
@@ -19,16 +19,34 @@ $colGutter: 2.5rem;
 }
 
 .row {
+  --gap: 0rem;
+  $unit: rem;
   display: flex;
+  // justify-content: space-between;
   flex-wrap: wrap;
   margin-left: calc(var(--gutter-x) * -.5);
-  margin-right: calc(var(--gutter-x) * -.5);  
+  margin-right: calc(var(--gutter-x) * -.5); 
+  
+  // $gaps: ('0.5', '1', '1.5', '2', '3');
+  // $types: 5;
+  // @for $i from 1 through $types {
+  //   gap: var(--gap);
+  //   &.gap--#{$i}, &.g--#{$i} { --gap: #{nth($gaps, $i) + $unit}; }
+  //   &.gap-x--#{$i}, &.g-x--#{$i} { 
+  //     --gap: #{nth($gaps, $i) + $unit};
+  //     row-gap: var(--gap); 
+  //   }
+  //   &.gap-y--#{$i}, &.g-y--#{$i} { 
+  //     --gap: #{nth($gaps, $i) + $unit};
+  //     column-gap: var(--gap); 
+  //   }
+  // }
 }
 
 .col {  
   @for $i from 1 through $grid-cols {
+    $colWidth: calc($i / $grid-cols * 100%);
     &--#{$i} {
-      $colWidth: calc($i / $grid-cols * 100%);
       width: $colWidth;
       padding-left: calc(var(--gutter-x) * 0.5);
       padding-right: calc(var(--gutter-x) * 0.5);
@@ -37,7 +55,6 @@ $colGutter: 2.5rem;
       flex-basis: auto;
     }
   }
-
   @media (min-width: 1024px) {
     @for $i from 1 through $grid-cols {
       &-md--#{$i} {

@@ -20,6 +20,8 @@
   --secondary: #2c3e50;
   --secondary-rgb: 44, 62, 80;
 
+  --border-width: 1px;
+  --border-style: solid;
   --border-color: #a0aba6;
   --hr-color: var(--border-color, #333333);
   --anchor-color: var(--primary);
@@ -83,7 +85,7 @@
   --font-code: 'Courier Prime', monospace;
 }
 
-@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: light) {
   :root {
     --body-bg-color: var(--black);
     --color-heading: var(--white);

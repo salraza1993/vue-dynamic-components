@@ -110,8 +110,32 @@
 
 .rounded {
   border-radius: var(--border-radius) !important;
+  &-top--left { border-top-left-radius: var(--border-radius) !important;}
+  &-bottom--left { border-bottom-left-radius: var(--border-radius) !important;}
+  &-top--right { border-top-right-radius: var(--border-radius) !important;}
+  &-bottom--right { border-bottom-right-radius: var(--border-radius) !important;}
+  &-0, &--0 { --border-radius: 0; }
 }
 
+.border {
+  border: var(--border-width) var(--border-style) var(--border-color);
+  &-0, &--0 { --border-width: 0; }
+
+  $types: ('top', 'left', 'right', 'bottom');
+  @each $type in $types {
+    &--#{$type} {
+      border-#{$type}: var(--border-width) var(--border-style) var(--border-color) !important;
+    }
+  }
+  $colors: ('primary', 'secondary', 'danger', 'success', 'info', 'warning', 'dark', 'black', 'light', 'white');
+  @each $color in $colors {
+    &--#{$color} {
+      --border-color: var(--#{$color});
+      border: var(--border-width) var(--border-style) var(--border-color) !important;
+    }
+  }
+
+}
 
 .text {
   $types: (inherit, initial, capitalize, lowercase, uppercase, none, revert);

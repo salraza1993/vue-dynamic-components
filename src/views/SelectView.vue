@@ -8,7 +8,7 @@
   import 'vue-highlight-code/dist/style.css';
   import ElementInCodeFormate from "../components/ElementInCodeFormate.vue";
   import Select from "../components/elements/Select.vue";
-import Alert from "../components/elements/Alert.vue";
+  import Alert from "../components/elements/Alert.vue";
   
   // Select Overview
   const overviewValue = `
@@ -136,6 +136,33 @@ import Alert from "../components/elements/Alert.vue";
     Selected String Value: <strong class="text--primary">{{ selectedCustomFields }}</strong>
   </template>`
 
+  // Squared Select
+  const squaredSelectValue = `
+  // script
+  import { ref } from "vue";
+  import Select from "@/components/Select.vue";
+
+  const selectedSquaredValue = ref('');
+  const options = [ 
+    { value: 'Option 1', text:'Option 1', },
+    { value: 'Option 2', text:'Option 2', }, 
+    { value: 'Option 3', text:'Option 3' }, 
+    { value: 'Option 4', text:'Option 4', disabled: true }, 
+    { value: 'Option 5', text:'Option 5', },
+  ];
+
+  <template>
+    <div>
+      <Select 
+        v-model="selectedSquaredValue" 
+        :options="squaredOption" 
+        required
+        placeholder="-- Select String Items --" 
+        squired />
+        Squired Select Value: <strong class="text--primary">{{ selectedStringValue }}</strong>
+    </div>
+  </template>`
+
  
   // ========= [ Aside links ] ========= //
   const asideLinks = [
@@ -153,10 +180,18 @@ import Alert from "../components/elements/Alert.vue";
   // https://coreui.io/vue/docs/forms/date-picker.html
   
   const selectedStringValue = ref('');
+  const selectedSquaredValue = ref('');
   const optionWithArray = [ 'Option 1', 'Option 2', 'Option 3', 'Option 4' ];
   
   const selectedObjectValue = ref('');
   const options = [ 
+    { value: 'Option 1', text:'Option 1', },
+    { value: 'Option 2', text:'Option 2', }, 
+    { value: 'Option 3', text:'Option 3' }, 
+    { value: 'Option 4', text:'Option 4', disabled: true }, 
+    { value: 'Option 5', text:'Option 5', },
+  ];
+  const squaredOption = [ 
     { value: 'Option 1', text:'Option 1', },
     { value: 'Option 2', text:'Option 2', }, 
     { value: 'Option 3', text:'Option 3' }, 
@@ -343,22 +378,18 @@ export default { name: "SelectView", components: { Alert } }
         </div>
         <hr class="my--4" />
         <div class="block-sec__body pb--4">
-          <div class="row">
-            <div class="col--12 col-xl--6">
-              <Select 
-                label="Select with Array of strings" 
-                v-model="selectedStringValue" 
-                :options="optionWithArray" 
-                required 
-                squired
-                placeholder="-- Select String Items --" />
-
-              Selected String Value: <strong class="text--primary">{{ selectedStringValue }}</strong>
-            </div>
+          <div>
+            <Select 
+              v-model="selectedSquaredValue" 
+              :options="squaredOption" 
+              required
+              placeholder="-- Select String Items --" 
+              squired />
+              Squired Select Value: <strong class="text--primary">{{ selectedSquaredValue }}</strong>
           </div>
         </div>
         <div class="block-sec__footer">
-          <HighCode class="code" :codeValue="overviewValue" theme="dark" lang="Vue" />
+          <HighCode class="code" :codeValue="squaredSelectValue" theme="dark" lang="Vue" />
         </div>
       </section>
 

@@ -130,6 +130,9 @@ export default { name: "SwitcherView" }
       <section class="block-sec mb--4" id="with-label">
         <div class="block-sec__header">
           <h2 class="text--white fs--h1 mb--4">Switch with Label</h2>
+          <h3 class="fw--regular">
+            Prefer to add <span class="fw--bold">label</span> with
+          </h3>
         </div>
         <hr class="my--4" />
         <div class="block-sec__body pb--4">

@@ -171,8 +171,7 @@
     { label: 'Size: Regular', id: 'switch-regular', value: false, size: '' },
     { label: 'Size: Medium', id: 'switch-medium', value: false, size: 'medium' },
     { label: 'Size: Large', id: 'switch-large', value: false, size: 'large' },
-  ])
-  
+  ]);  
   
 </script>
 <script>

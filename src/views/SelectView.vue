@@ -79,11 +79,10 @@
   <template>
     <div>
       <Select 
+        label="Select Label" 
         v-model="selectedValue" 
         :options="groupedOptions" 
-        required 
-        validate 
-        placeholder="-- Select Items --" />
+        placeholder="-- Select Grouped Items --" />
     </div>
     Selected Value: <strong class="text--primary">{{ selectedValue }}</strong>
   </template>`
@@ -163,24 +162,12 @@
     </div>
   </template>`
 
- 
-  // ========= [ Aside links ] ========= //
-  const asideLinks = [
-    { path: '#overview', name: 'overview' },
-    { path: '#grouped-options', name: 'Grouped Options' },
-    { path: '#options-property', name: 'Options Property' },
-    { path: '#option-fields', name: 'Changing the Option Fields' },
-    { path: '#squired', name: 'Squared Style' },
-    { path: '#disabled-readonly', name: 'Disabled and Readonly' },
-    { path: '#required', name: 'Required' },
-    { path: '#accessibility', name: 'Accessibility' },
-    { path: '#download', name: 'Download' },
-  ];
+  // Disabled and Readonly
+  const disabledReadonlyValue = `
+  import { ref } from "vue";
+  import Select from "@/components/Select.vue";
 
-  // https://coreui.io/vue/docs/forms/date-picker.html
-  
   const selectedStringValue = ref('');
-  const selectedSquaredValue = ref('');
   const optionWithArray = [ 'Option 1', 'Option 2', 'Option 3', 'Option 4' ];
   
   const selectedObjectValue = ref('');
@@ -191,7 +178,84 @@
     { value: 'Option 4', text:'Option 4', disabled: true }, 
     { value: 'Option 5', text:'Option 5', },
   ];
-  const squaredOption = [ 
+
+  <template>
+    <div class="row">
+      <div class="col--12 col-xl--6">
+        <Select 
+          label="Disabled" 
+          v-model="selectedStringValue" 
+          :options="optionWithArray" 
+          disabled />
+      </div>
+      <div class="col--12 col-xl--6">
+        <Select 
+          label="Readonly" 
+          v-model="selectedObjectValue" 
+          :options="options" 
+          readonly />
+      </div>
+    </div>
+  </template>`
+
+  // Required
+  const requiredValue = `
+  import { ref } from "vue";
+  import Select from "@/components/Select.vue";
+  
+  const selectedObjectValue = ref('');
+  const options = [ 
+    { value: 'Option 1', text:'Option 1', },
+    { value: 'Option 2', text:'Option 2', }, 
+    { value: 'Option 3', text:'Option 3' }, 
+    { value: 'Option 4', text:'Option 4', disabled: true }, 
+    { value: 'Option 5', text:'Option 5', },
+  ];
+
+  <template>
+    <div>
+      <Select 
+        label="Select Type: Required" 
+        v-model="selectedObjectValue" 
+        :options="optionWithArray" 
+        required />
+    </div>
+  </template>`
+
+  // Validations
+  const validationValue = `
+  import { ref } from "vue";
+  import Select from "@/components/Select.vue";
+  
+  const selectedObjectValue = ref('');
+  const options = [ 
+    { value: 'Option 1', text:'Option 1', },
+    { value: 'Option 2', text:'Option 2', }, 
+    { value: 'Option 3', text:'Option 3' }, 
+    { value: 'Option 4', text:'Option 4', disabled: true }, 
+    { value: 'Option 5', text:'Option 5', },
+  ];
+
+  <template>
+    <div>
+      <Select 
+        label="Select Type: Required" 
+        v-model="selectedObjectValue" 
+        :options="optionWithArray" 
+        required
+        validated />
+    </div>
+  </template>`
+
+  // https://coreui.io/vue/docs/forms/date-picker.html
+  
+  const selectedStringValue = ref('');
+  const selectedSquaredValue = ref('');
+  const optionWithArray = [ 'Option 1', 'Option 2', 'Option 3', 'Option 4' ];
+  
+  const selectedObjectValue = ref('Option 1');
+
+    const squaredOption = [ 
     { value: 'Option 1', text:'Option 1', },
     { value: 'Option 2', text:'Option 2', }, 
     { value: 'Option 3', text:'Option 3' }, 
@@ -219,6 +283,28 @@
     { id: 'B', name: 'Option B' },
     { id: 'C', name: 'Option C', notEnabled: true },
     { id: 'D', name: 'Option D' }
+  ];
+  
+  const options = [ 
+    { value: 'Option 1', text:'Option 1', },
+    { value: 'Option 2', text:'Option 2', }, 
+    { value: 'Option 3', text:'Option 3' }, 
+    { value: 'Option 4', text:'Option 4', disabled: true }, 
+    { value: 'Option 5', text:'Option 5', },
+  ];
+
+  // ========= [ Aside links ] ========= //
+  const asideLinks = [
+    { path: '#overview', name: 'overview' },
+    { path: '#grouped-options', name: 'Grouped Options' },
+    { path: '#options-property', name: 'Options Property' },
+    { path: '#option-fields', name: 'Changing the Option Fields' },
+    { path: '#squired', name: 'Squared Style' },
+    { path: '#disabled-readonly', name: 'Disabled and Readonly' },
+    { path: '#required', name: 'Required' },
+    { path: '#validation', name: 'Validation' },
+    { path: '#accessibility', name: 'Accessibility' },
+    { path: '#download', name: 'Download' },
   ];
   
 
@@ -298,9 +384,7 @@ export default { name: "SelectView", components: { Alert } }
             label="Select Label" 
             v-model="selectedValue" 
             :options="groupedOptions" 
-            required 
-            validate 
-            placeholder="-- Select Items --" />
+            placeholder="-- Select Grouped Items --" />
           </div>
           Selected Value: <strong class="text--primary">{{ selectedValue }}</strong>
         </div>
@@ -382,7 +466,6 @@ export default { name: "SelectView", components: { Alert } }
             <Select 
               v-model="selectedSquaredValue" 
               :options="squaredOption" 
-              required
               placeholder="-- Select String Items --" 
               squired />
               Squired Select Value: <strong class="text--primary">{{ selectedSquaredValue }}</strong>
@@ -390,6 +473,83 @@ export default { name: "SelectView", components: { Alert } }
         </div>
         <div class="block-sec__footer">
           <HighCode class="code" :codeValue="squaredSelectValue" theme="dark" lang="Vue" />
+        </div>
+      </section>
+
+      <!-- Disabled and Readonly -->
+      <section class="block-sec mb--4" id="disabled-readonly">
+        <div class="block-sec__header">
+          <h2 class="text--white fs--h1 mb--4">Disabled and Readonly</h2>
+          <h3 class="text--regular">
+            <!-- Generate your select options by passing an array or object to the <code class="text--primary">options</code> props. -->
+          </h3>
+        </div>
+        <hr class="my--4" />
+        <div class="block-sec__body pb--4">
+          <div class="row">
+            <div class="col--12 col-xl--6">
+              <Select 
+                label="Disabled" 
+                v-model="selectedObjectValue" 
+                :options="optionWithArray" 
+                disabled />
+            </div>
+            <div class="col--12 col-xl--6">
+              <Select 
+                label="Readonly" 
+                v-model="selectedObjectValue" 
+                :options="options" 
+                readonly />
+            </div>
+          </div>
+        </div>
+        <div class="block-sec__footer">
+          <HighCode class="code" :codeValue="disabledReadonlyValue" theme="dark" lang="Vue" />
+        </div>
+      </section>
+
+      <!-- Required -->
+      <section class="block-sec mb--4" id="required">
+        <div class="block-sec__header">
+          <h2 class="text--white fs--h1 mb--4">Required</h2>
+          <h3 class="text--regular">
+            <!-- Generate your select options by passing an array or object to the <code class="text--primary">options</code> props. -->
+          </h3>
+        </div>
+        <hr class="my--4" />
+        <div class="block-sec__body pb--4">
+          <div>
+            <Select 
+              label="Select Type: Required" 
+              v-model="selectedObjectValue" 
+              :options="optionWithArray" 
+              required />
+          </div>
+        </div>
+        <div class="block-sec__footer">
+          <HighCode class="code" :codeValue="requiredValue" theme="dark" lang="Vue" />
+        </div>
+      </section>
+
+      <!-- Validated -->
+      <section class="block-sec mb--4" id="validation">
+        <div class="block-sec__header">
+          <h2 class="text--white fs--h1 mb--4">Validation</h2>
+          <h3 class="text--regular">
+            <!-- Generate your select options by passing an array or object to the <code class="text--primary">options</code> props. -->
+          </h3>
+        </div>
+        <hr class="my--4" />
+        <div class="block-sec__body pb--4">
+          <Select 
+            label="Select Type: Required" 
+            v-model="selectedObjectValue" 
+            :options="optionWithArray" 
+            required 
+            validate />
+        </div>
+        <div class="block-sec__footer">
+          <HighCode class="code" :codeValue="validationValue" theme="dark" lang="Vue" />
         </div>
       </section>
 

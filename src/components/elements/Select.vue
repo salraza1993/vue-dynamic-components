@@ -6,6 +6,7 @@
 				'select-block--error': errorClass, 
 				'select-block--success': successClass,
 				'select-block--disabled': props.disabled,
+				'select-block--readonly': props.readonly,
 				'select-block--plain': props.plain,
 			}
 		]">
@@ -24,18 +25,21 @@
 				<select 
 					class="select-block__select"
 					:class="[ selectClass, { 
-						'select--error': error && !props.disabled, 
-						'select--success': valid && !props.disabled,
-						'select--disabled': props.disabled,
-						'select--plain': props.plain,
-						'select--squired': props.squired,
+						'select--error': error && !disabled, 
+						'select--success': valid && !disabled,
+						'select--disabled': disabled,
+						'select--readonly': readonly,
+						'select--plain': plain,
+						'select--squired': squired,
 						}
 					]"
-					:name="props.name" 
-					:id="props.id"
+					:name="name" 
+					:id="id"
+					:disabled="disabled"
+					:readonly="readonly"
 					@blur="selectValidation(selectedValue)"
 					@change="inputHandler($event)">
-
+					
 					<option v-if="placeholder" value="">{{ placeholder }}</option>					
 					<option 
 						:value="option" 
@@ -43,6 +47,7 @@
 						:key="option"
 						:selected="option === modelValue"
 					>{{ option }}</option>
+					<!-- <template v-if="!disabled && !readonly"></template> -->
 				</select>
 			</template>
 
@@ -50,20 +55,22 @@
 				<select 
 					class="select-block__select"
 					:class="[ selectClass, { 
-						'select--error': error && !props.disabled, 
-						'select--success': valid && !props.disabled,
-						'select--disabled': props.disabled,
-						'select--plain': props.plain,
-						'select--squired': props.squired,
+						'select--error': error && !disabled, 
+						'select--success': valid && !disabled,
+						'select--disabled': disabled,
+						'select--readonly': readonly,
+						'select--plain': plain,
+						'select--squired': squired,
 						}
 					]"
 					:name="props.name" 
 					:id="props.id"
+					:disabled="disabled"
+					:readonly="readonly"
 					@blur="selectValidation(selectedValue)"
 					@change="inputHandler($event)">
 
 					<option v-if="placeholder" value="">{{ placeholder }}</option>
-					
 					<option 
 						:value="option[valueField]" 
 						v-for="option in nonGroupedOptions" 
@@ -73,12 +80,13 @@
 						>
 						{{ option[textField] }}
 					</option>
-					
 					<optgroup :label="group.label" v-for="group in groupedOptions" :key="group.label">
 						<option :value="option[valueField]" v-for="option in group.options" :key="option.text">
 							{{ option[textField] }}
 						</option>
 					</optgroup>
+					<!-- <template v-if="!disabled && !readonly"></template> -->
+					
 				</select>
 			</template>
       <small v-if="error" class="error-message" :class="{ 'text--danger': error }">{{ errorMessage }}</small>
@@ -303,7 +311,12 @@ const selectValidation = (event) => {
 		--select-border-color: #363636;
 		--select-bg-color: #666666;
 		--select-color: #b6b6b6;
+		select { cursor: not-allowed; user-select: none; }
+	}
+	&--readonly {
 		cursor: not-allowed;
+		user-select: none;
+		pointer-events: none;
 	}
 	
 }

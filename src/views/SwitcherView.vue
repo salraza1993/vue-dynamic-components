@@ -8,6 +8,7 @@
   import ElementInCodeFormate from "../components/ElementInCodeFormate.vue";
   import Switch from "../components/elements/Switch.vue";
   import { ref, reactive} from "vue";
+  import GroupedSwitches from "../components/elements/GroupedSwitches.vue";
   
   // Button Overview
   const overviewValue = `
@@ -171,7 +172,14 @@
     { label: 'Size: Regular', id: 'switch-regular', value: false, size: '' },
     { label: 'Size: Medium', id: 'switch-medium', value: false, size: 'medium' },
     { label: 'Size: Large', id: 'switch-large', value: false, size: 'large' },
-  ]);  
+  ]);
+
+  const groupedOptions = reactive([
+    { id:'red', label: 'Red', value: false, required: true, },
+    { id:'green', label: 'Green', value: true, },
+    { id:'yellow', label: 'Yellow (disabled)', value: true, disabled: true },
+    { id:'blue', label: 'Blue', value: false, required: true }
+  ])
   
 </script>
 <script>
@@ -339,6 +347,27 @@ export default { name: "SwitcherView" }
                 :id="switchItem.id" 
                 :label="switchItem.label" />
             </div>
+          </div>
+        </div>
+        <div class="block-sec__footer">
+          <HighCode class="code" :codeValue="sizingSwitchValue" theme="dark" lang="Vue" />
+        </div>
+      </section>
+
+      <!-- Grouped -->
+      <section class="block-sec mb--4" id="grouped">
+        <div class="block-sec__header">
+          <h2 class="text--white fs--h1 mb--4">Grouped Switches</h2>
+          <h3 class="fw--regular">
+            Render groups of <ElementInCodeFormate label="Switch /" class="text--primary fw--bold" />s by setting the prop switches on <ElementInCodeFormate label="GroupedSwitches /" class="text--primary fw--bold" />.
+          </h3>
+        </div>
+        <hr class="my--4" />
+        <div class="block-sec__body pb--4">
+          <div>
+            <GroupedSwitches v-model="groupedOptions" block />
+            <hr />
+            <GroupedSwitches v-model="groupedOptions" />
           </div>
         </div>
         <div class="block-sec__footer">

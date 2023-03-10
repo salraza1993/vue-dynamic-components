@@ -11,7 +11,6 @@ const props = defineProps({
   id: { type: String, default: () => 'switch-id-1' },
   error: { type: Boolean },
   errorMessage: { type: String, default: () => 'This field is required' },
-  name: { type: String },
   required: Boolean,
   readonly: Boolean,
   disabled: Boolean,
@@ -42,20 +41,6 @@ const checkError = ref(props.error);
 const switchValidation = (value) => {
   checkError.value = props.required && !value ? true : false;
 }
-
-// const checkReturnValues = (input) => {
-//   if (input && props.value) {
-//     console.log(input && props.value)
-//     emit("update:modelValue", props.value);
-//   } else {
-//     if (props.uncheckedValue) {
-//       console.log(!input && props.uncheckedValue)
-//       emit("update:modelValue", props.uncheckedValue);
-//     }
-//     emit("update:modelValue", input);
-//   }
-// }
-  
 
 </script>
 <template>  
@@ -92,7 +77,7 @@ const switchValidation = (value) => {
   .switch-block {
     --switch-height: 18px;
     --switch-width: calc(var(--switch-height) * 1.85);
-    --switch-gap: 0.75rem;
+    --switch-gap-x: 0.75rem;
     --switch-border-radius: var(--switch-height);
     --switch-font-size: 1rem;
     --switch-line-height: 1.45rem;
@@ -171,12 +156,12 @@ const switchValidation = (value) => {
       position: relative;
       display: flex;
       align-items: center;
-      gap: var(--switch-gap);
+      gap: var(--switch-gap-x);
       font-family: var(--switch-font-family);
       font-size: var(--switch-font-size);
       line-height: var(--switch-line-height);
       &:is(.label--enabled) {
-        padding-inline-start: calc(var(--switch-width) + var(--switch-gap));
+        padding-inline-start: calc(var(--switch-width) + var(--switch-gap-x));
       }
       &--disabled { opacity: 0.75;}
       &::before, &::after {
